@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/newItem"
+        android:title="@string/new_item"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/newFolder"
+        android:title="@string/new_folder"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/newEstimate"
+        android:title="@string/new_estimate"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/import_here"
+        android:title="@string/import_here"
+        app:showAsAction="never" />
+
+
+</menu>

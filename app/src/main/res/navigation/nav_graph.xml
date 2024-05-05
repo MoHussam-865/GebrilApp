@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment2">
+
+    <fragment
+        android:id="@+id/mainFragment2"
+        android:name="gebril_app.feature_main.presentation.main_page.MainFragment"
+        android:label="@string/database"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment2_to_newItemFragment"
+            app:destination="@id/newItemFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_newFolderFragment"
+            app:destination="@id/newFolderFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_selectingFragment"
+            app:destination="@id/selectingFragment" />
+        <argument
+            android:name="path"
+            app:argType="gebril_app.utils.Path"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_mainFragment2_to_newEstimateFragment"
+            app:destination="@id/newEstimateFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_invoicesViewFragment"
+            app:destination="@id/invoicesViewFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_clientsFragment"
+            app:destination="@id/clientsFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_reportsMainFragment"
+            app:destination="@id/reportsMainFragment" />
+        <action
+            android:id="@+id/action_mainFragment2_to_subscribeFragment"
+            app:destination="@id/subscribeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newItemFragment"
+        android:name="gebril_app.feature_main.presentation.new_item.NewItemFragment"
+        android:label="@string/item"
+        tools:layout="@layout/fragment_new_item">
+        <argument
+            android:name="item"
+            android:defaultValue="@null"
+            app:argType="gebril_app.feature_main.domain.model.Item"
+            app:nullable="true" />
+        <argument
+            android:name="path"
+            app:argType="gebril_app.utils.Path" />
+        <action
+            android:id="@+id/action_newItemFragment_to_mainFragment2"
+            app:destination="@id/mainFragment2"
+            app:popUpTo="@id/mainFragment2"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/newFolderFragment"
+        android:name="gebril_app.feature_main.presentation.new_folder.NewFolderFragment"
+        android:label="@string/folder"
+        tools:layout="@layout/fragment_new_folder">
+        <argument
+            android:name="folder"
+            android:defaultValue="@null"
+            app:argType="gebril_app.feature_main.domain.model.Item"
+            app:nullable="true" />
+        <argument
+            android:name="path"
+            app:argType="gebril_app.utils.Path" />
+        <action
+            android:id="@+id/action_newFolderFragment_to_mainFragment2"
+            app:destination="@id/mainFragment2"
+            app:popUpTo="@id/mainFragment2"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectingFragment"
+        android:name="gebril_app.feature_main.presentation.selecting.SelectingFragment"
+        android:label=""
+        tools:layout="@layout/fragment_selecting" >
+        <argument
+            android:name="path"
+            app:argType="gebril_app.utils.Path" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_selectingFragment_to_newItemFragment"
+            app:destination="@id/newItemFragment" />
+        <action
+            android:id="@+id/action_selectingFragment_to_newFolderFragment"
+            app:destination="@id/newFolderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newEstimateFragment"
+        android:name="gebril_app.feature_main.presentation.new_estimate.NewEstimateFragment"
+        android:label="@string/new_estimate"
+        tools:layout="@layout/fragment_new_estimate">
+        <action
+            android:id="@+id/action_newEstimateFragment_to_itemsChooseFragment"
+            app:destination="@id/itemsChooseFragment" />
+        <argument
+            android:name="invoice"
+            android:defaultValue="@null"
+            app:argType="gebril_app.feature_main.domain.model.Invoice"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_newEstimateFragment_to_viewPdfFragment"
+            app:destination="@id/viewPdfFragment" />
+        <action
+            android:id="@+id/action_newEstimateFragment_to_chooseClientFragment"
+            app:destination="@id/chooseClientFragment" />
+        <action
+            android:id="@+id/action_newEstimateFragment_to_clientViewFragment"
+            app:destination="@id/clientViewFragment" />
+        <action
+            android:id="@+id/action_newEstimateFragment_to_addEditInvoiceItemFragment"
+            app:destination="@id/addEditInvoiceItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemsChooseFragment"
+        android:name="gebril_app.feature_main.presentation.items_choose.ItemsChooseFragment"
+        android:label="@string/choose_items"
+        tools:layout="@layout/fragment_items_choose">
+        <argument
+            android:name="items"
+            app:argType="gebril_app.feature_main.domain.model.InvoiceItem[]" />
+        <action
+            android:id="@+id/action_itemsChooseFragment_to_addEditInvoiceItemFragment"
+            app:destination="@id/addEditInvoiceItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewPdfFragment"
+        android:name="gebril_app.feature_main.presentation.pdf_preview.ViewPdfFragment"
+        android:label="@string/pdf_preview"
+        tools:layout="@layout/fragment_view_pdf">
+        <argument
+            android:name="invoice"
+            app:argType="gebril_app.feature_main.domain.model.Invoice" />
+    </fragment>
+    <fragment
+        android:id="@+id/invoicesViewFragment"
+        android:name="gebril_app.feature_main.presentation.invoices_view.InvoicesViewFragment"
+        android:label="@string/estimates"
+        tools:layout="@layout/fragment_invoices_view" >
+        <action
+            android:id="@+id/action_invoicesViewFragment_to_newEstimateFragment"
+            app:destination="@id/newEstimateFragment" />
+        <action
+            android:id="@+id/action_invoicesViewFragment_to_subscribeFragment"
+            app:destination="@id/subscribeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientsFragment"
+        android:name="gebril_app.feature_client.presentation.clients_view.ClientsFragment"
+        android:label="@string/clients"
+        tools:layout="@layout/fragment_clients" >
+        <action
+            android:id="@+id/action_clientsFragment_to_addEditClientFragment"
+            app:destination="@id/addEditClientFragment" />
+        <action
+            android:id="@+id/action_clientsFragment_to_clientViewFragment"
+            app:destination="@id/clientViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditClientFragment"
+        android:name="gebril_app.feature_client.presentation.add_edit_client.AddEditClientFragment"
+        tools:layout="@layout/fragment_add_edit_client">
+        <argument
+            android:name="client"
+            android:defaultValue="@null"
+            app:argType="gebril_app.feature_client.domain.model.Client"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_addEditClientFragment_to_clientViewFragment"
+            app:destination="@id/clientViewFragment"
+            app:popUpTo="@id/clientViewFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientViewFragment"
+        android:name="gebril_app.feature_client.presentation.client_view.ClientViewFragment"
+        android:label="@string/client_view"
+        tools:layout="@layout/fragment_client_view">
+        <action
+            android:id="@+id/action_clientViewFragment_to_addEditClientFragment"
+            app:destination="@id/addEditClientFragment" />
+        <argument
+            android:name="client"
+            app:argType="gebril_app.feature_client.domain.model.Client" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseClientFragment"
+        android:name="gebril_app.feature_client.presentation.choose_client.ChooseClientFragment"
+        android:label="@string/choose_client"
+        tools:layout="@layout/fragment_choose_client">
+        <action
+            android:id="@+id/action_chooseClientFragment_to_addEditClientFragment"
+            app:destination="@id/addEditClientFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/companyInfoFragment"
+        android:name="gebril_app.feature_settings.presentation.company_info.CompanyInfoFragment"
+        android:label="@string/company_info"
+        tools:layout="@layout/fragment_company_info" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="gebril_app.feature_settings.presentation.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_companyInfoFragment"
+            app:destination="@id/companyInfoFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_subscribeFragment"
+            app:destination="@id/subscribeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditInvoiceItemFragment"
+        android:name="gebril_app.feature_main.presentation.add_edit_invoice_item.AddEditInvoiceItemFragment"
+        android:label="@string/item"
+        tools:layout="@layout/fragment_add_edit_invoice_item" >
+        <argument
+            android:name="path"
+            app:argType="gebril_app.utils.Path" />
+        <argument
+            android:name="item"
+            app:argType="gebril_app.feature_main.domain.model.InvoiceItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportsMainFragment"
+        android:name="gebril_app.feature_reports.presentation.overview.ReportsMainFragment"
+        android:label="@string/reports"
+        tools:layout="@layout/fragment_reports_main"/>
+    <fragment
+        android:id="@+id/subscribeFragment"
+        android:name="gebril_app.feature_in_app.presentation.main.SubscribeFragment"
+        android:label="@string/subscribe"
+        tools:layout="@layout/fragment_subscribe" />
+</navigation>
