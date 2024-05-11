@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".feature_main.presentation.MainActivity">
+    tools:context="com.android_a865.gebril_app.feature_main.presentation.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFragment"
@@ -16,13 +16,6 @@
         android:layout_weight="1"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
-
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:adSize="BANNER"
-        app:adUnitId="@string/ad_mob_banner" />
 
     <!--TODO replace with ad_mob_banner-->
 

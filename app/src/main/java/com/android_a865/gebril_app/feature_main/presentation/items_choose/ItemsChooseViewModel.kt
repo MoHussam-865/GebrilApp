@@ -2,9 +2,8 @@ package com.android_a865.gebril_app.feature_main.presentation.items_choose
 
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.feature_main.domain.model.InvoiceItem
-import com.android_a865.gebril_app.feature_main.domain.model.Item
-import com.android_a865.gebril_app.feature_main.domain.use_cases.items_use_cases.ItemsUseCases
+import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.feature_main.domain.repository.ItemsRepository
 import com.android_a865.gebril_app.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,14 +13,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ItemsChooseViewModel @Inject constructor(
-    private val itemsUseCases: ItemsUseCases,
-    state: SavedStateHandle
+    state: SavedStateHandle,
+    val repository: ItemsRepository
 ) : ViewModel() {
 
     val currentPath = MutableStateFlow(state.get<Path>("path") ?: Path())
 
     private val itemsFlow = currentPath.flatMapLatest { path ->
-        itemsUseCases.getInvoiceItems(path.path)
+        repository.getItems(path.path)
     }
 
     val selectedItems = MutableLiveData(
@@ -51,17 +50,26 @@ class ItemsChooseViewModel @Inject constructor(
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
             viewModelScope.launch {
-                val myItem: Item = itemsUseCases.getItemByID(item.id)
-                currentPath.value = myItem.open()
+                currentPath.value = Path(item.path).open(item.name)
             }
         }
     }
 
-    fun onAddItemClicked(item: InvoiceItem) = selectedItems.update0 { it?.addOneOf(item) }
+    fun onAddItemClicked(item: InvoiceItem) {
+        selectedItems.update0 { it?.addOneOf(item) }
+    }
 
-    fun onMinusItemClicked(item: InvoiceItem) = selectedItems.update0 { it?.removeOneOf(item) }
 
-    fun onItemRemoveClicked(item: InvoiceItem) = selectedItems.update0 { it?.removeAllOf(item) }
+    fun onMinusItemClicked(item: InvoiceItem) {
+        selectedItems.update0 { it?.removeOneOf(item) }
+    }
+
+    fun onItemRemoveClicked(item: InvoiceItem) {
+        selectedItems.update0 {
+            it?.removeAllOf(item)
+        }
+    }
+
 
     fun onQtySet(item: InvoiceItem, myQty: Double) {
         if (myQty > 0) {
@@ -76,17 +84,7 @@ class ItemsChooseViewModel @Inject constructor(
         }
     }
 
-    fun onFabClicked() = viewModelScope.launch {
-        itemsWindowEventsChannel.send(
-            ItemsWindowEvents.NavigateTo(
-                ItemsChooseFragmentDirections.actionItemsChooseFragmentToAddEditInvoiceItemFragment(
-                    path = currentPath.value
-                )
-            )
-        )
-    }
-
-    fun onInvoiceItemAdded(item: InvoiceItem) = selectedItems.update0 { it?.addOf(item) }
+    //fun onInvoiceItemAdded(item: InvoiceItem) = selectedItems.update0 { it?.addOf(item) }
 
     private suspend fun showInvalidInputMessage(str: String) {
         itemsWindowEventsChannel.send(
@@ -94,9 +92,26 @@ class ItemsChooseViewModel @Inject constructor(
         )
     }
 
+    fun onNextClicked() = viewModelScope.launch {
+
+        val myItems = selectedItems.value?.toTypedArray()
+
+        if (!myItems.isNullOrEmpty()) {
+            itemsWindowEventsChannel.send(
+                ItemsWindowEvents.NavigateTo(
+                    ItemsChooseFragmentDirections.actionItemsChooseFragmentToNewEstimateFragment(
+                        myItems
+                    )
+                )
+            )
+        } else {
+            showInvalidInputMessage("لم يتم اختيار اي صنف")
+        }
+    }
+
     sealed class ItemsWindowEvents {
         data class NavigateTo(val direction: NavDirections) : ItemsWindowEvents()
         object GoBack : ItemsWindowEvents()
-        data class InvalidInput(val msg: String): ItemsWindowEvents()
+        data class InvalidInput(val msg: String) : ItemsWindowEvents()
     }
 }

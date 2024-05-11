@@ -7,12 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.databinding.AdapterInvoiceViewBinding
-import com.android_a865.gebril_app.feature_main.domain.model.Invoice
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.utils.DATE_FORMATS
 import com.android_a865.gebril_app.utils.date
-import com.android_a865.gebril_app.utils.toFormattedString
+import gebril_app.databinding.AdapterInvoiceViewBinding
 
 class InvoicesAdapter(
     private val listener: OnItemEventListener,
@@ -53,10 +52,7 @@ class InvoicesAdapter(
 
         fun bind(invoice: Invoice) {
             binding.apply {
-                tvInvoiceType.text = invoice.type.name
                 tvInvoiceDate.text = invoice.date.date(appSettings?.dateFormat ?: DATE_FORMATS[0])
-                tvClientName.text = invoice.client?.name
-                invoiceTotal.text = invoice.total.toFormattedString()
 
                 val itemsAdapter = InvoiceItemsViewAdapter().apply {
                     submitList(invoice.items)

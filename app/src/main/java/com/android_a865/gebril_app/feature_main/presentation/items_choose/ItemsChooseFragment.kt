@@ -12,17 +12,17 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.ChooseInvoiceItemsAdapter
 import com.android_a865.gebril_app.common.adapters.ChosenItemsAdapter
 import com.android_a865.gebril_app.common.adapters.PathIndicatorAdapter
-import com.android_a865.gebril_app.databinding.FragmentItemsChooseBinding
-import com.android_a865.gebril_app.feature_main.domain.model.InvoiceItem
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.scrollToEnd
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.android_a865.gebril_app.utils.showMessage
 import dagger.hilt.android.AndroidEntryPoint
+import gebril_app.R
+import gebril_app.databinding.FragmentItemsChooseBinding
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
@@ -60,7 +60,7 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
             }
 
             fab.setOnClickListener {
-                viewModel.onFabClicked()
+                viewModel.onNextClicked()
             }
 
             viewModel.currentPath.asLiveData().observe(viewLifecycleOwner) {
@@ -113,7 +113,7 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
             val item = bundle.getParcelable<InvoiceItem>("item")
 
             item?.let {
-                viewModel.onInvoiceItemAdded(it)
+                //viewModel.onInvoiceItemAdded(it)
             }
         }
 

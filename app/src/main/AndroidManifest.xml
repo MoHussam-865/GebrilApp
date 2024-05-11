@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EstimatesCalculator">
+        android:theme="@style/Theme.EstimatesCalculator"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
         <activity android:name="com.android_a865.gebril_app.feature_main.presentation.MainActivity"
             android:exported="true">
@@ -27,7 +28,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.developera865.Estimate_Calculator.fileprovider"
+            android:authorities="com.developera865.gebril_app.fileprovider"
             android:exported="false"
             android:enabled="true"
             android:grantUriPermissions="true">
@@ -36,9 +37,6 @@
                 android:resource="@xml/path_provider" />
         </provider>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_mob_app_id" />
 
     </application>
 

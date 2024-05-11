@@ -1,6 +1,5 @@
 package com.android_a865.gebril_app.utils
 
-import android.icu.number.IntegerWidth
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.R
+import gebril_app.R
 import java.text.DecimalFormat
 
 fun Fragment.setUpActionBarWithNavController() {

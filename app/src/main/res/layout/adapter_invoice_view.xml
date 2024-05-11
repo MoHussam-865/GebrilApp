@@ -16,20 +16,16 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/edit"
-            />
-
         <TextView
-            android:id="@+id/tv_invoice_type"
+            android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="18sp"
-            tools:text="Estimate" />
+            android:padding="8dp"
+            android:textSize="15sp"
+            android:textColor="@color/design_default_color_primary"
+            android:text="عرض"
+            />
+
 
         <TextView
             android:id="@+id/tv_invoice_date"
@@ -42,23 +38,15 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_client_name"
-        android:padding="16dp"
-        tools:text="John Wick"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         tools:itemCount="5"
         tools:listitem="@layout/adapter_invoice_items_view"
         />
 
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -84,6 +72,7 @@
 
 
     </LinearLayout>
+    -->
 
 
 </LinearLayout>

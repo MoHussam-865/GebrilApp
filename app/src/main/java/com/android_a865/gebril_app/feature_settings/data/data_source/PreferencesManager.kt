@@ -6,10 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
-import com.android_a865.gebril_app.feature_settings.domain.models.Company
 import com.android_a865.gebril_app.utils.DATE_FORMATS
-import com.android_a865.gebril_app.utils.toJson
-import com.android_a865.gebril_app.utils.toObject
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -36,51 +33,31 @@ class PreferencesManager @Inject constructor(
         }
         .map { preferences ->
             AppSettings(
-                company = preferences[PreferencesKeys.COMPANY_INFO]?.toObject() ?: Company(),
                 dateFormat = preferences[PreferencesKeys.DATE_FORMAT] ?: DATE_FORMATS[0],
                 currency = preferences[PreferencesKeys.CURRENCY] ?: "",
-                isFirst = preferences[PreferencesKeys.IS_FIRST] ?: true,
-                isSubscribed = preferences[PreferencesKeys.IS_SUBSCRIBED] ?: false
+                clientInfo = preferences[PreferencesKeys.CLIENTS_INFO] ?: "",
+                lastUpdate = preferences[PreferencesKeys.LAST_UPDATE] ?: 0,
+                lastUpdateDate = preferences[PreferencesKeys.LAST_UPDATE_DATE] ?: 0,
             )
         }
 
 
-    suspend fun updateCompanyInfo(company: Company) {
+    suspend fun updateSettings(settings: AppSettings) {
         context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.COMPANY_INFO] = company.toJson()
-        }
-    }
-
-    suspend fun updateDateFormat(dateFormat: String) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.DATE_FORMAT] = dateFormat
-        }
-    }
-
-    suspend fun updateCurrency(currency: String) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.CURRENCY] = currency
-        }
-    }
-
-    suspend fun updateIsFirst(isFirst: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.IS_FIRST] = isFirst
-        }
-    }
-
-    suspend fun updateIsSubscribed(isSubscribed: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.IS_SUBSCRIBED] = isSubscribed
+            settings.apply {
+                preferences[PreferencesKeys.CLIENTS_INFO] = clientInfo
+                preferences[PreferencesKeys.LAST_UPDATE] = lastUpdate
+                preferences[PreferencesKeys.LAST_UPDATE_DATE] = lastUpdateDate
+            }
         }
     }
 
 
     private object PreferencesKeys {
-        val COMPANY_INFO = stringPreferencesKey("company_info")
+        val CLIENTS_INFO = stringPreferencesKey("client_info")
         val DATE_FORMAT = stringPreferencesKey("date_format")
         val CURRENCY = stringPreferencesKey("currency")
-        val IS_FIRST = booleanPreferencesKey("is_first")
-        val IS_SUBSCRIBED = booleanPreferencesKey("is_subscribed")
+        val LAST_UPDATE = intPreferencesKey("last_update")
+        val LAST_UPDATE_DATE = longPreferencesKey("last_update_date")
     }
 }

@@ -1,6 +1,6 @@
 package com.android_a865.gebril_app.utils
 
-import com.android_a865.gebril_app.feature_main.domain.model.InvoiceItem
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 
 
 fun List<InvoiceItem>.addOneOf(item: InvoiceItem): List<InvoiceItem> {

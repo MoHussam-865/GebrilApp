@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.databinding.AdapterInvoiceItemsViewBinding
-import com.android_a865.gebril_app.feature_main.domain.model.InvoiceItem
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.utils.toFormattedString
+import gebril_app.databinding.AdapterInvoiceItemsViewBinding
 
 class InvoiceItemsViewAdapter : ListAdapter<InvoiceItem, InvoiceItemsViewAdapter.ViewHolder>(ItemDiffCallback()) {
 
@@ -29,10 +29,7 @@ class InvoiceItemsViewAdapter : ListAdapter<InvoiceItem, InvoiceItemsViewAdapter
         fun bind(item: InvoiceItem) {
             binding.apply {
                 itemName.text = item.fullName
-                itemUnitPrice.text = item.finalPrice.toFormattedString()
-                itemTotal.text = item.total.toFormattedString()
                 itemQty.text = item.qty.toFormattedString()
-                itemDiscount.text = item.discountDetail
             }
         }
     }

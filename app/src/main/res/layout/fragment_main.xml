@@ -1,82 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/drawer_layout"
+<RelativeLayout android:id="@+id/drawer_layout"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".feature_main.presentation.main_page.MainFragment">
+    tools:context="com.android_a865.gebril_app.feature_main.presentation.main_page.MainFragment">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/mainToolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/design_default_color_primary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/mainToolBar"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/design_default_color_primary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                android:layout_height="500dp"
+                android:text="@string/add_space"
+                android:layout_marginTop="50dp"
+                android:padding="16dp"
+                android:textSize="25sp"
+                android:textColor="@color/black"
+                android:gravity="center"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pathList"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:orientation="horizontal"
-                android:paddingStart="5dp"
+        </ScrollView>
 
-                android:paddingEnd="5dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="5"
-                tools:listitem="@layout/adapter_path_indicator" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/itemsList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="50dp"
-
-                tools:itemCount="3"
-                tools:listitem="@layout/adapter_items_page" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_empty"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/navbtn"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/empty_folder"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"
-            android:layout_margin="16dp"
-            />
+            android:padding="16dp">
 
-    </RelativeLayout>
+            <Button
+                android:id="@+id/savings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="المحفوظات"
+                android:layout_alignParentStart="true"/>
 
+            <Button
+                android:id="@+id/estimate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="تسعير فاتورة"
+                android:layout_alignParentEnd="true"/>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/nav_menu"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        />
+        android:layout_height="wrap_content"/>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+</RelativeLayout>

@@ -2,10 +2,8 @@ package com.android_a865.gebril_app.common
 
 import android.content.Context
 import android.util.Log
-import com.android_a865.gebril_app.feature_client.domain.model.Client
-import com.android_a865.gebril_app.feature_main.domain.model.Invoice
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
-import com.android_a865.gebril_app.feature_settings.domain.models.Company
 import com.android_a865.gebril_app.utils.date
 import com.android_a865.gebril_app.utils.toFormattedString
 import com.itextpdf.text.*
@@ -13,6 +11,7 @@ import com.itextpdf.text.pdf.BaseFont
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
+import gebril_app.R
 import java.io.OutputStream
 import javax.inject.Singleton
 
@@ -44,7 +43,7 @@ class PdfMaker {
         appSettings: AppSettings
     ): String? {
         val document = Document(PageSize.A4)
-        val fileName = "${System.currentTimeMillis()}.pdf"
+        val fileName = "${invoice.date}.pdf"
         try {
             val os: OutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
             PdfWriter.getInstance(document, os)
@@ -56,9 +55,10 @@ class PdfMaker {
             val table0 = PdfPTable(1)
             table0.widthPercentage = 100f
 
-            // invoice type
+            // company Name
             val invoiceType = Paragraph()
-            invoiceType.add(Paragraph(invoice.type.name, font1_))
+            val myName = context.getString(R.string.my_name)
+            invoiceType.add(Paragraph(myName, font1_))
             invoiceType.alignment = Element.ALIGN_JUSTIFIED
             c1 = PdfPCell(invoiceType)
             c1.border = Rectangle.NO_BORDER
@@ -67,25 +67,13 @@ class PdfMaker {
             table0.addCell(c1)
             addEmptyRaw(table0)
 
-            // Company Data
-            val companyData = Paragraph()
-            companyData.add(Paragraph(getCompanyInfo(appSettings.company), font2))
-            companyData.alignment = Element.ALIGN_JUSTIFIED
-            c1 = PdfPCell(companyData)
-            c1.border = Rectangle.NO_BORDER
-            c1.runDirection = PdfWriter.RUN_DIRECTION_RTL
-            c1.horizontalAlignment = Element.ALIGN_RIGHT
-            table0.addCell(c1)
-            addEmptyRaw(table0)
-            document.add(table0)
-
 
             val table1 = PdfPTable(2)
             table1.widthPercentage = 100f
 
             // To:  (Client Info)
             val clientInfo = Paragraph()
-            clientInfo.add(Paragraph(getClientInfo(invoice.client), font2))
+            clientInfo.add(Paragraph(appSettings.clientInfo, font2))
             clientInfo.alignment = Element.ALIGN_JUSTIFIED
             c1 = PdfPCell(clientInfo)
             c1.runDirection = PdfWriter.RUN_DIRECTION_RTL
@@ -95,7 +83,7 @@ class PdfMaker {
             table1.addCell(c1)
 
 
-            //
+            // date
             val dateInfo = Paragraph().apply {
                 add(Paragraph(invoice.date.date(appSettings.dateFormat), font4))
             }
@@ -129,7 +117,7 @@ class PdfMaker {
 
             table2.headerRows = 1
             invoice.items.forEach { item ->
-                c1 = PdfPCell(Paragraph(item.details, font2)).apply {
+                c1 = PdfPCell(Paragraph(item.fullName, font2)).apply {
                     border = Rectangle.NO_BORDER
                     runDirection = PdfWriter.RUN_DIRECTION_LTR
                     horizontalAlignment = Element.ALIGN_LEFT
@@ -189,19 +177,6 @@ class PdfMaker {
 
     private fun emptyCell(): PdfPCell = PdfPCell(Phrase("")).apply {
         border = Rectangle.NO_BORDER
-    }
-
-    private fun getCompanyInfo(company: Company): String {
-        return company
-            .run { "$companyName  $personName\n$phone\n$email\n$address" }
-            .replace("\n\n","\n")
-
-    }
-
-    private fun getClientInfo(client: Client?): String {
-        return client
-            ?.run { "$name  $org\n$phone1\n$phone2\n$email\n$address"}
-            ?.replace("\n\n", "\n") ?: "Unknown"
     }
 
     companion object {

@@ -7,11 +7,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.databinding.AdapterNewEstimateBinding
-import com.android_a865.gebril_app.feature_main.domain.model.InvoiceItem
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.utils.setQty
 import com.android_a865.gebril_app.utils.toFormattedString
-import kotlin.math.abs
+import gebril_app.databinding.AdapterNewEstimateBinding
 
 class InvoiceItemsAdapter(
     private val listener: OnItemEventListener,
@@ -40,17 +39,6 @@ class InvoiceItemsAdapter(
                         val item = getItem(position)
                         listener.onItemRemoveClicked(item)
                     }
-                }
-
-                itemRemove.setOnLongClickListener {
-
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val item = getItem(position)
-                        listener.onItemRemoveHold(item)
-                    }
-
-                    return@setOnLongClickListener true
                 }
 
                 plus.setOnClickListener {
@@ -97,10 +85,7 @@ class InvoiceItemsAdapter(
             binding.apply {
                 item.apply {
                     itemName.text = fullName
-                    itemUnitPrice.text = finalPrice.toFormattedString()
-                    itemDiscount.text = discountDetail
                     etQty.setQty(qty.toFormattedString())
-                    itemTotal.text = total.toFormattedString()
                     etQty.setSelection(etQty.length())
                 }
             }
@@ -119,7 +104,6 @@ class InvoiceItemsAdapter(
 
     interface OnItemEventListener {
         fun onItemRemoveClicked(item: InvoiceItem)
-        fun onItemRemoveHold(item: InvoiceItem)
         fun onPlusClicked(item: InvoiceItem)
         fun onMinusClicked(item: InvoiceItem)
         fun onQtyChanged(item: InvoiceItem, text: String)

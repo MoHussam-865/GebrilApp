@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Estimates Calculator</string>
+    <string name="my_name">جبريل</string>
+    <string name="app_name">Gebril App</string>
     <string name="add">إضافة</string>
     <string name="new_estimate">تسعيرة جديدة</string>
     <string name="new_item">صنف جديد</string>
@@ -83,4 +84,11 @@
     <string name="open_report_as_excel">فتح ملف إكسيل</string>
     <string name="estimate">تسعيرة</string>
     <string name="invoices">فاتورة</string>
+    <string name="copy">نسخ</string>
+    <string name="import_here">استيراد هنا</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">0</string>
+    <string name="next">التالى</string>
+    <string name="previous">السابق</string>
+    <string name="add_space">مكان مخصص للاعلانات</string>
 </resources>
