@@ -1,9 +1,10 @@
-package com.android_a865.gebril_app.feature_main.presentation.confirmation
+package com.android_a865.gebril_app.feature_main.confirmation
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.utils.addOneOf
 import com.android_a865.gebril_app.utils.removeAllOf
@@ -15,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,12 +24,12 @@ class ConfirmationFragmentViewModel @Inject constructor(
     state: SavedStateHandle
 ) : ViewModel() {
 
-    private val items = state.get<List<InvoiceItem>>("items")
+    private val items = state.get<Array<InvoiceItem>>("items")
 
     // this used to determine weather it's being created or updating
     private val isCreated = state.get<Boolean>("is_created")
 
-    val itemsFlow = MutableStateFlow(items ?: listOf())
+    val itemsFlow = MutableStateFlow(items?.toList() ?: listOf())
 
 
     private val eventsChannel = Channel<WindowEvents>()
@@ -36,6 +38,9 @@ class ConfirmationFragmentViewModel @Inject constructor(
 
     fun onItemRemoveClicked(item: InvoiceItem) {
         itemsFlow.value = itemsFlow.value.removeAllOf(item)
+        if (itemsFlow.value.isEmpty()) {
+            onPreviousPressed()
+        }
     }
 
     fun onOneItemAdded(item: InvoiceItem) {
@@ -77,15 +82,26 @@ class ConfirmationFragmentViewModel @Inject constructor(
     private fun showInvalidMessage(message: String) = viewModelScope.launch {
         eventsChannel.send(WindowEvents.ShowMessage(message))
     }
+
     fun onNextPressed() = viewModelScope.launch {
-        eventsChannel.send(
-            WindowEvents.Navigate(
-                ConfirmationFragmentDirections
-                    .actionNewEstimateFragmentToViewPdfFragment(
-                        itemsFlow.value.toTypedArray()
-                    )
+        val myItems = itemsFlow.value
+        if (myItems.isNotEmpty()) {
+
+            val invoice = Invoice(
+                date = Calendar.getInstance().timeInMillis,
+                items = myItems,
+                total = myItems.sumOf { it.total },
             )
-        )
+
+            eventsChannel.send(
+                WindowEvents.Navigate(
+                    ConfirmationFragmentDirections
+                        .actionNewEstimateFragmentToViewPdfFragment(
+                            invoice
+                        )
+                )
+            )
+        }
     }
     fun onPreviousPressed()  = viewModelScope.launch {
         eventsChannel.send(WindowEvents.NavigateBack)

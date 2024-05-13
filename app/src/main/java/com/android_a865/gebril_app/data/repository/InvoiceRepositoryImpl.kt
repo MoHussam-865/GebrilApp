@@ -4,7 +4,7 @@ import com.android_a865.gebril_app.data.dao.InvoicesDao
 import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.mapper.toInvoices
 import com.android_a865.gebril_app.data.relation.FullInvoice
-import com.android_a865.gebril_app.feature_main.domain.repository.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

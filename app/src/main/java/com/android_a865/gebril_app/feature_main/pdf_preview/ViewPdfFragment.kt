@@ -1,12 +1,14 @@
-package com.android_a865.gebril_app.feature_main.presentation.pdf_preview
+package com.android_a865.gebril_app.feature_main.pdf_preview
 
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.github.barteksc.pdfviewer.PDFView
@@ -44,20 +46,20 @@ class ViewPdfFragment : Fragment(R.layout.fragment_view_pdf) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModule.windowEvents.collect { event ->
                 when (event) {
-//                    is PdfPreviewViewModule.WindowEvents.OpenPdfExternally -> {
-//                        openPdfExternal(event.fileName)
-//                        true
-//                    }
-//                    is PdfPreviewViewModule.WindowEvents.SendPdf -> {
-//                        sendPdf(event.fileName)
-//                        true
-//                    }
                     PdfPreviewViewModule.WindowEvents.SendContext -> {
                         viewModule.onStart(requireContext())
                         true
                     }
                     is PdfPreviewViewModule.WindowEvents.OpenPdf -> {
                         openPdf(event.fileName)
+                        true
+                    }
+                    is PdfPreviewViewModule.WindowEvents.Finish -> {
+                        findNavController().navigate(event.direction)
+                        true
+                    }
+                    is PdfPreviewViewModule.WindowEvents.ShowMessage -> {
+                        Toast.makeText(requireContext(),event.msg, Toast.LENGTH_LONG).show()
                         true
                     }
                 }.exhaustive

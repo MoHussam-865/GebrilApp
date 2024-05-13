@@ -21,10 +21,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:autoSizeMaxTextSize="18sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
+            android:textSize="18sp"
             android:gravity="start"
 
             android:textColor="@android:color/black"
@@ -47,6 +44,12 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/delete" />
+
 
                 <Button
                     android:id="@+id/minus"
@@ -58,7 +61,7 @@
                 <EditText
                     android:id="@+id/userInput"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:ems="1"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
@@ -77,6 +80,7 @@
 
 
             <LinearLayout
+                android:id="@+id/addFirst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -90,9 +94,8 @@
 
                     android:background="@drawable/rounded_green_background"
                     android:id="@+id/itemUP"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:autoSizeMaxTextSize="18sp"
                     android:autoSizeMinTextSize="12sp"
                     android:autoSizeStepGranularity="1sp"
@@ -106,7 +109,6 @@
 
 
                 <TextView
-                    android:id="@+id/addFirst"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"

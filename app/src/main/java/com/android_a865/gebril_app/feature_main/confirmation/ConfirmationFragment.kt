@@ -1,8 +1,9 @@
-package com.android_a865.gebril_app.feature_main.presentation.confirmation
+package com.android_a865.gebril_app.feature_main.confirmation
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -49,14 +50,12 @@ class ConfirmationFragment : Fragment(R.layout.fragment_confirm),
 
             viewModel.itemsFlow.asLiveData().observe(viewLifecycleOwner) {
                 itemsAdapter.submitList(it)
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    "chosen_invoice_items", it
+                )
             }
         }
 
-//        val observed = "choose_invoice_items"
-//        findNavController().currentBackStackEntry?.savedStateHandle?.apply {
-//            viewModel.onItemsSelected(get(observed))
-//            set(observed, null)
-//        }
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

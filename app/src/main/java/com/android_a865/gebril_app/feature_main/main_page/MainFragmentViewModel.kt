@@ -1,11 +1,14 @@
-package com.android_a865.gebril_app.feature_main.presentation.main_page
+package com.android_a865.gebril_app.feature_main.main_page
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.Message
 import com.android_a865.gebril_app.external_api.ItemsApi
-import com.android_a865.gebril_app.feature_main.domain.repository.ItemsRepository
+import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,10 +21,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
-    val itemsApi: ItemsApi,
-    val settings: SettingsRepository,
-    val repository: ItemsRepository,
+    private val itemsApi: ItemsApi,
+    private val settings: SettingsRepository,
+    private val itemsRepository: ItemsRepository,
+    val invoicesRepository: InvoiceRepository,
 ) : ViewModel() {
+
+    val invoices = invoicesRepository.getInvoices()
 
     private val eventsChannel = Channel<WindowEvents>()
     val windowEvents = eventsChannel.receiveAsFlow()
@@ -35,19 +41,20 @@ class MainFragmentViewModel @Inject constructor(
             val response = try {
                 itemsApi.getItems(message)
             } catch (e: IOException) {
-                showMessage(e.message.toString())
+                Log.d("my error", e.message.toString())
                 loadingEnd()
                 return@launch
             } catch (e: HttpException) {
-                showMessage(e.message.toString())
+                Log.d("my error", e.message.toString())
                 loadingEnd()
                 return@launch
             }
 
+            Log.d("my error", response.toString())
             if (response.isSuccessful && response.body() != null) {
                 handleResponse(response.body()!!, mySettings)
             } else {
-                showMessage("Server Response Error Estimates might be inaccurate")
+                loadingEnd("Server Response Error Estimates might be inaccurate")
                 // use existing database
             }
 
@@ -56,27 +63,33 @@ class MainFragmentViewModel @Inject constructor(
 
     private suspend fun handleResponse(message: Message, mySettings: AppSettings) {
         // add items to database
-        message.items?.forEach {
-            when (it.status) {
-                1 -> repository.insertItem(it)
-                0 -> repository.deleteItem(it)
+        Log.d("my error", message.items?.size.toString())
+
+        message.items?.let { items ->
+
+            if (items.isNotEmpty()) {
+                items.forEach {
+                    itemsRepository.insertItem(it)
+                }
+
+                // update last_update & last_update_date
+                val lastUpdate = items.maxOf { it.last_update }
+                settings.updateSettings(
+                    mySettings.copy(
+                        lastUpdate = lastUpdate,
+                        lastUpdateDate = System.currentTimeMillis()
+                    )
+                )
             }
         }
-        // update last_update & last_update_date
-        settings.updateSettings(
-            mySettings.copy(
-                lastUpdate = message.last_update,
-                lastUpdateDate = System.currentTimeMillis()
-            )
-        )
-        showMessage("Successfully Updated")
+
+        loadingEnd("Successfully Updated")
     }
 
-
-    fun onSavingsCalled() = viewModelScope.launch {
+    fun onEditInvoiceClicked(invoice: Invoice) = viewModelScope.launch {
         eventsChannel.send(
             WindowEvents.Navigate(
-                MainFragmentDirections.actionMainFragment3ToInvoicesViewFragment()
+                MainFragmentDirections.actionMainFragment3ToItemsChooseFragment(invoice)
             )
         )
     }
@@ -89,18 +102,13 @@ class MainFragmentViewModel @Inject constructor(
         )
     }
 
-    private fun loadingEnd() = viewModelScope.launch {
-        eventsChannel.send(WindowEvents.LoadingDone)
-    }
-
-    private fun showMessage(message: String) = viewModelScope.launch {
-        eventsChannel.send(WindowEvents.Message(message))
+    private fun loadingEnd(message: String? = null) = viewModelScope.launch {
+        eventsChannel.send(WindowEvents.LoadingDone(message))
     }
 
 
     sealed class WindowEvents {
-        object LoadingDone : WindowEvents()
+        data class LoadingDone(val message: String?) : WindowEvents()
         data class Navigate(val direction: NavDirections) : WindowEvents()
-        data class Message(val message: String) : WindowEvents()
     }
 }

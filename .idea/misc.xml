@@ -24,8 +24,10 @@
         <entry key="..\:/My Projects/android studio projects/EstimatesCalculator/app/src/main/res/menu/main_page_options.xml" value="0.1" />
         <entry key="..\:/My Projects/android studio projects/EstimatesCalculator/app/src/main/res/menu/nav_menu.xml" value="0.16" />
         <entry key="..\:/My Projects/android studio projects/EstimatesCalculator/app/src/main/res/menu/select_items_options.xml" value="0.14479166666666668" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/drawable/back.xml" value="0.1" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/drawable/next.xml" value="0.1" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/activity_main.xml" value="0.14479166666666668" />
-        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_choose_items_list.xml" value="0.152" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_choose_items_list.xml" value="0.4" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_invoice_items_view.xml" value="0.4" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_invoice_view.xml" value="0.2" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_new_estimate.xml" value="0.14479166666666668" />
@@ -33,9 +35,10 @@
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_blank.xml" value="0.14479166666666668" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_clients.xml" value="0.14479166666666668" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_company_info.xml" value="0.14479166666666668" />
-        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_invoices_view.xml" value="0.2" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_confirm.xml" value="0.1" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_invoices_view.xml" value="0.1" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_items_choose.xml" value="0.176" />
-        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_main.xml" value="0.176" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_main.xml" value="0.10400000000000001" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_new_estimate.xml" value="0.14479166666666668" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_view_pdf.xml" value="0.264" />

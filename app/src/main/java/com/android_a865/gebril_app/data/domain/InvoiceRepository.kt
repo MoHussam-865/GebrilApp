@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.domain.repository
+package com.android_a865.gebril_app.data.domain
 
 import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.relation.FullInvoice

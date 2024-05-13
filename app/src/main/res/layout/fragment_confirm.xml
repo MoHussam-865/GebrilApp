@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android_a865.gebril_app.feature_main.presentation.confirmation.ConfirmationFragment">
+    tools:context="com.android_a865.gebril_app.feature_main.confirmation.ConfirmationFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mainToolBar"

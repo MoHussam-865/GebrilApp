@@ -7,7 +7,7 @@ import retrofit2.http.POST
 
 interface ItemsApi {
 
-    @POST("/")
+    @POST("/items/")
     suspend fun getItems(@Body message: Message): Response<Message>
 
 }

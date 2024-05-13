@@ -11,5 +11,5 @@ data class InvoiceEntity(
     val total: Double,
     val notes: String = "",
     val client: String = "",
-    val isSent: Int = 0,
+    val is_sent: Int = 0,
 )

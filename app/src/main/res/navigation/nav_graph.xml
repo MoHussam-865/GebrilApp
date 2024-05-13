@@ -6,15 +6,20 @@
     app:startDestination="@id/mainFragment3">
     <fragment
         android:id="@+id/itemsChooseFragment"
-        android:name="com.android_a865.gebril_app.feature_main.presentation.items_choose.ItemsChooseFragment"
+        android:name="com.android_a865.gebril_app.feature_main.items_choose.ItemsChooseFragment"
         tools:layout="@layout/fragment_items_choose">
         <action
             android:id="@+id/action_itemsChooseFragment_to_newEstimateFragment"
             app:destination="@id/newEstimateFragment" />
+        <argument
+            android:name="invoice"
+            app:argType="com.android_a865.gebril_app.data.domain.Invoice"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/newEstimateFragment"
-        android:name="com.android_a865.gebril_app.feature_main.presentation.confirmation.ConfirmationFragment"
+        android:name="com.android_a865.gebril_app.feature_main.confirmation.ConfirmationFragment"
         tools:layout="@layout/fragment_confirm">
         <argument
             android:name="items"
@@ -29,29 +34,23 @@
     </fragment>
     <fragment
         android:id="@+id/viewPdfFragment"
-        android:name="com.android_a865.gebril_app.feature_main.presentation.pdf_preview.ViewPdfFragment"
+        android:name="com.android_a865.gebril_app.feature_main.pdf_preview.ViewPdfFragment"
         tools:layout="@layout/fragment_view_pdf">
         <argument
-            android:name="items"
-            app:argType="com.android_a865.gebril_app.data.domain.InvoiceItem[]" />
+            android:name="invoice"
+            app:argType="com.android_a865.gebril_app.data.domain.Invoice" />
         <action
             android:id="@+id/action_viewPdfFragment_to_mainFragment3"
-            app:destination="@id/mainFragment3" />
+            app:destination="@id/mainFragment3"
+            app:popUpTo="@id/mainFragment3" />
     </fragment>
     <fragment
-        android:id="@+id/invoicesViewFragment"
-        android:name="com.android_a865.gebril_app.feature_main.presentation.invoices_view.InvoicesViewFragment"
-        tools:layout="@layout/fragment_invoices_view" />
-    <fragment
         android:id="@+id/mainFragment3"
-        android:name="com.android_a865.gebril_app.feature_main.presentation.main_page.MainFragment"
+        android:name="com.android_a865.gebril_app.feature_main.main_page.MainFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment3_to_itemsChooseFragment"
             app:destination="@id/itemsChooseFragment" />
-        <action
-            android:id="@+id/action_mainFragment3_to_invoicesViewFragment"
-            app:destination="@id/invoicesViewFragment" />
     </fragment>
 </navigation>

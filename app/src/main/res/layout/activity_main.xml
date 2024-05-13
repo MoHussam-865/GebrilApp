@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="com.android_a865.gebril_app.feature_main.presentation.MainActivity">
+    tools:context="com.android_a865.gebril_app.feature_main.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFragment"

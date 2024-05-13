@@ -1,13 +1,16 @@
-package com.android_a865.gebril_app.feature_main.presentation.main_page
+package com.android_a865.gebril_app.feature_main.main_page
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,10 +19,11 @@ import gebril_app.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main),
+    InvoicesAdapter.OnItemEventListener{
 
     private val viewModule by viewModels<MainFragmentViewModel>()
-
+    private val invoicesAdapter = InvoicesAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,12 +34,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         binding.apply {
 
-            savings.setOnClickListener {
-                viewModule.onSavingsCalled()
-            }
-
             estimate.setOnClickListener {
                 viewModule.onNewEstimateClicked()
+            }
+
+            invoicesList.apply {
+                adapter = invoicesAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(true)
+            }
+
+            viewModule.invoices.asLiveData().observe(viewLifecycleOwner) {
+                invoicesAdapter.submitList(it)
             }
         }
 
@@ -47,18 +57,20 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         findNavController().navigate(event.direction)
                         true
                     }
-                    MainFragmentViewModel.WindowEvents.LoadingDone -> {
-                        binding.progress.isVisible = false
-                        binding.navbtn.isVisible = true
-                        true
-                    }
-                    is MainFragmentViewModel.WindowEvents.Message -> {
-                        Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
+                    is MainFragmentViewModel.WindowEvents.LoadingDone -> {
+                        if (event.message != null) {
+                            Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG)
+                                .show()
+                        }
                         true
                     }
                 }.exhaustive
 
             }
         }
+    }
+
+    override fun onItemClicked(invoice: Invoice) {
+        viewModule.onEditInvoiceClicked(invoice)
     }
 }

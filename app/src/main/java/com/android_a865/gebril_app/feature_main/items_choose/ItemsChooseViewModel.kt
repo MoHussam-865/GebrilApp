@@ -1,12 +1,14 @@
-package com.android_a865.gebril_app.feature_main.presentation.items_choose
+package com.android_a865.gebril_app.feature_main.items_choose
 
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
+import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.feature_main.domain.repository.ItemsRepository
+import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,15 +19,16 @@ class ItemsChooseViewModel @Inject constructor(
     val repository: ItemsRepository
 ) : ViewModel() {
 
-    val currentPath = MutableStateFlow(state.get<Path>("path") ?: Path())
+    private val invoice = state.get<Invoice>("invoice")
+
+    val currentPath = MutableStateFlow(Path())
 
     private val itemsFlow = currentPath.flatMapLatest { path ->
         repository.getItems(path.path)
     }
 
-    val selectedItems = MutableLiveData(
-        state.get<Array<InvoiceItem>>("items")?.toList() ?: listOf()
-    )
+    val selectedItems = MutableLiveData(invoice?.items ?: listOf())
+
     val itemsData = combine(itemsFlow, selectedItems.asFlow()) { items, selected ->
         Pair(items, selected)
     }.flatMapLatest { (items, selected) ->
@@ -37,10 +40,17 @@ class ItemsChooseViewModel @Inject constructor(
     private val itemsWindowEventsChannel = Channel<ItemsWindowEvents>()
     val itemsWindowEvents = itemsWindowEventsChannel.receiveAsFlow()
 
+    init {
+        if (invoice == null) {
+            onNextClicked()
+        }
+    }
 
     fun onBackPress() {
-        if (currentPath.value.isRoot) goBack()
-        else currentPath.value = currentPath.value.back()
+        if (currentPath.value.isRoot) {
+            // TODO set data lose warning
+            goBack()
+        } else currentPath.value = currentPath.value.back()
     }
 
     private fun goBack() = viewModelScope.launch {
@@ -49,16 +59,13 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
-            viewModelScope.launch {
-                currentPath.value = Path(item.path).open(item.name)
-            }
+            currentPath.value = Path(item.path).open(item.name)
         }
     }
 
     fun onAddItemClicked(item: InvoiceItem) {
         selectedItems.update0 { it?.addOneOf(item) }
     }
-
 
     fun onMinusItemClicked(item: InvoiceItem) {
         selectedItems.update0 { it?.removeOneOf(item) }
@@ -106,6 +113,15 @@ class ItemsChooseViewModel @Inject constructor(
             )
         } else {
             showInvalidInputMessage("لم يتم اختيار اي صنف")
+        }
+    }
+
+
+    fun onItemsSelected(chosenItems: List<InvoiceItem>?) = viewModelScope.launch {
+        chosenItems?.let { items ->
+            // this delay is to solve an unexpected bug
+            delay(100)
+            selectedItems.value = items
         }
     }
 

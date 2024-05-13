@@ -40,6 +40,14 @@ class ChooseInvoiceItemsAdapter(
                     }
                 }
 
+                delete.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.onRemoveItemClicked(item)
+                    }
+                }
+
                 addFirst.setOnClickListener { add() }
 
                 add.setOnClickListener { add() }

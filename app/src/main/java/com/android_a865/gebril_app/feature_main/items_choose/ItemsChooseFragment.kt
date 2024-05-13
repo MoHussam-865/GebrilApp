@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.presentation.items_choose
+package com.android_a865.gebril_app.feature_main.items_choose
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,6 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -72,15 +71,10 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
                 chosenItemsList.isVisible = it.isNotEmpty()
                 chosenItemsAdapter.submitList(it)
                 chosenItemsList.scrollToEnd()
-
-                findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                    "choose_invoice_items", it
-                )
             }
 
             viewModel.itemsData.asLiveData().observe(viewLifecycleOwner) {
                 itemsAdapter.submitList(it)
-                tvEmpty.isVisible = it.isEmpty()
             }
         }
 
@@ -109,12 +103,11 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
             }
         }
 
-        setFragmentResultListener("invoice_item") { _, bundle ->
-            val item = bundle.getParcelable<InvoiceItem>("item")
-
-            item?.let {
-                //viewModel.onInvoiceItemAdded(it)
-            }
+        // get items from the confirmation fragment
+        val observed = "chosen_invoice_items"
+        findNavController().currentBackStackEntry?.savedStateHandle?.apply {
+            viewModel.onItemsSelected(get(observed))
+            set(observed, null)
         }
 
     }
