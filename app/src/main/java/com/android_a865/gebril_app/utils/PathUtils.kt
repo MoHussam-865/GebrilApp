@@ -1,51 +1,55 @@
 package com.android_a865.gebril_app.utils
 
 import android.os.Parcelable
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import kotlinx.parcelize.Parcelize
-
-
-interface PathUtil {
-    val name: String
-    val path: Path
-    val isFolder: Boolean
-
-    fun open(): Path = if (isFolder) path.open(name) else path
-}
-
 
 @Parcelize
 data class Path(
-    val path: String = ROOT
+    val parents: MutableList<InvoiceItem> = mutableListOf(
+        InvoiceItem()
+    )
 ) : Parcelable {
     /** a new abstraction layer to deal with paths (navigation) */
 
-    fun open(name: String) = Path(path + Separation + name)
+    fun open(child: InvoiceItem): Path {
+        parents.add(child)
+        return Path(parents)
+    }
+    //fun pathOf(name: String) = path + Separation + name
 
-    fun pathOf(name: String) = path + Separation + name
+    fun back() = Path(parents.dropLast(1).toMutableList())
 
-    fun back() = Path(parentPath)
+    val isRoot get() = (parents.last().path == ROOT)
 
-    val isRoot get() = (path == ROOT)
-
-    val folders get() = path.replaceFirst(ROOT, "Items").split(Separation)
+    //val folders get() = path.replaceFirst(ROOT, "Items").split(Separation)
 
     fun fullName(name: String): String {
-        val list = folders.drop(1).toMutableList()
+
+        val list = names.drop(1).toMutableList()
         list.add(name)
         return list.reversed().joinToString(" ")
     }
 
-    val parentName get() = _folders.run { get(lastIndex) }
+    private val names get() = parents.map { it.name }
 
-    private val parentPath get() = _folders.dropLast(1).joinToString(separator = Separation)
 
-    private val _folders get() = path.split(Separation)
+    val parent get() = parents.last()
+
+    // val parentPath get(): String = names.dropLast(1).joinToString(separator = Separation)
+
+    val path get(): String = names.joinToString(separator = Separation)
+
+    val pathDiscount get(): Double = parents.last().discount
+
+
+    //private val _folders get() = path.split(Separation)
 
     companion object {
         private const val Separation = "/"
-        private const val ROOT = "."
-        const val NO_PATH = ""
-        const val REDUNDANT = "*"
+        const val ROOT = "."
+//        const val NO_PATH = ""
+//        const val REDUNDANT = "*"
     }
 }
 

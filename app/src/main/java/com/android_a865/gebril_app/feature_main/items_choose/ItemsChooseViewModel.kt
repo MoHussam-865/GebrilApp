@@ -22,14 +22,11 @@ class ItemsChooseViewModel @Inject constructor(
     private val invoice = state.get<Invoice>("invoice")
 
     val currentPath = MutableStateFlow(Path())
-    private val currentDiscount = MutableStateFlow(mutableListOf(0.0))
 
-    private val itemsFlow = combine(currentPath, currentDiscount){ path, discount ->
-        Pair(path.path, discount.last())
-    }.flatMapLatest { (path, discount) ->
-        repository.getItems(path).map { items ->
+    private val itemsFlow = currentPath.flatMapLatest { path ->
+        repository.getItems(path.path).map { items ->
             items.map { item ->
-                if (item.isFolder) item else item.copy(discount = discount)
+                if (item.isFolder) item else item.copy(discount = path.pathDiscount)
             }
         }
     }
@@ -61,10 +58,6 @@ class ItemsChooseViewModel @Inject constructor(
             // TODO set data lose warning
             goBack()
         } else {
-            currentDiscount.value = currentDiscount.value
-                .dropLast(1)
-                .toMutableList()
-
             currentPath.value = currentPath.value.back()
         }
     }
@@ -75,11 +68,7 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
-            val discountList = currentDiscount.value
-            discountList.add(item.discount)
-            currentDiscount.value = discountList
-
-            currentPath.value = Path(item.path).open(item.name)
+            currentPath.value = currentPath.value.open(item)
         }
     }
 
