@@ -22,9 +22,16 @@ class ItemsChooseViewModel @Inject constructor(
     private val invoice = state.get<Invoice>("invoice")
 
     val currentPath = MutableStateFlow(Path())
+    private val currentDiscount = MutableStateFlow(mutableListOf(0.0))
 
-    private val itemsFlow = currentPath.flatMapLatest { path ->
-        repository.getItems(path.path)
+    private val itemsFlow = combine(currentPath, currentDiscount){ path, discount ->
+        Pair(path.path, discount.last())
+    }.flatMapLatest { (path, discount) ->
+        repository.getItems(path).map { items ->
+            items.map { item ->
+                if (item.isFolder) item else item.copy(discount = discount)
+            }
+        }
     }
 
     val selectedItems = MutableLiveData(invoice?.items ?: listOf())
@@ -41,8 +48,11 @@ class ItemsChooseViewModel @Inject constructor(
     val itemsWindowEvents = itemsWindowEventsChannel.receiveAsFlow()
 
     init {
-        if (invoice == null) {
-            onNextClicked()
+        if (!selectedItems.value.isNullOrEmpty()) {
+            viewModelScope.launch {
+                delay(300)
+                onNextClicked()
+            }
         }
     }
 
@@ -50,7 +60,13 @@ class ItemsChooseViewModel @Inject constructor(
         if (currentPath.value.isRoot) {
             // TODO set data lose warning
             goBack()
-        } else currentPath.value = currentPath.value.back()
+        } else {
+            currentDiscount.value = currentDiscount.value
+                .dropLast(1)
+                .toMutableList()
+
+            currentPath.value = currentPath.value.back()
+        }
     }
 
     private fun goBack() = viewModelScope.launch {
@@ -59,6 +75,10 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
+            val discountList = currentDiscount.value
+            discountList.add(item.discount)
+            currentDiscount.value = discountList
+
             currentPath.value = Path(item.path).open(item.name)
         }
     }
