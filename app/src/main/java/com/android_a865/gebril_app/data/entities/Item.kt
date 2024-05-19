@@ -11,7 +11,7 @@ data class Item(
     val name: String,
     val price: Double,
     val discount: Double,
-    val path: String,  // parent name
+    val parentId: Int,  // parent name
     val is_folder: Boolean,
     val last_update: Int,
 )

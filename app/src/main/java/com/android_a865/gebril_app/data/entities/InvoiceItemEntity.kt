@@ -1,8 +1,11 @@
 package com.android_a865.gebril_app.data.entities
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(
     tableName = "InvoiceItems",
     primaryKeys = ["invoiceId", "itemId"]
@@ -10,6 +13,6 @@ import androidx.room.PrimaryKey
 data class InvoiceItemEntity(
     val invoiceId: Int,
     val itemId: Int,
-    val name: String,
+    val fullName: String,
     val qty: Double,
-)
+): Parcelable

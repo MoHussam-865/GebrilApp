@@ -21,7 +21,7 @@ class PathIndicatorAdapter : ListAdapter<String, PathIndicatorAdapter.ViewHolder
         holder.bind(getItem(position))
 
 
-    fun submitPath(path: Path) = submitList(path.folders)
+    fun submitPath(path: Path) = submitList(path.names)
 
 
     class DiffCallback : DiffUtil.ItemCallback<String>() {

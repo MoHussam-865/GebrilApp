@@ -25,6 +25,7 @@ class ConfirmationFragmentViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val items = state.get<Array<InvoiceItem>>("items")
+    private val invoiceId = state.get<Int>("invoiceId")
 
     // this used to determine weather it's being created or updating
     private val isCreated = state.get<Boolean>("is_created")
@@ -88,6 +89,7 @@ class ConfirmationFragmentViewModel @Inject constructor(
         if (myItems.isNotEmpty()) {
 
             val invoice = Invoice(
+                id = invoiceId ?: 0,
                 date = Calendar.getInstance().timeInMillis,
                 items = myItems,
                 total = myItems.sumOf { it.total },
@@ -103,7 +105,8 @@ class ConfirmationFragmentViewModel @Inject constructor(
             )
         }
     }
-    fun onPreviousPressed()  = viewModelScope.launch {
+
+    fun onPreviousPressed() = viewModelScope.launch {
         eventsChannel.send(WindowEvents.NavigateBack)
     }
 

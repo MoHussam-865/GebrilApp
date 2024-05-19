@@ -20,6 +20,12 @@ interface InvoicesDao {
 
     // Insert
     suspend fun insertInvoice(fullInvoice: FullInvoice) {
+
+        if (fullInvoice.invoice.id != 0) {
+            updateInvoice(fullInvoice)
+            return
+        }
+
         fullInvoice.apply {
             val invoiceId = insertInvoice(invoice).toInt()
 
@@ -38,6 +44,7 @@ interface InvoicesDao {
 
     // Update Invoice
     suspend fun updateInvoice(newInvoice: FullInvoice) {
+
 
         val oldInvoice = getInvoiceById(newInvoice.invoice.id)
         updateInvoice(newInvoice.invoice)
@@ -61,7 +68,6 @@ interface InvoicesDao {
         oldItems.forEach { oldItem ->
             deleteInvoiceItem(oldItem)
         }
-
     }
 
     @Update

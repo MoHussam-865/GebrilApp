@@ -3,6 +3,7 @@ package com.android_a865.gebril_app.common
 import android.content.Context
 import android.util.Log
 import com.android_a865.gebril_app.data.domain.Invoice
+import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.utils.date
 import com.android_a865.gebril_app.utils.toFormattedString

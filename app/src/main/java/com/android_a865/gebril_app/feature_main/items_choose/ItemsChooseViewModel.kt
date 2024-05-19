@@ -1,8 +1,8 @@
 package com.android_a865.gebril_app.feature_main.items_choose
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.utils.*
@@ -16,22 +16,31 @@ import javax.inject.Inject
 @HiltViewModel
 class ItemsChooseViewModel @Inject constructor(
     state: SavedStateHandle,
-    val repository: ItemsRepository
+    private val repository: ItemsRepository
 ) : ViewModel() {
 
-    private val invoice = state.get<Invoice>("invoice")
+    private val myInvoiceItems = state.get<Array<InvoiceItem>>("items")
+    private val invoiceId = state.get<Int>("invoiceId")
 
     val currentPath = MutableStateFlow(Path())
 
     private val itemsFlow = currentPath.flatMapLatest { path ->
-        repository.getItems(path.path).map { items ->
+        Log.d("open folder", "path changed")
+        repository.getItems(path.folderId).map { items ->
             items.map { item ->
-                if (item.isFolder) item else item.copy(discount = path.pathDiscount)
+                if (item.isFolder) {
+                    item
+                } else {
+                    item.copy(
+                        discount = path.folderDiscount,
+                        fullName = path.fullName(item.name)
+                    )
+                }
             }
         }
     }
 
-    val selectedItems = MutableLiveData(invoice?.items ?: listOf())
+    val selectedItems = MutableLiveData(myInvoiceItems?.toList() ?: listOf())
 
     val itemsData = combine(itemsFlow, selectedItems.asFlow()) { items, selected ->
         Pair(items, selected)
@@ -47,7 +56,7 @@ class ItemsChooseViewModel @Inject constructor(
     init {
         if (!selectedItems.value.isNullOrEmpty()) {
             viewModelScope.launch {
-                delay(300)
+                delay(1000)
                 onNextClicked()
             }
         }
@@ -58,7 +67,7 @@ class ItemsChooseViewModel @Inject constructor(
             // TODO set data lose warning
             goBack()
         } else {
-            currentPath.value = currentPath.value.back()
+            currentPath.value = currentPath.value.copy().back()
         }
     }
 
@@ -68,11 +77,16 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
-            currentPath.value = currentPath.value.open(item)
+            Log.d("open folder", "folder opened ${item.discount}")
+            val temp = currentPath.value.copy()
+            val parents = temp.parents.toMutableList()
+            parents.add(item)
+            currentPath.value = Path(parents.toList())
         }
     }
 
     fun onAddItemClicked(item: InvoiceItem) {
+        Log.d("folder", item.discount.toString())
         selectedItems.update0 { it?.addOneOf(item) }
     }
 
@@ -116,7 +130,8 @@ class ItemsChooseViewModel @Inject constructor(
             itemsWindowEventsChannel.send(
                 ItemsWindowEvents.NavigateTo(
                     ItemsChooseFragmentDirections.actionItemsChooseFragmentToNewEstimateFragment(
-                        myItems
+                        items = myItems,
+                        invoiceId = invoiceId ?: 0
                     )
                 )
             )

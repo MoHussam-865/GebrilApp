@@ -12,10 +12,14 @@
             android:id="@+id/action_itemsChooseFragment_to_newEstimateFragment"
             app:destination="@id/newEstimateFragment" />
         <argument
-            android:name="invoice"
-            app:argType="com.android_a865.gebril_app.data.domain.Invoice"
+            android:name="items"
+            app:argType="com.android_a865.gebril_app.data.domain.InvoiceItem[]"
             app:nullable="true"
             android:defaultValue="@null" />
+        <argument
+            android:name="invoiceId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/newEstimateFragment"
@@ -28,9 +32,9 @@
             android:id="@+id/action_newEstimateFragment_to_viewPdfFragment"
             app:destination="@id/viewPdfFragment" />
         <argument
-            android:name="is_created"
-            android:defaultValue="true"
-            app:argType="boolean" />
+            android:name="invoiceId"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/viewPdfFragment"
@@ -42,7 +46,8 @@
         <action
             android:id="@+id/action_viewPdfFragment_to_mainFragment3"
             app:destination="@id/mainFragment3"
-            app:popUpTo="@id/mainFragment3" />
+            app:popUpTo="@id/mainFragment3"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment3"

@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.utils.toFormattedString
 import gebril_app.databinding.AdapterInvoiceItemsViewBinding
 
-class InvoiceItemsViewAdapter : ListAdapter<InvoiceItem, InvoiceItemsViewAdapter.ViewHolder>(ItemDiffCallback()) {
+class InvoiceItemsViewAdapter : ListAdapter<InvoiceItemEntity, InvoiceItemsViewAdapter.ViewHolder>(ItemDiffCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
@@ -26,7 +27,7 @@ class InvoiceItemsViewAdapter : ListAdapter<InvoiceItem, InvoiceItemsViewAdapter
     inner class ViewHolder(private val binding: AdapterInvoiceItemsViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: InvoiceItem) {
+        fun bind(item: InvoiceItemEntity) {
             binding.apply {
                 itemName.text = item.fullName
                 itemQty.text = item.qty.toFormattedString()
@@ -34,11 +35,11 @@ class InvoiceItemsViewAdapter : ListAdapter<InvoiceItem, InvoiceItemsViewAdapter
         }
     }
 
-    class ItemDiffCallback : DiffUtil.ItemCallback<InvoiceItem>() {
-        override fun areItemsTheSame(oldItem: InvoiceItem, newItem: InvoiceItem): Boolean =
-            oldItem.id == newItem.id
+    class ItemDiffCallback : DiffUtil.ItemCallback<InvoiceItemEntity>() {
+        override fun areItemsTheSame(oldItem: InvoiceItemEntity, newItem: InvoiceItemEntity): Boolean =
+            oldItem.itemId == newItem.itemId
 
-        override fun areContentsTheSame(oldItem: InvoiceItem, newItem: InvoiceItem): Boolean =
+        override fun areContentsTheSame(oldItem: InvoiceItemEntity, newItem: InvoiceItemEntity): Boolean =
             oldItem == newItem
     }
 

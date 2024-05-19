@@ -96,7 +96,7 @@ class ChooseInvoiceItemsAdapter(
 
                     // for items
                     itemName.text = name
-                    itemUP.text = price.toString()
+                    itemUP.text = finalPrice.toString()
 
                     userInput.setQty(qty.toString())
                     userInput.setSelection(userInput.length())

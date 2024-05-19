@@ -13,7 +13,7 @@ data class InvoiceItem(
     var qty: Double = 0.0,
     var discount: Double = 0.0,
     val isFolder: Boolean = false,
-    val path: String = ROOT
+    val parentId: Int = ROOT
 ) : Parcelable {
     val total get() = finalPrice * qty
     val finalPrice get() = price * (1 - discount/100)

@@ -1,10 +1,10 @@
 package com.android_a865.gebril_app.data.repository
 
 import com.android_a865.gebril_app.data.dao.InvoicesDao
-import com.android_a865.gebril_app.data.domain.Invoice
-import com.android_a865.gebril_app.data.mapper.toInvoices
-import com.android_a865.gebril_app.data.relation.FullInvoice
+import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.mapper.toInvoice
+import com.android_a865.gebril_app.data.relation.FullInvoice
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -13,9 +13,11 @@ class InvoiceRepositoryImpl(
 ) : InvoiceRepository {
 
 
-    override fun getInvoices(): Flow<List<Invoice>> {
+    override fun getInvoices(): Flow<List<InvoiceHolder>> {
         return  dao.getInvoices().map {
-            it.toInvoices()
+            it.map { invoice ->
+                invoice.toInvoice()
+            }
         }
     }
 

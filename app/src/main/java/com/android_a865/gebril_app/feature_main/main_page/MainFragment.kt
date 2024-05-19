@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
-import com.android_a865.gebril_app.data.domain.Invoice
+import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +70,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
         }
     }
 
-    override fun onItemClicked(invoice: Invoice) {
+    override fun onItemClicked(invoice: InvoiceHolder) {
         viewModule.onEditInvoiceClicked(invoice)
     }
 }

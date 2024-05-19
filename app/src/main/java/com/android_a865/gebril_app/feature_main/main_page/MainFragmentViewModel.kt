@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.Invoice
+import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.Message
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
@@ -24,7 +24,7 @@ class MainFragmentViewModel @Inject constructor(
     private val itemsApi: ItemsApi,
     private val settings: SettingsRepository,
     private val itemsRepository: ItemsRepository,
-    val invoicesRepository: InvoiceRepository,
+    invoicesRepository: InvoiceRepository,
 ) : ViewModel() {
 
     val invoices = invoicesRepository.getInvoices()
@@ -86,10 +86,16 @@ class MainFragmentViewModel @Inject constructor(
         loadingEnd("Successfully Updated")
     }
 
-    fun onEditInvoiceClicked(invoice: Invoice) = viewModelScope.launch {
+    fun onEditInvoiceClicked(invoice: InvoiceHolder) = viewModelScope.launch {
+
+        val items = itemsRepository.getItemsById(invoice.items)
+
         eventsChannel.send(
             WindowEvents.Navigate(
-                MainFragmentDirections.actionMainFragment3ToItemsChooseFragment(invoice)
+                MainFragmentDirections.actionMainFragment3ToItemsChooseFragment(
+                    items = items.toTypedArray(),
+                    invoiceId = invoice.id
+                )
             )
         )
     }

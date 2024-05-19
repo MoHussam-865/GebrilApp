@@ -28,9 +28,11 @@
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/drawable/next.xml" value="0.1" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/activity_main.xml" value="0.14479166666666668" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_choose_items_list.xml" value="0.4" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_chosen_items.xml" value="0.536" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_invoice_items_view.xml" value="0.4" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_invoice_view.xml" value="0.2" />
-        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_new_estimate.xml" value="0.14479166666666668" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_items_page.xml" value="0.14479166666666668" />
+        <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/adapter_new_estimate.xml" value="0.152" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_add_edit_client.xml" value="0.2" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_blank.xml" value="0.14479166666666668" />
         <entry key="..\:/My Projects/android studio projects/GebrilApp/app/src/main/res/layout/fragment_clients.xml" value="0.14479166666666668" />

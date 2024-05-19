@@ -8,31 +8,39 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemsDao {
 
-    fun getItems(path: String = "", search: String = ""): Flow<List<Item>> {
-        return if (search.isBlank()) getItemsEntity(path)
-        else getItemsEntity(path, search)
+    fun getItems(parentId: Int = 0, search: String = ""): Flow<List<Item>> {
+        return if (search.isBlank()) getItemsEntity(parentId)
+        else getItemsEntity(parentId, search)
     }
 
     @Query(
         """SELECT * FROM Items
-                    WHERE path = :path AND (name LIKE '%'|| :search ||'%')
+                    WHERE parentId = :parentId AND (name LIKE '%'|| :search ||'%')
                     ORDER BY is_folder DESC"""
     )
-    fun getItemsEntity(path: String, search: String): Flow<List<Item>>
+    fun getItemsEntity(parentId: Int, search: String): Flow<List<Item>>
 
 
-    @Query("SELECT * FROM Items WHERE path = :path ORDER BY is_folder DESC")
-    fun getItemsEntity(path: String): Flow<List<Item>>
+    @Query("SELECT * FROM Items WHERE parentId = :parentId ORDER BY is_folder DESC")
+    fun getItemsEntity(parentId: Int): Flow<List<Item>>
 
-    @Query("SELECT * FROM Items WHERE path LIKE :path || '%'")
-    suspend fun getSubItems(path: String): List<Item>
+    @Query("SELECT * FROM Items WHERE parentId LIKE :parentId || '%'")
+    suspend fun getSubItems(parentId: Int): List<Item>
 
-    @Query("SELECT * FROM Items WHERE path = :path")
-    suspend fun getItemFriends(path: String): List<Item>
+    @Query("SELECT * FROM Items WHERE parentId = :parentId")
+    suspend fun getItemFriends(parentId: Int): List<Item>
 
 
-    @Query("SELECT * FROM Items WHERE path = :path AND name = :name")
-    suspend fun getItemEntity(name: String, path: String): Item
+//    @Query("SELECT * FROM Items WHERE parentId = :path AND name = :name")
+//    suspend fun getItemEntity(name: String, path: String): Item
+
+    // get one item
+    @Query("SELECT * FROM Items WHERE id = :id")
+    suspend fun getItemById(id: Int): Item
+
+
+    @Query("SELECT discount FROM Items WHERE id = :folderId")
+    suspend fun getFolderDiscount(folderId: Int): Double
 
     // delete Item
     @Delete

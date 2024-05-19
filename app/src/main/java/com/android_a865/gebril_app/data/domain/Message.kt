@@ -9,7 +9,7 @@ import com.android_a865.gebril_app.data.entities.Item
  */
 data class Message(
     val last_update: Int = 0,
-    val invoice: Invoice? = null,
+    val invoice: InvoiceHolder? = null,
     val items: List<Item>? = null,
     val message: String = "",
 )
