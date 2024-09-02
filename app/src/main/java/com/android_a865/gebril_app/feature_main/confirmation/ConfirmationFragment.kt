@@ -3,20 +3,18 @@ package com.android_a865.gebril_app.feature_main.confirmation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.InvoiceItemsAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.databinding.FragmentConfirmBinding
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import gebril_app.R
-import gebril_app.databinding.FragmentConfirmBinding
-import kotlinx.coroutines.flow.collect
 
 
 @AndroidEntryPoint

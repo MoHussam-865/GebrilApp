@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.android_a865.gebril_app.R
+import com.android_a865.gebril_app.databinding.FragmentSettingsBinding
 import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
-import gebril_app.R
-import gebril_app.databinding.FragmentSettingsBinding
 
 
 
