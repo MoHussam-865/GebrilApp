@@ -7,15 +7,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.data.domain.InvoiceHolder
+import com.android_a865.gebril_app.data.domain.Invoice
+import com.android_a865.gebril_app.databinding.AdapterInvoiceViewBinding
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.utils.DATE_FORMATS
 import com.android_a865.gebril_app.utils.date
-import gebril_app.databinding.AdapterInvoiceViewBinding
 
 class InvoicesAdapter(
     private val listener: OnItemEventListener,
-) : ListAdapter<InvoiceHolder, InvoicesAdapter.ViewHolder>(InvoiceDiffCallback()) {
+) : ListAdapter<Invoice, InvoicesAdapter.ViewHolder>(InvoiceDiffCallback()) {
 
     private lateinit var context: Context
     private var appSettings: AppSettings? = null
@@ -50,7 +50,7 @@ class InvoicesAdapter(
 
         }
 
-        fun bind(invoice: InvoiceHolder) {
+        fun bind(invoice: Invoice) {
             binding.apply {
                 tvInvoiceDate.text = invoice.date.date(appSettings?.dateFormat ?: DATE_FORMATS[0])
 
@@ -67,15 +67,15 @@ class InvoicesAdapter(
         }
     }
 
-    class InvoiceDiffCallback : DiffUtil.ItemCallback<InvoiceHolder>() {
-        override fun areItemsTheSame(oldItem: InvoiceHolder, newItem: InvoiceHolder): Boolean =
+    class InvoiceDiffCallback : DiffUtil.ItemCallback<Invoice>() {
+        override fun areItemsTheSame(oldItem: Invoice, newItem: Invoice): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: InvoiceHolder, newItem: InvoiceHolder): Boolean =
+        override fun areContentsTheSame(oldItem: Invoice, newItem: Invoice): Boolean =
             oldItem == newItem
     }
 
     interface OnItemEventListener {
-        fun onItemClicked(invoice: InvoiceHolder)
+        fun onItemClicked(invoice: Invoice)
     }
 }

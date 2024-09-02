@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.android_a865.gebril_app.databinding.AdapterPathIndicatorBinding
 import com.android_a865.gebril_app.utils.Path
-import gebril_app.databinding.AdapterPathIndicatorBinding
 
 class PathIndicatorAdapter : ListAdapter<String, PathIndicatorAdapter.ViewHolder>(DiffCallback()) {
 

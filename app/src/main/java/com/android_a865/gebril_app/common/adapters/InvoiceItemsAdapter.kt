@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.databinding.AdapterNewEstimateBinding
 import com.android_a865.gebril_app.utils.setQty
 import com.android_a865.gebril_app.utils.toFormattedString
-import gebril_app.databinding.AdapterNewEstimateBinding
 
 class InvoiceItemsAdapter(
     private val listener: OnItemEventListener,

@@ -3,8 +3,8 @@ package com.android_a865.gebril_app.feature_main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.android_a865.gebril_app.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import gebril_app.databinding.ActivityMainBinding
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
