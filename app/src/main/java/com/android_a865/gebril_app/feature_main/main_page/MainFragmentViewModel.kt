@@ -42,11 +42,11 @@ class MainFragmentViewModel @Inject constructor(
                 itemsApi.getItems(message)
             } catch (e: IOException) {
                 Log.d("my error", e.message.toString())
-                loadingEnd()
+                loadingEnd("couldn't Update Data")
                 return@launch
             } catch (e: HttpException) {
                 Log.d("my error", e.message.toString())
-                loadingEnd()
+                loadingEnd("couldn't Update Data")
                 return@launch
             }
 
