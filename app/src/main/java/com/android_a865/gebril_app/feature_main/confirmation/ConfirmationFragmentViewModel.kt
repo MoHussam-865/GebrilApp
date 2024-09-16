@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.Invoice
+import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.utils.addOneOf
 import com.android_a865.gebril_app.utils.removeAllOf

@@ -17,6 +17,7 @@ data class InvoiceItem(
 ) : Parcelable {
     val total get() = finalPrice * qty
     val finalPrice get() = price * (1 - discount/100)
+
 //    private val discountDetail get(): String {
 //        val sign = if (discount > 0.0) "-" else "+"
 //        return if (discount != 0.0) {

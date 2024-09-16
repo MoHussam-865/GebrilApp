@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.databinding.AdapterInvoiceViewBinding
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings

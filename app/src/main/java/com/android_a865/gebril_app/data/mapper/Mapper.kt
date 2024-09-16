@@ -1,10 +1,9 @@
 package com.android_a865.gebril_app.data.mapper
 
 
-import com.android_a865.gebril_app.data.domain.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.data.entities.InvoiceEntity
+import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.data.entities.Item
 import com.android_a865.gebril_app.data.relation.FullInvoice
@@ -47,7 +46,7 @@ fun FullInvoice.toInvoice() = InvoiceHolder(
 )
 
 fun Invoice.toEntity(total: Double) = FullInvoice(
-    invoice = InvoiceEntity(
+    invoice = com.android_a865.gebril_app.data.entities.Invoice(
         id = id,
         client = client,
         date = date,

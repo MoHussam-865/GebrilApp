@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_view_pdf">
         <argument
             android:name="invoice"
-            app:argType="com.android_a865.gebril_app.data.domain.Invoice" />
+            app:argType="com.android_a865.gebril_app.data.entities.Invoice" />
         <action
             android:id="@+id/action_viewPdfFragment_to_mainFragment3"
             app:destination="@id/mainFragment3"

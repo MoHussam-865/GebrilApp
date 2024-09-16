@@ -2,7 +2,7 @@ package com.android_a865.gebril_app.data.dao
 
 import android.os.Build
 import androidx.room.*
-import com.android_a865.gebril_app.data.entities.InvoiceEntity
+import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.data.relation.FullInvoice
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +36,7 @@ interface InvoicesDao {
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInvoice(invoiceEntity: InvoiceEntity): Long
+    suspend fun insertInvoice(invoice: Invoice): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInvoiceItem(invoiceItemEntity: InvoiceItemEntity)
@@ -71,7 +71,7 @@ interface InvoicesDao {
     }
 
     @Update
-    suspend fun updateInvoice(invoiceEntity: InvoiceEntity)
+    suspend fun updateInvoice(invoice: Invoice)
 
     // Delete
     suspend fun deleteInvoices(invoices: List<FullInvoice>) = invoices.forEach { deleteInvoice(it) }
@@ -84,7 +84,7 @@ interface InvoicesDao {
     }
 
     @Delete
-    suspend fun deleteInvoice(invoiceEntity: InvoiceEntity)
+    suspend fun deleteInvoice(invoice: Invoice)
 
     @Query("DELETE FROM InvoiceItems WHERE invoiceId = :invoiceId")
     suspend fun deleteInvoiceItems(invoiceId: Int)
