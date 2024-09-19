@@ -9,6 +9,8 @@ import com.android_a865.gebril_app.data.repository.ItemsRepositoryImpl
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.domain.PostsRepository
+import com.android_a865.gebril_app.data.repository.PostRepositoryImpl
 import com.android_a865.gebril_app.feature_settings.data.data_source.PreferencesManager
 import com.android_a865.gebril_app.feature_settings.data.repository.SettingsRepositoryImpl
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
@@ -42,6 +44,12 @@ object AppModule {
     @Singleton
     fun provideItemsRepository(db: MyRoomDatabase): ItemsRepository {
         return ItemsRepositoryImpl(db.getItemsDao())
+    }
+
+    @Provides
+    @Singleton
+    fun providePostsRepository(db: MyRoomDatabase): PostsRepository {
+        return PostRepositoryImpl(db.getPostsDao())
     }
 
     @Provides

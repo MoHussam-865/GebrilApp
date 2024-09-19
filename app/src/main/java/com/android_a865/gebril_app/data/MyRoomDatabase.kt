@@ -8,12 +8,15 @@ import com.android_a865.gebril_app.data.entities.Item
 import com.android_a865.gebril_app.data.MyRoomDatabase.Companion.DATABASE_VERSION
 import com.android_a865.gebril_app.data.dao.InvoicesDao
 import com.android_a865.gebril_app.data.dao.ItemsDao
+import com.android_a865.gebril_app.data.dao.PostsDao
+import com.android_a865.gebril_app.data.entities.Post
 
 @Database(
     entities = [
         Item::class,
         InvoiceItemEntity::class,
         Invoice::class,
+        Post::class,
                ],
     version = DATABASE_VERSION,
     exportSchema = false
@@ -25,10 +28,12 @@ abstract class MyRoomDatabase: RoomDatabase() {
 
     abstract fun getInvoicesDao(): InvoicesDao
 
+    abstract fun getPostsDao(): PostsDao
+
 
     companion object {
         // Room Database
         const val DATABASE_NAME = "InvoiceMaster.db"
-        const val DATABASE_VERSION = 3
+        const val DATABASE_VERSION = 4
     }
 }

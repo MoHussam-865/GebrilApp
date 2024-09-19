@@ -18,11 +18,9 @@ import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment(R.layout.fragment_main),
-    InvoicesAdapter.OnItemEventListener{
+class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModule by viewModels<MainFragmentViewModel>()
-    private val invoicesAdapter = InvoicesAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,22 +28,15 @@ class MainFragment : Fragment(R.layout.fragment_main),
 
 
         val binding = FragmentMainBinding.bind(view)
-
         binding.apply {
-
             estimate.setOnClickListener {
                 viewModule.onNewEstimateClicked()
             }
 
-            invoicesList.apply {
-                adapter = invoicesAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
+            history.setOnClickListener {
+                viewModule.onHistoryClicked()
             }
 
-            viewModule.invoices.asLiveData().observe(viewLifecycleOwner) {
-                invoicesAdapter.submitList(it)
-            }
         }
 
 
@@ -56,6 +47,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
                         findNavController().navigate(event.direction)
                         true
                     }
+
                     is MainFragmentViewModel.WindowEvents.LoadingDone -> {
                         if (event.message != null) {
                             Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG)
@@ -67,9 +59,5 @@ class MainFragment : Fragment(R.layout.fragment_main),
 
             }
         }
-    }
-
-    override fun onItemClicked(invoice: InvoiceHolder) {
-        viewModule.onEditInvoiceClicked(invoice)
     }
 }

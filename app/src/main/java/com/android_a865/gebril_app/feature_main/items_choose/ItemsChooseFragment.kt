@@ -58,7 +58,7 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
                 setHasFixedSize(true)
             }
 
-            fab.setOnClickListener {
+            next.setOnClickListener {
                 viewModel.onNextClicked()
             }
 
@@ -71,6 +71,7 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
                 chosenItemsList.isVisible = it.isNotEmpty()
                 chosenItemsAdapter.submitList(it)
                 chosenItemsList.scrollToEnd()
+                itemsCount.text = it.size.toString()
             }
 
             viewModel.itemsData.asLiveData().observe(viewLifecycleOwner) {

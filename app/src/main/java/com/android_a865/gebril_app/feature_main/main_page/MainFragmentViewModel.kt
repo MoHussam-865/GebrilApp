@@ -4,11 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.InvoiceHolder
-import com.android_a865.gebril_app.data.domain.Message
-import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.domain.Message
+import com.android_a865.gebril_app.data.domain.PostsRepository
+import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,10 +24,10 @@ class MainFragmentViewModel @Inject constructor(
     private val itemsApi: ItemsApi,
     private val settings: SettingsRepository,
     private val itemsRepository: ItemsRepository,
+    private val postsRepository: PostsRepository,
     invoicesRepository: InvoiceRepository,
 ) : ViewModel() {
 
-    val invoices = invoicesRepository.getInvoices()
 
     private val eventsChannel = Channel<WindowEvents>()
     val windowEvents = eventsChannel.receiveAsFlow()
@@ -65,6 +65,15 @@ class MainFragmentViewModel @Inject constructor(
         // add items to database
         Log.d("my error", message.items?.size.toString())
 
+        message.posts?.let { posts ->
+            if (posts.isNotEmpty()) {
+                posts.forEach { post ->
+                    postsRepository.insertPost(post)
+                }
+            }
+        }
+
+
         message.items?.let { items ->
 
             if (items.isNotEmpty()) {
@@ -86,19 +95,6 @@ class MainFragmentViewModel @Inject constructor(
         loadingEnd("Successfully Updated")
     }
 
-    fun onEditInvoiceClicked(invoice: InvoiceHolder) = viewModelScope.launch {
-
-        val items = itemsRepository.getItemsById(invoice.items)
-
-        eventsChannel.send(
-            WindowEvents.Navigate(
-                MainFragmentDirections.actionMainFragment3ToItemsChooseFragment(
-                    items = items.toTypedArray(),
-                    invoiceId = invoice.id
-                )
-            )
-        )
-    }
 
     fun onNewEstimateClicked() = viewModelScope.launch {
         eventsChannel.send(
@@ -110,6 +106,14 @@ class MainFragmentViewModel @Inject constructor(
 
     private fun loadingEnd(message: String? = null) = viewModelScope.launch {
         eventsChannel.send(WindowEvents.LoadingDone(message))
+    }
+
+    fun onHistoryClicked() = viewModelScope.launch {
+        eventsChannel.send(
+            WindowEvents.Navigate(
+                MainFragmentDirections.actionMainFragment3ToHistoryFragment()
+            )
+        )
     }
 
 

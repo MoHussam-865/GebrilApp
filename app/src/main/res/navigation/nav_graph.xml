@@ -57,5 +57,17 @@
         <action
             android:id="@+id/action_mainFragment3_to_itemsChooseFragment"
             app:destination="@id/itemsChooseFragment" />
+        <action
+            android:id="@+id/action_mainFragment3_to_historyFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.android_a865.gebril_app.feature_main.history.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_itemsChooseFragment"
+            app:destination="@id/itemsChooseFragment" />
     </fragment>
 </navigation>

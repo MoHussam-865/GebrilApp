@@ -76,16 +76,48 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_above="@id/chosenItemsView"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="20dp"
-        android:contentDescription="@string/add"
-        android:src="@drawable/next" />
+        android:layout_margin="20dp">
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="50dp"
+            android:paddingEnd="10dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/next"
+            android:contentDescription="@string/next"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:drawableEnd="@drawable/next"/>
+
+
+        <TextView
+            android:id="@+id/itemsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="20"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:elevation="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="100dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/rounded_green_background"
+            android:textColor="@color/black"
+            android:padding="8dp"/>
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -56,7 +56,7 @@ class ItemsChooseViewModel @Inject constructor(
     init {
         if (!selectedItems.value.isNullOrEmpty()) {
             viewModelScope.launch {
-                delay(1000)
+                delay(200)
                 onNextClicked()
             }
         }

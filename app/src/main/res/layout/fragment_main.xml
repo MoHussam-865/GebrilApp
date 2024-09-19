@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.android_a865.gebril_app.feature_main.main_page.MainFragment">
+    tools:context="com.android_a865.gebril_app.feature_main.main_page.MainFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:orientation="vertical"
@@ -16,7 +17,9 @@
             android:id="@+id/mainToolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/design_default_color_primary"
+            android:background="@color/white"
+            android:elevation="0dp"
+            app:title="@string/app_name"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <ScrollView
@@ -24,43 +27,55 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_space"
-                android:layout_marginTop="50dp"
-                android:padding="16dp"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:gravity="center"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/news"
+                    android:padding="16dp"
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:gravity="center"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/posts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
 
         </ScrollView>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/navbtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">
 
             <Button
+                android:id="@+id/history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history"
+                android:layout_gravity="end"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <Button
                 android:id="@+id/estimate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="تسعير فاتورة"
-                android:layout_alignParentEnd="true"/>
+                android:text="@string/new_invoice"
+                android:layout_gravity="end"/>
 
-        </RelativeLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/invoicesList"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:clipToPadding="false"
-            android:paddingBottom="50dp"
-
-            tools:listitem="@layout/adapter_invoice_view" />
-
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -101,6 +101,10 @@
     <string name="next">next</string>
     <string name="previous">previous</string>
     <string name="add_space">مكان مخصص للاعلانات</string>
+    <string name="done">Done</string>
+    <string name="history">History</string>
+    <string name="new_invoice">New Invoice</string>
+    <string name="news">News</string>
 
 
 </resources>
