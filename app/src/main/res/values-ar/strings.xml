@@ -95,4 +95,6 @@
     <string name="history">History</string>
     <string name="new_invoice">New Invoice</string>
     <string name="news">News</string>
+    <string name="add_to_chart">اضافة لعربة التسوق</string>
+    <string name="item_image">Item Image</string>
 </resources>

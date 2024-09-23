@@ -19,9 +19,18 @@ data class Invoice(
     val notes: String = "",
     val client: String = "",
     val is_sent: Int = 0,
+
     @Ignore
     val items: List<InvoiceItem> = emptyList()
 ) : Parcelable {
 
-    constructor(): this(0,0,0.0,"","",0)
+    constructor(
+        id: Int,
+        date: Long,
+        total: Double,
+        notes: String,
+        client: String,
+        is_sent: Int
+    ): this(id, date, total, notes, client, is_sent, emptyList())
+
 }

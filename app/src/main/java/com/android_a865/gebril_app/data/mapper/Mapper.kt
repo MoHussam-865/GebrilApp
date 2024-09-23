@@ -17,19 +17,14 @@ fun Item.toInvoiceItem(): InvoiceItem {
         price = price,
         discount = discount,
         isFolder = is_folder,
-        parentId = parentId
+        parentId = parentId,
+        imagePath = imageAbsolutePath
     )
 }
 
 
 fun List<Item>.toInvoiceItems() = map { it.toInvoiceItem() }
 
-fun InvoiceItemEntity.toInvoiceItem() = InvoiceItem(
-    id = itemId,
-    name = fullName,
-    fullName = fullName,
-    qty = qty,
-)
 
 fun InvoiceItem.toEntity(invoiceId: Int) = InvoiceItemEntity(
     invoiceId = invoiceId,

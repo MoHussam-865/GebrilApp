@@ -1,5 +1,7 @@
 package com.android_a865.gebril_app.common.adapters
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.AdapterChooseItemsListBinding
+import com.android_a865.gebril_app.utils.getTheImage
 import com.android_a865.gebril_app.utils.setQty
 
 class ChooseInvoiceItemsAdapter(
@@ -77,6 +80,8 @@ class ChooseInvoiceItemsAdapter(
                         }
                     }
                 }
+
+
             }
         }
 
@@ -87,6 +92,7 @@ class ChooseInvoiceItemsAdapter(
                 listener.onAddItemClicked(item)
             }
         }
+
 
         fun bind(item: InvoiceItem) {
             binding.apply {
@@ -103,7 +109,9 @@ class ChooseInvoiceItemsAdapter(
                     addFirst.isVisible = item.qty == 0.0
                     console.isVisible = item.qty != 0.0
 
-
+                    item.imagePath?.let {
+                        itemImage.setImageBitmap(getTheImage(it))
+                    }
                     // for folders
                     folderName.text = name
                 }

@@ -14,111 +14,120 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/itemName"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:gravity="start"
-
             android:textColor="@android:color/black"
             tool:ignore="NestedWeights,UnusedAttribute"
-            tool:text="apple" />
+            tool:text="Apple" />
 
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="@string/item_image" />
 
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            tool:text="This is the description"/>
 
-            <LinearLayout
-                android:id="@+id/console"
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:background="@drawable/rounded_green_background"
+                android:id="@+id/itemUP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/delete"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/delete" />
-
-
-                <Button
-                    android:id="@+id/minus"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/minus_sign" />
-
-
-                <EditText
-                    android:id="@+id/userInput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="1"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal"
-                    android:minWidth="50dp"
-                    tool:ignore="LabelFor" />
-
-                <Button
-                    android:id="@+id/add"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/add_sign" />
-
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:id="@+id/addFirst"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_centerInParent="true"
+                android:autoSizeMaxTextSize="18sp"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="end"
+                android:elevation="15dp"
                 android:padding="8dp"
-                android:elevation="20dp"
-                android:background="@drawable/rounded_green_background">
+                android:textColorLink="@color/black"
+                tool:text="500 $" />
 
-                <TextView
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
 
-                    android:background="@drawable/rounded_green_background"
-                    android:id="@+id/itemUP"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp">
+
+                <LinearLayout
+                    android:id="@+id/console"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:autoSizeMaxTextSize="18sp"
-                    android:autoSizeMinTextSize="12sp"
-                    android:autoSizeStepGranularity="1sp"
-                    android:autoSizeTextType="uniform"
-                    android:gravity="end"
-                    android:elevation="15dp"
-                    android:padding="8dp"
-                    android:textColorLink="@color/black"
-                    tool:targetApi="o"
-                    tool:text="500 $" />
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/delete"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/delete" />
 
 
-                <TextView
+                    <Button
+                        android:id="@+id/minus"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/minus_sign" />
+
+
+                    <EditText
+                        android:id="@+id/userInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="1"
+                        android:importantForAutofill="no"
+                        android:inputType="numberDecimal"
+                        android:minWidth="50dp"
+                        tool:ignore="LabelFor" />
+
+                    <Button
+                        android:id="@+id/add"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/add_sign" />
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/addFirst"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/rounded_green_background"
-                    android:text="اضافة لعربة التسوق" />
+                    android:text="@string/add_to_chart" />
 
 
-            </LinearLayout>
+            </RelativeLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -126,7 +135,8 @@
         android:id="@+id/folderView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tool:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/folderImage"
@@ -141,14 +151,14 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginStart="5dp"
-
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:gravity="left|center_vertical"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 tool:ignore="RtlHardcoded"
-                tool:text="Item 1" />
+                tool:text="Item 1"
+                />
 
     </LinearLayout>
 

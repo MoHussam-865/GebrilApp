@@ -42,4 +42,14 @@ class ItemsRepositoryImpl @Inject constructor(
         }
     }
 
+
+
+    override suspend fun getDiscount(parentId: Int): Double {
+        return dao.getDiscount(parentId)
+    }
+
+    override suspend fun getItemImageUrl(item: Item): String? {
+        return dao.getItemById(item.id).imageUrl
+    }
+
 }

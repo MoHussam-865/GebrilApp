@@ -21,6 +21,7 @@ interface ItemsDao {
     fun getItemsEntity(parentId: Int, search: String): Flow<List<Item>>
 
 
+
     @Query("SELECT * FROM Items WHERE parentId = :parentId ORDER BY is_folder DESC")
     fun getItemsEntity(parentId: Int): Flow<List<Item>>
 
@@ -30,6 +31,8 @@ interface ItemsDao {
     @Query("SELECT * FROM Items WHERE parentId = :parentId")
     suspend fun getItemFriends(parentId: Int): List<Item>
 
+    @Query("SELECT discount FROM Items WHERE id = :parentId")
+    suspend fun getDiscount(parentId: Int): Double
 
 //    @Query("SELECT * FROM Items WHERE parentId = :path AND name = :name")
 //    suspend fun getItemEntity(name: String, path: String): Item

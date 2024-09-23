@@ -4,8 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.utils.addOneOf
 import com.android_a865.gebril_app.utils.removeAllOf
 import com.android_a865.gebril_app.utils.removeOneOf
@@ -16,12 +17,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class ConfirmationFragmentViewModel @Inject constructor(
-    state: SavedStateHandle
+    state: SavedStateHandle,
+    itemsRepository: ItemsRepository
 ) : ViewModel() {
 
     private val items = state.get<Array<InvoiceItem>>("items")
@@ -35,6 +37,16 @@ class ConfirmationFragmentViewModel @Inject constructor(
 
     private val eventsChannel = Channel<WindowEvents>()
     val invoiceWindowEvents = eventsChannel.receiveAsFlow()
+
+    init {
+        /** getting the discount of each item from its parent */
+        viewModelScope.launch {
+            itemsFlow.value.map { item ->
+                val discount = itemsRepository.getDiscount(item.parentId)
+                item.copy(discount = discount)
+            }
+        }
+    }
 
 
     fun onItemRemoveClicked(item: InvoiceItem) {
