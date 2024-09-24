@@ -107,6 +107,17 @@
     <string name="news">News</string>
     <string name="add_to_chart">اضافة لعربة التسوق</string>
     <string name="item_image">Item Image</string>
+    <string name="contact">Contact</string>
+    <string name="chart">Chart</string>
+    <string name="view_prices">View Prices</string>
+    <string name="continue_shoping">Continue Shoping</string>
+    <string name="name">Name</string>
+    <string name="company_name_optional">Company Name (Optional)</string>
+    <string name="phone_whatsapp">Phone / WhatsApp</string>
+    <string name="title_activity_maps2">Map View</string>
+    <string name="cart_is_empty">Cart is Empty</string>
+    <string name="no_invoices_yet">No Invoices Yet</string>
+    <string name="home">Home</string>
 
 
 </resources>

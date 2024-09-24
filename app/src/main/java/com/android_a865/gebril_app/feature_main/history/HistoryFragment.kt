@@ -2,27 +2,20 @@ package com.android_a865.gebril_app.feature_main.history
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_a865.gebril_app.R
-import com.android_a865.gebril_app.common.adapters.InvoiceItemsAdapter
 import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
-import com.android_a865.gebril_app.data.domain.InvoiceHolder
-import com.android_a865.gebril_app.databinding.FragmentConfirmBinding
+import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.databinding.FragmentHistoryBinding
-import com.android_a865.gebril_app.databinding.FragmentItemsChooseBinding
-import com.android_a865.gebril_app.feature_main.confirmation.ConfirmationFragmentViewModel
-import com.android_a865.gebril_app.feature_main.main_page.MainFragmentViewModel
 import com.android_a865.gebril_app.utils.exhaustive
-import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -35,10 +28,13 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpActionBarWithNavController()
+        //setUpActionBarWithNavController()
 
         val binding = FragmentHistoryBinding.bind(view)
         binding.apply {
+
+            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
+
 
             invoicesList.apply {
                 adapter = invoicesAdapter
@@ -46,12 +42,16 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
                 setHasFixedSize(true)
             }
 
+            viewModel.invoices.asLiveData().observe(viewLifecycleOwner) {
+                invoicesAdapter.submitList(it)
+                val isEmpty = it.isEmpty()
+                empty.isVisible = isEmpty
+                visible.isVisible = !isEmpty
+
+            }
 
         }
 
-        viewModel.invoices.asLiveData().observe(viewLifecycleOwner) {
-            invoicesAdapter.submitList(it)
-        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.windowEvents.collect { event ->
@@ -75,7 +75,8 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
 
     }
 
-    override fun onItemClicked(invoice: InvoiceHolder) {
+
+    override fun onItemClicked(invoice: Invoice) {
         viewModel.onEditInvoiceClicked(invoice)
     }
 

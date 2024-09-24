@@ -6,6 +6,7 @@ import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.entities.Invoice
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -24,14 +25,12 @@ class HistoryFragmentViewModel @Inject constructor(
     private val eventsChannel = Channel<WindowEvents>()
     val windowEvents = eventsChannel.receiveAsFlow()
 
-    fun onEditInvoiceClicked(invoice: InvoiceHolder) = viewModelScope.launch {
-
-        val items = itemsRepository.getItemsById(invoice.items)
+    fun onEditInvoiceClicked(invoice: Invoice) = viewModelScope.launch {
 
         eventsChannel.send(
             WindowEvents.Navigate(
                 HistoryFragmentDirections.actionHistoryFragmentToItemsChooseFragment(
-                    items = items.toTypedArray(),
+                    items = invoice.items.toTypedArray(),
                     invoiceId = invoice.id
 
                 )

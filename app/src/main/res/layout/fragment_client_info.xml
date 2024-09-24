@@ -32,6 +32,22 @@
                 android:paddingBottom="50dp">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_client_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/name"
+                        android:inputType="text"
+                        android:padding="16dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/et_company_name"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -41,23 +57,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/company_name"
-                        android:inputType="text"
-                        android:padding="16dp" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_person_name"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/person_name"
+                        android:hint="@string/company_name_optional"
                         android:inputType="text"
                         android:padding="16dp" />
 
@@ -73,7 +73,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/phone_number"
+                        android:hint="@string/phone_whatsapp"
                         android:inputType="numberDecimal"
                         android:padding="16dp" />
 
@@ -110,6 +110,7 @@
                         android:padding="16dp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
             </LinearLayout>
 

@@ -14,6 +14,6 @@ data class FullInvoice(
         parentColumn = "id",
         entityColumn = "invoiceId"
     )
-    val items: List<InvoiceItemEntity>,
+    val items: List<InvoiceItemEntity>
 
-    )
+)

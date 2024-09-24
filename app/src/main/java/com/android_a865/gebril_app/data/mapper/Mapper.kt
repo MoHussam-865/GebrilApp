@@ -40,12 +40,12 @@ fun FullInvoice.toInvoice() = InvoiceHolder(
     total = 0.0
 )
 
-fun Invoice.toEntity(total: Double) = FullInvoice(
-    invoice = com.android_a865.gebril_app.data.entities.Invoice(
+
+fun Invoice.toEntity() = FullInvoice(
+    invoice = Invoice(
         id = id,
         client = client,
         date = date,
-        total = total
     ),
 
     items = items.map {

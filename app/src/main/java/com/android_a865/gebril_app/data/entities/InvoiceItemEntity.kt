@@ -16,4 +16,5 @@ data class InvoiceItemEntity(
     val itemId: Int,
     val fullName: String,
     val qty: Double,
+    val isSavedInCart: Boolean = true
 ): Parcelable

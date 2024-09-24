@@ -2,6 +2,7 @@ package com.android_a865.gebril_app.data.dao
 
 import android.os.Build
 import androidx.room.*
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.data.relation.FullInvoice
@@ -13,6 +14,10 @@ interface InvoicesDao {
     @Transaction
     @Query("SELECT * FROM Invoices ORDER BY date DESC")
     fun getInvoices(): Flow<List<FullInvoice>>
+
+    @Transaction
+    @Query("SELECT * FROM InvoiceItems WHERE isSavedInCart = 1")
+    fun getCart(): Flow<List<InvoiceItemEntity>>
 
     @Transaction
     @Query("SELECT * FROM Invoices WHERE id = :invoiceId")

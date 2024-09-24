@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,10 +26,13 @@ class ViewPdfFragment : Fragment(R.layout.fragment_view_pdf) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpActionBarWithNavController()
+        //setUpActionBarWithNavController()
         val binding = FragmentViewPdfBinding.bind(view)
 
         binding.apply {
+
+            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
+
             myPdf = pdfView
 
             save.setOnClickListener {

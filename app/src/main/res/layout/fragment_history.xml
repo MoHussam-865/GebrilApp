@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".feature_main.history.HistoryFragment">
 
@@ -12,19 +12,38 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/design_default_color_primary"
-        app:menu="@menu/main_menu"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:menu="@menu/main_menu" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/invoicesList"
+    <LinearLayout
+        android:id="@+id/visible"
+        android:layout_below="@id/mainToolBar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:clipToPadding="false"
-        android:paddingBottom="50dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        tools:listitem="@layout/adapter_invoice_view" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/invoicesList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:clipToPadding="false"
+            android:paddingBottom="50dp"
+
+            tools:listitem="@layout/adapter_invoice_view" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_below="@id/mainToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_invoices_yet"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textSize="30sp" />
+
+</RelativeLayout>
 

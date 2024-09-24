@@ -55,7 +55,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideInvoicesRepository(db: MyRoomDatabase): InvoiceRepository {
-        return InvoiceRepositoryImpl(db.getInvoicesDao())
+        return InvoiceRepositoryImpl(db.getInvoicesDao(), db.getItemsDao())
     }
 
 

@@ -64,7 +64,7 @@ class PdfPreviewViewModule @Inject constructor(
         val response = try {
             invoice?.let { invoice ->
                 val total = invoice.items.sumOf { it.total }
-                val myInvoice = invoice.toEntity(total).toInvoice()
+                val myInvoice = invoice.toEntity().toInvoice()
                 serverApi.getItems(Message(invoice = myInvoice))
             }
 
@@ -96,7 +96,7 @@ class PdfPreviewViewModule @Inject constructor(
     fun onSaveClicked() = viewModelScope.launch {
         invoice?.let {
             val total = invoice.items.sumOf { it.total }
-            invoiceRepository.insertInvoice(invoice.toEntity(total))
+            invoiceRepository.insertInvoice(invoice.toEntity())
         }
         finish()
     }

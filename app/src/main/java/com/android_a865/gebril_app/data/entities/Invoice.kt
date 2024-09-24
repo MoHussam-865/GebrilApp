@@ -13,9 +13,8 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "Invoices")
 data class Invoice(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
     val date: Long,
-    val total: Double,
     val notes: String = "",
     val client: String = "",
     val is_sent: Int = 0,
@@ -27,10 +26,10 @@ data class Invoice(
     constructor(
         id: Int,
         date: Long,
-        total: Double,
         notes: String,
         client: String,
-        is_sent: Int
-    ): this(id, date, total, notes, client, is_sent, emptyList())
+        is_sent: Int,
+    ): this(id, date, notes, client, is_sent, emptyList())
 
+    val total get() = items.sumOf { it.total }
 }

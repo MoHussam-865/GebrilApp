@@ -1,9 +1,10 @@
-package com.android_a865.gebril_app.feature_main.items_choose
+package com.android_a865.gebril_app.feature_main.shopping
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,13 +20,12 @@ import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentItemsChooseBinding
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.scrollToEnd
-import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.android_a865.gebril_app.utils.showMessage
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
+class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
     ChooseInvoiceItemsAdapter.OnItemEventListener,
     ChosenItemsAdapter.OnItemEventListener {
 
@@ -37,10 +37,12 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpActionBarWithNavController()
+        //setUpActionBarWithNavController()
         val binding = FragmentItemsChooseBinding.bind(view)
 
         binding.apply {
+
+            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
 
             itemsList.apply {
                 adapter = itemsAdapter
@@ -58,9 +60,6 @@ class ItemsChooseFragment : Fragment(R.layout.fragment_items_choose),
                 setHasFixedSize(true)
             }
 
-            next.setOnClickListener {
-                viewModel.onNextClicked()
-            }
 
             viewModel.currentPath.asLiveData().observe(viewLifecycleOwner) {
                 pathIndicator.submitPath(it)

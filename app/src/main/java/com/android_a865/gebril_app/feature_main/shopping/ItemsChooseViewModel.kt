@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.items_choose
+package com.android_a865.gebril_app.feature_main.shopping
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -129,7 +129,7 @@ class ItemsChooseViewModel @Inject constructor(
         if (!myItems.isNullOrEmpty()) {
             itemsWindowEventsChannel.send(
                 ItemsWindowEvents.NavigateTo(
-                    ItemsChooseFragmentDirections.actionItemsChooseFragmentToNewEstimateFragment(
+                    ShoppingFragmentDirections.actionItemsChooseFragmentToNewEstimateFragment(
                         items = myItems,
                         invoiceId = invoiceId ?: 0
                     )

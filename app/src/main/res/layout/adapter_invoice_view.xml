@@ -23,7 +23,7 @@
             android:padding="8dp"
             android:textSize="15sp"
             android:textColor="@color/design_default_color_primary"
-            android:text="عرض"
+            android:text="@string/edit"
             />
 
 
@@ -46,33 +46,31 @@
         tools:listitem="@layout/adapter_invoice_items_view"
         />
 
-    <!--
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:textSize="18sp"
             android:text="@string/total"
-            android:layout_gravity="end"/>
-
+            android:layout_marginEnd="16dp"/>
 
         <TextView
-            android:id="@+id/invoice_total"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="end"
+            android:id="@+id/total"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            tools:text="2000"
-            android:layout_gravity="end"/>
-
+            android:textSize="18sp"
+            tools:text="1000"
+            android:gravity="center_horizontal"
+            android:layout_marginEnd="16dp"/>
 
     </LinearLayout>
-    -->
 
 
 </LinearLayout>

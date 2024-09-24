@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.android_a865.gebril_app.feature_main.items_choose.ItemsChooseFragment">
+    tools:context="com.android_a865.gebril_app.feature_main.shopping.ShoppingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,7 +88,7 @@
         android:layout_margin="20dp">
 
         <Button
-            android:id="@+id/next"
+            android:id="@+id/order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
