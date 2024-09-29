@@ -1,7 +1,6 @@
 package com.android_a865.gebril_app.data.mapper
 
 
-import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
@@ -16,9 +15,9 @@ fun Item.toInvoiceItem(): InvoiceItem {
         name = name,
         price = price,
         discount = discount,
-        isFolder = is_folder,
+        isFolder = isFolder,
         parentId = parentId,
-        imagePath = imageAbsolutePath
+        imagePath = imagePath
     )
 }
 
@@ -31,13 +30,6 @@ fun InvoiceItem.toEntity(invoiceId: Int) = InvoiceItemEntity(
     itemId = id,
     fullName = fullName,
     qty = qty,
-)
-
-fun FullInvoice.toInvoice() = InvoiceHolder(
-    id = invoice.id,
-    date = invoice.date,
-    items = items,
-    total = 0.0
 )
 
 

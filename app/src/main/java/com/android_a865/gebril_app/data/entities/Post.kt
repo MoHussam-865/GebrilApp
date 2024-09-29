@@ -10,9 +10,8 @@ data class Post(
     val id: Int,
     val title: String,
     val content: String,
-    val imageUrl: String? = null,
-    var imageAbsolutePath: String? = null,
-
+    val imageName: String? = null,
+    var imagePath: String? = null
 ) {
-    val imagePath get(): String = "posts/post-$id.jpg"
+    val postsPath get(): String = "posts/$imageName"
 }

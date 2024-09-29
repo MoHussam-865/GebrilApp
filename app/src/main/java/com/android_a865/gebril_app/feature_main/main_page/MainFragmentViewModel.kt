@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.data.domain.Message
 import com.android_a865.gebril_app.data.domain.PostsRepository
@@ -25,6 +24,7 @@ import retrofit2.HttpException
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.nio.Buffer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +33,6 @@ class MainFragmentViewModel @Inject constructor(
     private val settings: SettingsRepository,
     private val itemsRepository: ItemsRepository,
     private val postsRepository: PostsRepository,
-    invoicesRepository: InvoiceRepository,
 ) : ViewModel() {
 
 
@@ -48,12 +47,10 @@ class MainFragmentViewModel @Inject constructor(
 
     fun startWithContext(context: Context) = viewModelScope.launch {
         val mySettings = settings.getAppSetting()
-        val message = Message(
-            last_update = mySettings.lastUpdate
-        )
+
         /** get the response from the server to update the database with the latest prices */
         val response = try {
-            itemsApi.getItems(message)
+            itemsApi.getItems(mySettings.lastUpdate)
         } catch (e: IOException) {
             Log.d("my error", e.message.toString())
             loadingEnd("couldn't Update Data")
@@ -77,7 +74,11 @@ class MainFragmentViewModel @Inject constructor(
 
 
     /** handle the server response */
-    private suspend fun handleResponse(context: Context, message: Message, mySettings: AppSettings) {
+    private suspend fun handleResponse(
+        context: Context,
+        message: Message,
+        mySettings: AppSettings
+    ) {
         // add items to database
         Log.d("my error", message.items?.size.toString())
 
@@ -86,10 +87,10 @@ class MainFragmentViewModel @Inject constructor(
             if (posts.isNotEmpty()) {
                 posts.forEach { post ->
 
-                    if (post.imageUrl != null) {
+                    if (post.imageName != null) {
                         /** download & save the image */
-                        val absolutePath = downloadImage(context, post.imageUrl, post.imagePath)
-                        post.imageAbsolutePath = absolutePath
+                        val absolutePath = downloadImage(context, post.imageName, post.postsPath)
+                        post.imagePath = absolutePath
                     }
 
                     /** insert the post */
@@ -109,14 +110,19 @@ class MainFragmentViewModel @Inject constructor(
                     /** get the item image if needed */
                     // check if the item already have an image
                     // if the imageUrl is not null
-                    if (item.imageUrl != null) {
+                    if (item.imageName != null) {
                         // if the imageUrl is different from the one in the local database
                         val imageUrl = itemsRepository.getItemImageUrl(item)
 
-                        if (item.imageUrl != imageUrl || !doesImageExist(context, item.tempPath)) {
+                        if (item.imageName != imageUrl || !doesImageExist(
+                                context,
+                                item.itemsPath
+                            )
+                        ) {
                             /** download & save the image */
-                            val absolutePath = downloadImage(context, item.imageUrl, item.tempPath)
-                            item.imageAbsolutePath = absolutePath
+                            val absolutePath =
+                                downloadImage(context, item.imageName, item.itemsPath)
+                            item.imagePath = absolutePath
                         }
                     }
 
@@ -125,7 +131,7 @@ class MainFragmentViewModel @Inject constructor(
                 }
 
                 /** update last_update & last_update_date */
-                val lastUpdate = items.maxOf { it.last_update }
+                val lastUpdate = items.maxOf { it.lastUpdate }
                 settings.updateSettings(
                     mySettings.copy(
                         lastUpdate = lastUpdate,
@@ -144,60 +150,62 @@ class MainFragmentViewModel @Inject constructor(
     }
 
     /** downloads and save the image */
-    private fun downloadImage(context: Context, imageUrl: String, imagePath: String): String {
+    private suspend fun downloadImage(
+        context: Context,
+        imageName: String,
+        imagePath: String
+    ): String? {
 
-        val directory = context.filesDir
-        val imageFile = File(directory, imagePath)
-        var found = false
+        try {
+            /** here we download the image */
+            val response = itemsApi.downloadImage(imageName).execute()
 
-        /** get the image */
-        Glide.with(context)
-            .asBitmap()
-            .load(imageUrl)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+            // image downloaded
+            if (response.isSuccessful) {
+                response.body()?.let { body ->
+
+                    val directory = context.filesDir
+                    val imageFile = File(directory, imagePath)
 
                     try {
+                        /** saving the image */
+                        val inputStream = body.byteStream()
                         val fileOutputStream = FileOutputStream(imageFile)
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream)
+                        val buffer = ByteArray(4096)
+
+                        var byteRead: Int
+                        while (inputStream.read().also { byteRead = it } != -1) {
+                            fileOutputStream.write(buffer, 0, byteRead)
+                        }
+
                         fileOutputStream.flush()
                         fileOutputStream.close()
-                        found = true
-                    } catch (_: Exception) { }
+                        inputStream.close()
 
+                        return imageFile.absolutePath
+                    } catch (_: Exception) {
+                        loadingEnd("Image Saving error")
+                    }
                 }
+            } else {
+                loadingEnd("Image download response error")
+            }
 
-                override fun onLoadCleared(placeholder: Drawable?) {}
-            })
-
-        return if (found) imageFile.absolutePath else ""
+        } catch (_: Exception) {
+            loadingEnd("Image download error")
+        }
+        return null
     }
 
-
-    fun onNewEstimateClicked() = viewModelScope.launch {
-        eventsChannel.send(
-            WindowEvents.Navigate(
-                MainFragmentDirections.actionMainFragment3ToItemsChooseFragment()
-            )
-        )
-    }
 
     private fun loadingEnd(message: String? = null) = viewModelScope.launch {
         eventsChannel.send(WindowEvents.LoadingDone(message))
-    }
-
-    fun onHistoryClicked() = viewModelScope.launch {
-        eventsChannel.send(
-            WindowEvents.Navigate(
-                MainFragmentDirections.actionMainFragment3ToHistoryFragment()
-            )
-        )
     }
 
 
     sealed class WindowEvents {
         data class LoadingDone(val message: String?) : WindowEvents()
         data class Navigate(val direction: NavDirections) : WindowEvents()
-        data object StartWithContext: WindowEvents()
+        data object StartWithContext : WindowEvents()
     }
 }

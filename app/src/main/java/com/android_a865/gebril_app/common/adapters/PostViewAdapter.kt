@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.entities.Post
-import com.android_a865.gebril_app.databinding.AdapterChosenItemsBinding
 import com.android_a865.gebril_app.databinding.AdapterPostViewBinding
 import com.android_a865.gebril_app.utils.getTheImage
 
@@ -32,7 +31,7 @@ class PostViewAdapter  : ListAdapter<Post, PostViewAdapter.ViewHolder>(PostDiffC
                 title.text = post.title
                 content.text = post.content
 
-                post.imageAbsolutePath?.let {
+                post.imagePath?.let {
                     postImage.setImageBitmap(getTheImage(it))
                 }
             }

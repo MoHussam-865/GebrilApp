@@ -4,8 +4,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.android_a865.gebril_app.data.domain.Client
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 
@@ -16,20 +16,21 @@ data class Invoice(
     val id: Int = 0,
     val date: Long,
     val notes: String = "",
-    val client: String = "",
-    val is_sent: Int = 0,
+    val isSent: Int = 0,
 
     @Ignore
-    val items: List<InvoiceItem> = emptyList()
+    val items: List<InvoiceItem> = emptyList(),
+
+    @Ignore
+    val client: Client? = null
 ) : Parcelable {
 
     constructor(
         id: Int,
         date: Long,
         notes: String,
-        client: String,
-        is_sent: Int,
-    ): this(id, date, notes, client, is_sent, emptyList())
+        isSent: Int,
+    ): this(id=id, date=date, notes=notes, isSent=isSent, client = null, items = emptyList())
 
     val total get() = items.sumOf { it.total }
 }

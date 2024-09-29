@@ -8,14 +8,15 @@ data class Item(
     @PrimaryKey
     val id: Int,
     val name: String,
-    val description: String,
+    val description: String?,
     val price: Double,
     val discount: Double,
     val parentId: Int,  // parent name
-    val is_folder: Boolean,
-    val last_update: Int,
-    val imageUrl: String? = null,
-    var imageAbsolutePath: String? = null,
+    val isFolder: Boolean,
+    val lastUpdate: Int,
+
+    val imageName: String? = null,
+    var imagePath: String? = null,
 ) {
-    val tempPath get(): String = "items/item-$name-$id.jpg"
+    val itemsPath get(): String = "items/$imageName"
 }

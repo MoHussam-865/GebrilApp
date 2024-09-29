@@ -16,13 +16,13 @@ interface ItemsDao {
     @Query(
         """SELECT * FROM Items
                     WHERE parentId = :parentId AND (name LIKE '%'|| :search ||'%')
-                    ORDER BY is_folder DESC"""
+                    ORDER BY isFolder DESC"""
     )
     fun getItemsEntity(parentId: Int, search: String): Flow<List<Item>>
 
 
 
-    @Query("SELECT * FROM Items WHERE parentId = :parentId ORDER BY is_folder DESC")
+    @Query("SELECT * FROM Items WHERE parentId = :parentId ORDER BY isFolder DESC")
     fun getItemsEntity(parentId: Int): Flow<List<Item>>
 
     @Query("SELECT * FROM Items WHERE parentId LIKE :parentId || '%'")

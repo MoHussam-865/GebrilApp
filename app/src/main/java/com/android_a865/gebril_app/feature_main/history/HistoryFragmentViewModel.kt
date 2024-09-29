@@ -3,7 +3,6 @@ package com.android_a865.gebril_app.feature_main.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.InvoiceHolder
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.data.entities.Invoice
@@ -16,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryFragmentViewModel @Inject constructor(
-    private val itemsRepository: ItemsRepository,
     invoicesRepository: InvoiceRepository
 ) : ViewModel() {
 

@@ -49,7 +49,7 @@ class ItemsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getItemImageUrl(item: Item): String? {
-        return dao.getItemById(item.id).imageUrl
+        return dao.getItemById(item.id).imageName
     }
 
 }

@@ -7,12 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.common.PdfMaker
-import com.android_a865.gebril_app.data.domain.Message
-import com.android_a865.gebril_app.data.mapper.toEntity
-import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.entities.Invoice
-import com.android_a865.gebril_app.data.mapper.toInvoice
+import com.android_a865.gebril_app.data.mapper.toEntity
+import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,9 +61,7 @@ class PdfPreviewViewModule @Inject constructor(
     fun onSendPdfClicked() = viewModelScope.launch {
         val response = try {
             invoice?.let { invoice ->
-                val total = invoice.items.sumOf { it.total }
-                val myInvoice = invoice.toEntity().toInvoice()
-                serverApi.getItems(Message(invoice = myInvoice))
+                serverApi.sendOrder(invoice = invoice)
             }
 
         } catch (e: IOException) {
