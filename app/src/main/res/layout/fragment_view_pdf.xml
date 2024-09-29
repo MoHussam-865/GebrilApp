@@ -20,8 +20,7 @@
         android:id="@+id/pdfView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/mainToolBar"
-        android:layout_alignParentTop="true"/>
+        android:layout_below="@id/mainToolBar"/>
 
     <RelativeLayout
         android:orientation="horizontal"
@@ -37,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="حفظ"/>
+            android:text="@string/save"/>
 
         <Button
             android:id="@+id/send"
@@ -46,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="تنفيذ"/>
+            android:text="@string/send"/>
 
     </RelativeLayout>
 

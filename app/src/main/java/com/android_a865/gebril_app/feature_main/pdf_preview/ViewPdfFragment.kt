@@ -58,7 +58,7 @@ class ViewPdfFragment : Fragment(R.layout.fragment_view_pdf) {
                         true
                     }
                     is PdfPreviewViewModule.WindowEvents.Finish -> {
-                        findNavController().navigate(event.direction)
+                        requireActivity().finish()
                         true
                     }
                     is PdfPreviewViewModule.WindowEvents.ShowMessage -> {

@@ -40,5 +40,9 @@ class CartRepoIml(
         dao.removeFromCart(invoiceItem.id)
     }
 
+    override suspend fun clearCart() {
+        dao.clearCart()
+    }
+
 
 }

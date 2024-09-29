@@ -10,4 +10,6 @@ interface CartRepo {
 
     suspend fun removeFromCart(invoiceItem: InvoiceItem)
 
+    suspend fun clearCart()
+
 }

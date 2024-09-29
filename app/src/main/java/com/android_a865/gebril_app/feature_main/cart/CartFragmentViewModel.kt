@@ -64,19 +64,10 @@ class CartFragmentViewModel @Inject constructor(
         eventsChannel.send(WindowEvents.ShowMessage(message))
     }
 
-    /*fun onNextPressed() = viewModelScope.launch {
-        val myItems = itemsFlow.value
-        if (myItems.isNotEmpty()) {
+    fun viewPrices() {
 
-            val invoice = Invoice(
-                date = Calendar.getInstance().timeInMillis,
-                items = myItems,
-            )
+    }
 
-            // save the changes
-
-        }
-    }*/
 
     sealed class WindowEvents {
         data class ShowMessage(val message: String) : WindowEvents()

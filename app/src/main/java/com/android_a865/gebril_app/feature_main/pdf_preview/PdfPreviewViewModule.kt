@@ -1,12 +1,14 @@
 package com.android_a865.gebril_app.feature_main.pdf_preview
 
 import android.content.Context
+import android.icu.util.Calendar
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.common.PdfMaker
+import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toEntity
@@ -28,10 +30,11 @@ class PdfPreviewViewModule @Inject constructor(
     private val invoiceRepository: InvoiceRepository,
     private val settingsRepository: SettingsRepository,
     private val serverApi: ItemsApi,
+    private val cartRepo: CartRepo
 ) : ViewModel() {
 
-    val invoice = state.get<Invoice>("invoice")
     var fileName: String? = null
+    var invoice: Invoice? = null
 
     private lateinit var appSettings: AppSettings
 
@@ -41,6 +44,8 @@ class PdfPreviewViewModule @Inject constructor(
     init {
         viewModelScope.launch {
             appSettings = settingsRepository.getAppSettings().first()
+            val items  = cartRepo.getCart().first()
+            invoice = Invoice(date = Calendar.getInstance().timeInMillis, items = items)
             eventsChannel.send(WindowEvents.SendContext)
         }
     }
@@ -76,34 +81,22 @@ class PdfPreviewViewModule @Inject constructor(
         response?.let {
             if (it.isSuccessful && it.body() != null) {
                 onSaveClicked()
-                finish()
             } else {
                 showMessage()
             }
         }
     }
 
-//    fun onOpenPdfClicked() = viewModelScope.launch {
-//        fileName?.let {
-//            eventsChannel.send(WindowEvents.OpenPdfExternally(it))
-//        }
-//    }
+
 
     fun onSaveClicked() = viewModelScope.launch {
         invoice?.let {
-            val total = invoice.items.sumOf { it.total }
-            invoiceRepository.insertInvoice(invoice.toEntity())
+            invoiceRepository.insertInvoice(it.toEntity())
+            cartRepo.clearCart()
         }
-        finish()
+        eventsChannel.send(WindowEvents.Finish)
     }
 
-    private suspend fun finish() {
-        eventsChannel.send(
-            WindowEvents.Finish(
-                ViewPdfFragmentDirections.actionViewPdfFragmentToMainFragment3()
-            )
-        )
-    }
 
     private suspend fun showMessage(msg: String? = null) {
         eventsChannel.send(
@@ -112,11 +105,9 @@ class PdfPreviewViewModule @Inject constructor(
     }
 
     sealed class WindowEvents {
-        //data class OpenPdfExternally(val fileName: String) : WindowEvents()
-        //data class SendPdf(val fileName: String) : WindowEvents()
         data class OpenPdf(val fileName: String): WindowEvents()
-        data class Finish(val direction: NavDirections): WindowEvents()
+        data object Finish: WindowEvents()
         data class ShowMessage(val msg: String): WindowEvents()
-        object SendContext : WindowEvents()
+        data object SendContext : WindowEvents()
     }
 }

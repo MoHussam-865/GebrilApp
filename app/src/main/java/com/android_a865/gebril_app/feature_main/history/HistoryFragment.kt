@@ -1,5 +1,6 @@
 package com.android_a865.gebril_app.feature_main.history
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -15,6 +16,7 @@ import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.databinding.FragmentHistoryBinding
+import com.android_a865.gebril_app.feature_main.ActivityFeature2
 import com.android_a865.gebril_app.utils.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +59,8 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
             viewModel.windowEvents.collect { event ->
                 when (event) {
                     is HistoryFragmentViewModel.WindowEvents.Navigate -> {
-                        findNavController().navigate(event.direction)
+                        val intent = Intent(requireActivity(), ActivityFeature2::class.java)
+                        startActivity(intent)
                         true
                     }
 
