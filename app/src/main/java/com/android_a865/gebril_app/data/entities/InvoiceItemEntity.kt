@@ -1,9 +1,8 @@
 package com.android_a865.gebril_app.data.entities
 
 import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
@@ -16,5 +15,4 @@ data class InvoiceItemEntity(
     val itemId: Int,
     val fullName: String,
     val qty: Double,
-    val isSavedInCart: Boolean = true
 ): Parcelable

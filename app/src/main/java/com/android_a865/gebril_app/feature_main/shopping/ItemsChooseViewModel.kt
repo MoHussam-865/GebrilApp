@@ -3,6 +3,7 @@ package com.android_a865.gebril_app.feature_main.shopping
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
+import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.utils.*
@@ -16,17 +17,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ItemsChooseViewModel @Inject constructor(
     state: SavedStateHandle,
-    private val repository: ItemsRepository
+    private val itemsRepo: ItemsRepository,
+    private val cartRepo: CartRepo
 ) : ViewModel() {
-
-    private val myInvoiceItems = state.get<Array<InvoiceItem>>("items")
-    private val invoiceId = state.get<Int>("invoiceId")
 
     val currentPath = MutableStateFlow(Path())
 
     private val itemsFlow = currentPath.flatMapLatest { path ->
         Log.d("open folder", "path changed")
-        repository.getItems(path.folderId).map { items ->
+        itemsRepo.getItems(path.folderId).map { items ->
             items.map { item ->
                 if (item.isFolder) {
                     item
@@ -40,9 +39,9 @@ class ItemsChooseViewModel @Inject constructor(
         }
     }
 
-    val selectedItems = MutableLiveData(myInvoiceItems?.toList() ?: listOf())
+    val selectedItems = cartRepo.getCart()
 
-    val itemsData = combine(itemsFlow, selectedItems.asFlow()) { items, selected ->
+    val itemsData = combine(itemsFlow, selectedItems) { items, selected ->
         Pair(items, selected)
     }.flatMapLatest { (items, selected) ->
         flowOf(items.include(selected))
@@ -52,15 +51,6 @@ class ItemsChooseViewModel @Inject constructor(
 
     private val itemsWindowEventsChannel = Channel<ItemsWindowEvents>()
     val itemsWindowEvents = itemsWindowEventsChannel.receiveAsFlow()
-
-    init {
-        if (!selectedItems.value.isNullOrEmpty()) {
-            viewModelScope.launch {
-                delay(200)
-                onNextClicked()
-            }
-        }
-    }
 
     fun onBackPress() {
         if (currentPath.value.isRoot) {
@@ -85,32 +75,26 @@ class ItemsChooseViewModel @Inject constructor(
         }
     }
 
-    fun onAddItemClicked(item: InvoiceItem) {
+    fun onAddItemClicked(item: InvoiceItem) = viewModelScope.launch {
         Log.d("folder", item.discount.toString())
-        selectedItems.update0 { it?.addOneOf(item) }
+        cartRepo.addToCart(item.copy(qty = item.qty + 1))
     }
 
-    fun onMinusItemClicked(item: InvoiceItem) {
-        selectedItems.update0 { it?.removeOneOf(item) }
+    fun onMinusItemClicked(item: InvoiceItem) = viewModelScope.launch {
+        cartRepo.addToCart(item.copy(qty = item.qty - 1))
     }
 
-    fun onItemRemoveClicked(item: InvoiceItem) {
-        selectedItems.update0 {
-            it?.removeAllOf(item)
-        }
+    fun onItemRemoveClicked(item: InvoiceItem) = viewModelScope.launch {
+        cartRepo.removeFromCart(item)
     }
 
 
-    fun onQtySet(item: InvoiceItem, myQty: Double) {
+    fun onQtySet(item: InvoiceItem, myQty: Double) = viewModelScope.launch {
         if (myQty > 0) {
-            selectedItems.update0 {
-                it?.setQtyTo(item, myQty)
-            }
+            cartRepo.addToCart(item.copy(qty = myQty))
         } else {
-            selectedItems.update0 { it?.removeAllOf(item) }
-            viewModelScope.launch {
-                showInvalidInputMessage("Quantity can't be less than 0")
-            }
+            onItemRemoveClicked(item)
+            showInvalidInputMessage("Quantity can't be less than 0")
         }
     }
 
@@ -122,7 +106,7 @@ class ItemsChooseViewModel @Inject constructor(
         )
     }
 
-    fun onNextClicked() = viewModelScope.launch {
+    /*private fun onNextClicked() = viewModelScope.launch {
 
         val myItems = selectedItems.value?.toTypedArray()
 
@@ -140,7 +124,6 @@ class ItemsChooseViewModel @Inject constructor(
         }
     }
 
-
     fun onItemsSelected(chosenItems: List<InvoiceItem>?) = viewModelScope.launch {
         chosenItems?.let { items ->
             // this delay is to solve an unexpected bug
@@ -148,10 +131,12 @@ class ItemsChooseViewModel @Inject constructor(
             selectedItems.value = items
         }
     }
+*/
+
 
     sealed class ItemsWindowEvents {
         data class NavigateTo(val direction: NavDirections) : ItemsWindowEvents()
-        object GoBack : ItemsWindowEvents()
+        data object GoBack : ItemsWindowEvents()
         data class InvalidInput(val msg: String) : ItemsWindowEvents()
     }
 }

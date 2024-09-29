@@ -8,8 +8,6 @@ interface InvoiceRepository {
 
     fun getInvoices(): Flow<List<Invoice>>
 
-    suspend fun getCart(): Flow<List<InvoiceItem>>
-
     suspend fun insertInvoice(invoice: FullInvoice)
 
     suspend fun updateInvoice(invoice: FullInvoice)

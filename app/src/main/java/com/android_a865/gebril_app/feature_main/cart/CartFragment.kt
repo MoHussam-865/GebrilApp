@@ -41,7 +41,7 @@ class CartFragment : Fragment(R.layout.fragment_cart),
             }
 
             order.setOnClickListener {
-                viewModel.onNextPressed()
+                //viewModel.onNextPressed()
             }
 
 
@@ -51,7 +51,7 @@ class CartFragment : Fragment(R.layout.fragment_cart),
                 val isEmpty = it.isEmpty()
                 visible.isVisible = !isEmpty
                 empty.isVisible = isEmpty
-                viewModel.save()
+
             }
         }
 
@@ -74,44 +74,18 @@ class CartFragment : Fragment(R.layout.fragment_cart),
 
 
 
+    override fun onItemRemoveClicked(item: InvoiceItem) {
+        viewModel.onItemRemoveClicked(item)
+    }
+    override fun onPlusClicked(item: InvoiceItem) {
+        viewModel.onOneItemAdded(item)
+    }
 
-//        setFragmentResultListener("chosen_client") { _, bundle ->
-//            viewModel.onClientChosen(
-//                bundle.getParcelable("client")
-//            )
-//        }
-//
-//        setHasOptionsMenu(true)
+    override fun onMinusClicked(item: InvoiceItem) {
+        viewModel.onOneItemRemoved(item)
+    }
 
-
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.estimate_options, menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.open_pdf -> {
-//                viewModel.onOpenPdfClicked()
-//                true
-//            }
-//
-//            R.id.save_invoice -> {
-//                viewModel.onSaveClicked()
-//                true
-//            }
-//
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
-
-    override fun onItemRemoveClicked(item: InvoiceItem) = viewModel.onItemRemoveClicked(item)
-
-    override fun onPlusClicked(item: InvoiceItem) = viewModel.onOneItemAdded(item)
-
-    override fun onMinusClicked(item: InvoiceItem) = viewModel.onOneItemRemoved(item)
-
-    override fun onQtyChanged(item: InvoiceItem, text: String) =
+    override fun onQtyChanged(item: InvoiceItem, text: String) {
         viewModel.onItemQtyChanged(item, text)
-
+    }
 }

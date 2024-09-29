@@ -66,7 +66,7 @@ class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
                 pathList.scrollToEnd()
             }
 
-            viewModel.selectedItems.observe(viewLifecycleOwner) {
+            viewModel.selectedItems.asLiveData().observe(viewLifecycleOwner) {
                 chosenItemsList.isVisible = it.isNotEmpty()
                 chosenItemsAdapter.submitList(it)
                 chosenItemsList.scrollToEnd()
@@ -91,10 +91,12 @@ class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
                         Log.d("ItemsChooseFragment", "this fragment is popped")
                         true
                     }
+
                     is ItemsChooseViewModel.ItemsWindowEvents.NavigateTo -> {
                         findNavController().navigate(event.direction)
                         true
                     }
+
                     is ItemsChooseViewModel.ItemsWindowEvents.InvalidInput -> {
                         showMessage(event.msg)
                         true
@@ -103,23 +105,24 @@ class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
             }
         }
 
-        // get items from the confirmation fragment
-        val observed = "chosen_invoice_items"
-        findNavController().currentBackStackEntry?.savedStateHandle?.apply {
-            viewModel.onItemsSelected(get(observed))
-            set(observed, null)
-        }
-
     }
 
 
     override fun onItemClicked(item: InvoiceItem) = viewModel.onItemClicked(item)
 
-    override fun onAddItemClicked(item: InvoiceItem) = viewModel.onAddItemClicked(item)
+    override fun onAddItemClicked(item: InvoiceItem) {
+        viewModel.onAddItemClicked(item)
+    }
 
-    override fun onMinusItemClicked(item: InvoiceItem) = viewModel.onMinusItemClicked(item)
+    override fun onMinusItemClicked(item: InvoiceItem) {
+        viewModel.onMinusItemClicked(item)
+    }
 
-    override fun onRemoveItemClicked(item: InvoiceItem) = viewModel.onItemRemoveClicked(item)
+    override fun onRemoveItemClicked(item: InvoiceItem) {
+        viewModel.onItemRemoveClicked(item)
+    }
 
-    override fun onQtySet(item: InvoiceItem, qty: Double) = viewModel.onQtySet(item, qty)
+    override fun onQtySet(item: InvoiceItem, qty: Double) {
+        viewModel.onQtySet(item, qty)
+    }
 }

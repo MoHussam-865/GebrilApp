@@ -21,7 +21,6 @@ interface ItemsDao {
     fun getItemsEntity(parentId: Int, search: String): Flow<List<Item>>
 
 
-
     @Query("SELECT * FROM Items WHERE parentId = :parentId ORDER BY isFolder DESC")
     fun getItemsEntity(parentId: Int): Flow<List<Item>>
 

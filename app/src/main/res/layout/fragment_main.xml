@@ -24,9 +24,12 @@
 
         <TextView
             android:id="@+id/error"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:textSize="8sp"
+            tools:text="last update at 1/10/22"
+            android:gravity="center"
+            tools:ignore="SmallSp" />
 
         <ScrollView
             android:layout_width="match_parent"

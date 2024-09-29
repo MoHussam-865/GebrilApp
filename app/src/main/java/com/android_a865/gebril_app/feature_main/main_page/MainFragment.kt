@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,18 +14,16 @@ import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.PostViewAdapter
 import com.android_a865.gebril_app.databinding.FragmentMainBinding
 import com.android_a865.gebril_app.utils.exhaustive
-import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModule by viewModels<MainFragmentViewModel>()
-    private val itemsAdapter = PostViewAdapter()
+    private val postViewAdapter = PostViewAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //setUpActionBarWithNavController()
 
 
         val binding = FragmentMainBinding.bind(view)
@@ -33,11 +32,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
 
             posts.apply {
-                adapter = itemsAdapter
+                adapter = postViewAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }
 
+            viewModule.posts.asLiveData().observe(viewLifecycleOwner) {
+                postViewAdapter.submitList(it)
+            }
+
+            viewModule.errorMsg.observe(viewLifecycleOwner) {
+                error.text = it
+            }
         }
 
 

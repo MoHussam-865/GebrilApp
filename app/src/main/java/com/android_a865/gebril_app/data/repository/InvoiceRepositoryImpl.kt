@@ -25,15 +25,6 @@ class InvoiceRepositoryImpl(
         }
     }
 
-    override suspend fun getCart(): Flow<List<InvoiceItem>> {
-        return dao.getCart().map { items ->
-            items.map { item ->
-                val itemId = item.itemId
-                val qty = item.qty
-                itemsDao.getItemById(itemId).toInvoiceItem().copy(qty = qty)
-            }
-        }
-    }
 
     private suspend fun toInvoice(fullInvoice: FullInvoice): Invoice {
 

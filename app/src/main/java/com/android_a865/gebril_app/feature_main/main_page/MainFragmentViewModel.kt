@@ -1,9 +1,8 @@
 package com.android_a865.gebril_app.feature_main.main_page
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
@@ -13,9 +12,7 @@ import com.android_a865.gebril_app.data.domain.PostsRepository
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.android_a865.gebril_app.utils.date
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -24,7 +21,6 @@ import retrofit2.HttpException
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.Buffer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +31,9 @@ class MainFragmentViewModel @Inject constructor(
     private val postsRepository: PostsRepository,
 ) : ViewModel() {
 
+    val posts = postsRepository.getPosts()
+
+    val errorMsg = MutableLiveData("")
 
     private val eventsChannel = Channel<WindowEvents>()
     val windowEvents = eventsChannel.receiveAsFlow()
@@ -47,6 +46,8 @@ class MainFragmentViewModel @Inject constructor(
 
     fun startWithContext(context: Context) = viewModelScope.launch {
         val mySettings = settings.getAppSetting()
+
+        errorMsg.value = "last update at ${mySettings.lastUpdateDate.date()}"
 
         /** get the response from the server to update the database with the latest prices */
         val response = try {
@@ -69,7 +70,8 @@ class MainFragmentViewModel @Inject constructor(
             loadingEnd("Server Response Error Estimates might be inaccurate")
             // use existing database
         }
-
+        val lastUpdated = settings.getAppSetting().lastUpdateDate
+        errorMsg.value = "last update at ${lastUpdated.date()}"
     }
 
 

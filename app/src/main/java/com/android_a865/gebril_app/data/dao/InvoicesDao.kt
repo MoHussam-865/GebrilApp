@@ -16,10 +16,6 @@ interface InvoicesDao {
     fun getInvoices(): Flow<List<FullInvoice>>
 
     @Transaction
-    @Query("SELECT * FROM InvoiceItems WHERE isSavedInCart = 1")
-    fun getCart(): Flow<List<InvoiceItemEntity>>
-
-    @Transaction
     @Query("SELECT * FROM Invoices WHERE id = :invoiceId")
     suspend fun getInvoiceById(invoiceId: Int): FullInvoice
 

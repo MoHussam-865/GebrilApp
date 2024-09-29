@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.room.Room
 import com.android_a865.gebril_app.data.MyRoomDatabase
 import com.android_a865.gebril_app.data.MyRoomDatabase.Companion.DATABASE_NAME
+import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
 import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.data.domain.PostsRepository
+import com.android_a865.gebril_app.data.repository.CartRepoIml
 import com.android_a865.gebril_app.data.repository.InvoiceRepositoryImpl
 import com.android_a865.gebril_app.data.repository.ItemsRepositoryImpl
 import com.android_a865.gebril_app.data.repository.PostRepositoryImpl
@@ -39,6 +41,12 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ItemsApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCartRepository(db: MyRoomDatabase): CartRepo {
+        return CartRepoIml(db.getCartDao(), db.getItemsDao())
+    }
 
     @Provides
     @Singleton
