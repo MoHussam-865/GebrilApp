@@ -2,13 +2,10 @@ package com.android_a865.gebril_app.feature_main.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceRepository
-import com.android_a865.gebril_app.data.domain.ItemsRepository
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toEntity
-import com.android_a865.gebril_app.feature_main.pdf_preview.PdfPreviewViewModule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

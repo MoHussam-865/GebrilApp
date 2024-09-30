@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.databinding.FragmentHistoryBinding
 import com.android_a865.gebril_app.feature_main.ActivityFeature2
+import com.android_a865.gebril_app.feature_main.MainActivity
 import com.android_a865.gebril_app.utils.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +28,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
     InvoicesAdapter.OnItemEventListener {
 
     private val viewModel by viewModels<HistoryFragmentViewModel>()
+    private val sharedViewModel by activityViewModels<SharedViewModel>()
     private val invoicesAdapter = InvoicesAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,8 +62,7 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
             viewModel.windowEvents.collect { event ->
                 when (event) {
                     is HistoryFragmentViewModel.WindowEvents.Navigate -> {
-                        val intent = Intent(requireActivity(), ActivityFeature2::class.java)
-                        startActivity(intent)
+                        sharedViewModel.selectedItem.value = R.id.navigation_cart
                         true
                     }
 
