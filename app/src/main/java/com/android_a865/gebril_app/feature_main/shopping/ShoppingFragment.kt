@@ -11,8 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.android_a865.gebril_app.R
+import com.android_a865.gebril_app.common.GridSpacingItemDecoration
 import com.android_a865.gebril_app.common.adapters.ChooseInvoiceItemsAdapter
 import com.android_a865.gebril_app.common.adapters.ChosenItemsAdapter
 import com.android_a865.gebril_app.common.adapters.PathIndicatorAdapter
@@ -44,9 +45,15 @@ class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
 
             (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
 
+            val spacingInPixel = resources.getDimensionPixelSize(R.dimen.grid_spacing)
             itemsList.apply {
                 adapter = itemsAdapter
-                layoutManager = LinearLayoutManager(requireContext())
+                layoutManager = GridLayoutManager(requireContext(), 2)
+                addItemDecoration(
+                    GridSpacingItemDecoration(
+                        2, spacingInPixel, true
+                    )
+                )
                 setHasFixedSize(true)
             }
 

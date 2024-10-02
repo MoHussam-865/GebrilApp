@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.databinding.AdapterChooseItemsListBinding
+import com.android_a865.gebril_app.databinding.AdapterShoppingListBinding
 import com.android_a865.gebril_app.utils.getTheImage
 import com.android_a865.gebril_app.utils.setQty
 
@@ -22,7 +22,7 @@ class ChooseInvoiceItemsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            AdapterChooseItemsListBinding.inflate(
+            AdapterShoppingListBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -30,7 +30,7 @@ class ChooseInvoiceItemsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    inner class ViewHolder(private val binding: AdapterChooseItemsListBinding) :
+    inner class ViewHolder(private val binding: AdapterShoppingListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -106,8 +106,11 @@ class ChooseInvoiceItemsAdapter(
 
                     userInput.setQty(qty.toString())
                     userInput.setSelection(userInput.length())
+
                     addFirst.isVisible = item.qty == 0.0
+                    itemUP.isVisible = item.qty == 0.0
                     console.isVisible = item.qty != 0.0
+                    delete.isVisible = item.qty != 0.0
 
                     item.imagePath?.let {
                         itemImage.setImageBitmap(getTheImage(it))

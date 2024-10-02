@@ -47,7 +47,7 @@
             android:paddingBottom="85dp"
 
             tools:itemCount="20"
-            tools:listitem="@layout/adapter_choose_items_list" />
+            tools:listitem="@layout/adapter_shopping_list" />
 
 
     </LinearLayout>
