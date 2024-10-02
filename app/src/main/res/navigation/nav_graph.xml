@@ -8,5 +8,13 @@
         android:id="@+id/viewPdfFragment"
         android:name="com.android_a865.gebril_app.feature_main.pdf_preview.ViewPdfFragment"
         android:label="fragment_view_pdf"
-        tools:layout="@layout/fragment_view_pdf" />
+        tools:layout="@layout/fragment_view_pdf" >
+        <action
+            android:id="@+id/action_viewPdfFragment_to_clientInfoFragment"
+            app:destination="@id/clientInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientInfoFragment"
+        android:name="com.android_a865.gebril_app.feature_client.ClientInfoFragment"
+        android:label="ClientInfoFragment" />
 </navigation>

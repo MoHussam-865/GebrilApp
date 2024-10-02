@@ -7,6 +7,7 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -15,10 +16,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.GridSpacingItemDecoration
 import com.android_a865.gebril_app.common.adapters.ChooseInvoiceItemsAdapter
-import com.android_a865.gebril_app.common.adapters.ChosenItemsAdapter
 import com.android_a865.gebril_app.common.adapters.PathIndicatorAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.databinding.FragmentItemsChooseBinding
+import com.android_a865.gebril_app.databinding.FragmentShoppingBinding
+import com.android_a865.gebril_app.feature_main.history.SharedViewModel
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.scrollToEnd
 import com.android_a865.gebril_app.utils.showMessage
@@ -26,20 +27,19 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
-    ChooseInvoiceItemsAdapter.OnItemEventListener,
-    ChosenItemsAdapter.OnItemEventListener {
+class ShoppingFragment : Fragment(R.layout.fragment_shopping),
+    ChooseInvoiceItemsAdapter.OnItemEventListener {
 
     private val viewModel by viewModels<ItemsChooseViewModel>()
+    private val sharedViewModel by activityViewModels<SharedViewModel>()
     private val itemsAdapter = ChooseInvoiceItemsAdapter(this)
-    private val chosenItemsAdapter = ChosenItemsAdapter(this)
     private val pathIndicator = PathIndicatorAdapter()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setUpActionBarWithNavController()
-        val binding = FragmentItemsChooseBinding.bind(view)
+        val binding = FragmentShoppingBinding.bind(view)
 
         binding.apply {
 
@@ -62,22 +62,17 @@ class ShoppingFragment : Fragment(R.layout.fragment_items_choose),
                 setHasFixedSize(true)
             }
 
-            chosenItemsList.apply {
-                adapter = chosenItemsAdapter
-                setHasFixedSize(true)
-            }
-
-
             viewModel.currentPath.asLiveData().observe(viewLifecycleOwner) {
                 pathIndicator.submitPath(it)
                 pathList.scrollToEnd()
             }
 
+            order.setOnClickListener {
+                sharedViewModel.selectedItem.value = R.id.navigation_cart
+            }
+
             viewModel.selectedItems.asLiveData().observe(viewLifecycleOwner) {
-                chosenItemsList.isVisible = it.isNotEmpty()
-                chosenItemsAdapter.submitList(it)
-                chosenItemsList.scrollToEnd()
-                itemsCount.text = it.size.toString()
+                order.text = it.size.toString()
             }
 
             viewModel.itemsData.asLiveData().observe(viewLifecycleOwner) {

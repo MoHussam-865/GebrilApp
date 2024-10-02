@@ -64,61 +64,22 @@
             android:layout_height="0.5dp"
             android:background="@android:color/darker_gray" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chosenItemsList"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/adapter_chosen_items" />
 
     </LinearLayout>
 
 
-
-    <RelativeLayout
+    <Button
+        android:id="@+id/order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_above="@id/chosenItemsView"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="15dp"
+        android:contentDescription="@string/next"
+        android:background="@drawable/rounded_white_background"
+        android:drawableEnd="@drawable/cart"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="20dp">
-
-        <Button
-            android:id="@+id/order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:paddingStart="50dp"
-            android:paddingEnd="10dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/next"
-            android:contentDescription="@string/next"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:drawableEnd="@drawable/next"/>
-
-
-        <TextView
-            android:id="@+id/itemsCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="20"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:elevation="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="100dp"
-            android:layout_marginStart="5dp"
-            android:background="@drawable/rounded_green_background"
-            android:textColor="@color/black"
-            android:padding="8dp"/>
-
-    </RelativeLayout>
+        tools:ignore="RelativeOverlap" />
 
 
 </RelativeLayout>

@@ -19,7 +19,7 @@
         android:id="@+id/navigation_shop"
         android:name="com.android_a865.gebril_app.feature_main.shopping.ShoppingFragment"
         android:label="fragment_items_choose"
-        tools:layout="@layout/fragment_items_choose" />
+        tools:layout="@layout/fragment_shopping" />
     <fragment
         android:id="@+id/navigation_contacts"
         android:name="com.android_a865.gebril_app.feature_main.contacts.FragmentContacts"
