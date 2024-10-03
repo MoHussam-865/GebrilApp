@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.pdf_preview
+package com.android_a865.gebril_app.features.pdf_preview
 
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.databinding.FragmentViewPdfBinding
 import com.android_a865.gebril_app.utils.exhaustive
-import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.github.barteksc.pdfviewer.PDFView
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.FileNotFoundException
@@ -63,6 +62,10 @@ class ViewPdfFragment : Fragment(R.layout.fragment_view_pdf) {
                     }
                     is PdfPreviewViewModule.WindowEvents.ShowMessage -> {
                         Toast.makeText(requireContext(),event.msg, Toast.LENGTH_LONG).show()
+                        true
+                    }
+                    is PdfPreviewViewModule.WindowEvents.Navigate -> {
+                        findNavController().navigate(event.dir)
                         true
                     }
                 }.exhaustive

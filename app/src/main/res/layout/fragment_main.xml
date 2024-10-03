@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.android_a865.gebril_app.feature_main.main_page.MainFragment"
+    tools:context="com.android_a865.gebril_app.features.main_page.MainFragment"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout

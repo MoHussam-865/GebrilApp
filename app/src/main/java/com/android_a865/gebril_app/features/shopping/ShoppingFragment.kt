@@ -1,11 +1,10 @@
-package com.android_a865.gebril_app.feature_main.shopping
+package com.android_a865.gebril_app.features.shopping
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -19,7 +18,7 @@ import com.android_a865.gebril_app.common.adapters.ChooseInvoiceItemsAdapter
 import com.android_a865.gebril_app.common.adapters.PathIndicatorAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentShoppingBinding
-import com.android_a865.gebril_app.feature_main.history.SharedViewModel
+import com.android_a865.gebril_app.features.history.SharedViewModel
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.scrollToEnd
 import com.android_a865.gebril_app.utils.showMessage

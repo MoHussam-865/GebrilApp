@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.contacts
+package com.android_a865.gebril_app.features.contacts
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

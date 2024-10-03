@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.cart
+package com.android_a865.gebril_app.features.cart
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,7 +15,8 @@ import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.InvoiceItemsAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentCartBinding
-import com.android_a865.gebril_app.feature_main.ActivityFeature2
+import com.android_a865.gebril_app.features.ActivityOrder
+import com.android_a865.gebril_app.utils.toFormattedString
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,13 +44,13 @@ class CartFragment : Fragment(R.layout.fragment_cart),
             }
 
             order.setOnClickListener {
-
-                val intent  = Intent(requireActivity(), ActivityFeature2::class.java)
+                val intent  = Intent(requireActivity(), ActivityOrder::class.java)
                 startActivity(intent)
-                //viewModel.viewPrices()
-                //viewModel.onNextPressed()
             }
 
+            clearCart.setOnClickListener {
+                viewModel.clearCartClicked()
+            }
 
 
             viewModel.itemsFlow.asLiveData().observe(viewLifecycleOwner) {
@@ -58,7 +59,9 @@ class CartFragment : Fragment(R.layout.fragment_cart),
                 visible.isVisible = !isEmpty
                 empty.isVisible = isEmpty
 
+                total.text = it.sumOf { i -> i.total }.toFormattedString()
             }
+
         }
 
 

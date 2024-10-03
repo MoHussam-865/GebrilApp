@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.history
+package com.android_a865.gebril_app.features.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

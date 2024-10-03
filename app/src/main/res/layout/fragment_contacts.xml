@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature_main.contacts.FragmentContacts">
+    tools:context=".features.contacts.FragmentContacts">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mainToolBar"

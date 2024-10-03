@@ -19,11 +19,11 @@
 
 
         <activity
-            android:name=".feature_main.ActivityFeature2"
+            android:name=".features.ActivityOrder"
             android:exported="true" />
 
         <activity
-            android:name=".feature_main.MainActivity"
+            android:name=".features.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.EstimatesCalculator.NoActionBar">
 

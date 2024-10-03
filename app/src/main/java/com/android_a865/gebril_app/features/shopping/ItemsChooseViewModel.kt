@@ -1,22 +1,27 @@
-package com.android_a865.gebril_app.feature_main.shopping
+package com.android_a865.gebril_app.features.shopping
 
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.domain.ItemsRepository
-import com.android_a865.gebril_app.utils.*
+import com.android_a865.gebril_app.utils.Path
+import com.android_a865.gebril_app.utils.include
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ItemsChooseViewModel @Inject constructor(
-    state: SavedStateHandle,
     private val itemsRepo: ItemsRepository,
     private val cartRepo: CartRepo
 ) : ViewModel() {
@@ -54,7 +59,6 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onBackPress() {
         if (currentPath.value.isRoot) {
-            // TODO set data lose warning
             goBack()
         } else {
             currentPath.value = currentPath.value.copy().back()

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.android_a865.gebril_app.feature_main.ScrollingActivity">
+    tools:context="com.android_a865.gebril_app.features.ScrollingActivity">
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

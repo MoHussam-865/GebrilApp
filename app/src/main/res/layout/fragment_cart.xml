@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.android_a865.gebril_app.feature_main.cart.CartFragment">
+    tools:context="com.android_a865.gebril_app.features.cart.CartFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mainToolBar"
@@ -29,15 +29,33 @@
             android:orientation="vertical">
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="@string/items"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="italic|bold" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:text="@string/total"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="italic|bold" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="italic|bold" />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_item"
@@ -65,16 +83,15 @@
             tools:ignore="RelativeOverlap" />
 
         <Button
-            android:id="@+id/shoping"
+            android:id="@+id/clear_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/continue_shoping"
+            android:text="@string/clear_cart"
             android:textSize="12sp"
             android:textAllCaps="false"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_margin="25dp"
-            android:visibility="gone"
             android:src="@drawable/back"/>
 
     </RelativeLayout>

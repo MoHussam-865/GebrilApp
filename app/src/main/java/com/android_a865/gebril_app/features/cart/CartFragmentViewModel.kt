@@ -1,24 +1,15 @@
-package com.android_a865.gebril_app.feature_main.cart
+package com.android_a865.gebril_app.features.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.data.domain.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
-import com.android_a865.gebril_app.data.entities.Invoice
-import com.android_a865.gebril_app.utils.addOneOf
-import com.android_a865.gebril_app.utils.removeAllOf
-import com.android_a865.gebril_app.utils.removeOneOf
-import com.android_a865.gebril_app.utils.setQtyTo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -64,8 +55,8 @@ class CartFragmentViewModel @Inject constructor(
         eventsChannel.send(WindowEvents.ShowMessage(message))
     }
 
-    fun viewPrices() {
-
+    fun clearCartClicked() = viewModelScope.launch {
+        cartRepo.clearCart()
     }
 
 

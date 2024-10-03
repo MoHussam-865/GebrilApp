@@ -1,21 +1,16 @@
-package com.android_a865.gebril_app.feature_main
+package com.android_a865.gebril_app.features
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 
 import androidx.navigation.ui.setupWithNavController
 import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.databinding.ActivityMainBinding
-import com.android_a865.gebril_app.feature_main.history.HistoryFragmentViewModel
-import com.android_a865.gebril_app.feature_main.history.SharedViewModel
+import com.android_a865.gebril_app.features.history.SharedViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 

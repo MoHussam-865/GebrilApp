@@ -1,6 +1,5 @@
-package com.android_a865.gebril_app.feature_main.history
+package com.android_a865.gebril_app.features.history
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -11,14 +10,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.databinding.FragmentHistoryBinding
-import com.android_a865.gebril_app.feature_main.ActivityFeature2
-import com.android_a865.gebril_app.feature_main.MainActivity
 import com.android_a865.gebril_app.utils.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 

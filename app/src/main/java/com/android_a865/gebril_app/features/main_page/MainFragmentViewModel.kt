@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.main_page
+package com.android_a865.gebril_app.features.main_page
 
 import android.content.Context
 import android.util.Log

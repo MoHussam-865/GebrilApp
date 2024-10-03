@@ -6,7 +6,7 @@
     app:startDestination="@id/viewPdfFragment">
     <fragment
         android:id="@+id/viewPdfFragment"
-        android:name="com.android_a865.gebril_app.feature_main.pdf_preview.ViewPdfFragment"
+        android:name="com.android_a865.gebril_app.features.pdf_preview.ViewPdfFragment"
         android:label="fragment_view_pdf"
         tools:layout="@layout/fragment_view_pdf" >
         <action
@@ -15,6 +15,11 @@
     </fragment>
     <fragment
         android:id="@+id/clientInfoFragment"
-        android:name="com.android_a865.gebril_app.feature_client.ClientInfoFragment"
-        android:label="ClientInfoFragment" />
+        android:name="com.android_a865.gebril_app.features.client.ClientInfoFragment"
+        android:label="@string/app_name" >
+        <argument
+            android:name="invoice"
+            app:argType="com.android_a865.gebril_app.data.entities.Invoice"
+            app:nullable="true" />
+    </fragment>
 </navigation>

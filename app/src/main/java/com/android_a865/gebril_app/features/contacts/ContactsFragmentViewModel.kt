@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.feature_main.contacts
+package com.android_a865.gebril_app.features.contacts
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
