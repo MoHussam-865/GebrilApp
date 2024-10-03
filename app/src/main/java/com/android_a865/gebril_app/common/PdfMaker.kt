@@ -73,7 +73,9 @@ class PdfMaker {
 
             // To:  (Client Info)
             val clientInfo = Paragraph()
-            clientInfo.add(Paragraph(appSettings.clientInfo, font2))
+            //clientInfo.add(Paragraph(appSettings.clientInfo, font2))
+            // TODO replace with client info
+            clientInfo.add(Paragraph("", font2))
             clientInfo.alignment = Element.ALIGN_JUSTIFIED
             c1 = PdfPCell(clientInfo)
             c1.runDirection = PdfWriter.RUN_DIRECTION_RTL

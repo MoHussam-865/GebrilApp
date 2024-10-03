@@ -37,11 +37,19 @@
 
     <LinearLayout
         android:id="@+id/console"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:layout_gravity="end">
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            tools:text="1200"
+            android:layout_height="wrap_content"/>
 
 
         <Button
@@ -66,7 +74,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/add_sign" />
-
 
     </LinearLayout>
 

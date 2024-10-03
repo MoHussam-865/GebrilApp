@@ -83,11 +83,10 @@ class InvoiceItemsAdapter(
 
         fun bind(item: InvoiceItem) {
             binding.apply {
-                item.apply {
-                    itemName.text = fullName
-                    etQty.setQty(qty.toFormattedString())
-                    etQty.setSelection(etQty.length())
-                }
+                itemName.text = item.fullName
+                etQty.setQty(item.qty.toFormattedString())
+                etQty.setSelection(etQty.length())
+                total.text = item.total.toFormattedString()
             }
         }
     }

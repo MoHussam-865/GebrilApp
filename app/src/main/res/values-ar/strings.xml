@@ -108,4 +108,5 @@
     <string name="cart_is_empty">Cart is Empty</string>
     <string name="no_invoices_yet">No Invoices Yet</string>
     <string name="home">Home</string>
+    <string name="clear_cart">Clear Cart</string>
 </resources>
