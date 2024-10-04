@@ -16,6 +16,7 @@ import com.android_a865.gebril_app.common.adapters.InvoicesAdapter
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.databinding.FragmentHistoryBinding
 import com.android_a865.gebril_app.utils.exhaustive
+import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -33,9 +34,6 @@ class HistoryFragment : Fragment(R.layout.fragment_history) ,
 
         val binding = FragmentHistoryBinding.bind(view)
         binding.apply {
-
-            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
-
 
             invoicesList.apply {
                 adapter = invoicesAdapter

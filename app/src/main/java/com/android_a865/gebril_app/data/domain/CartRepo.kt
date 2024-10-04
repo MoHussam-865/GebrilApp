@@ -6,10 +6,17 @@ interface CartRepo {
 
     fun getCart(): Flow<List<InvoiceItem>>
 
+    suspend fun addOne(invoiceItem: InvoiceItem)
+
+    suspend fun removeOne(invoiceItem: InvoiceItem)
+
+    suspend fun setQty(invoiceItem: InvoiceItem, qty: Double)
+
+    suspend fun clearCart()
+
+
     suspend fun addToCart(invoiceItem: InvoiceItem)
 
     suspend fun removeFromCart(invoiceItem: InvoiceItem)
-
-    suspend fun clearCart()
 
 }

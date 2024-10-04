@@ -15,6 +15,7 @@ import com.android_a865.gebril_app.common.adapters.PostViewAdapter
 import com.android_a865.gebril_app.databinding.FragmentMainBinding
 import com.android_a865.gebril_app.utils.date
 import com.android_a865.gebril_app.utils.exhaustive
+import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,12 +26,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //setUpActionBarWithNavController()
 
 
         val binding = FragmentMainBinding.bind(view)
         binding.apply {
 
-            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
 
             posts.apply {
                 adapter = postViewAdapter

@@ -18,8 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/design_default_color_primary"
-            app:title="@string/app_name"
-            app:menu="@menu/main_menu"
+            app:title="Home"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <TextView

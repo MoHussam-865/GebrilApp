@@ -10,10 +10,10 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mainToolBar"
         android:layout_width="match_parent"
+        app:title="History"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/design_default_color_primary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:menu="@menu/main_menu" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <LinearLayout
         android:id="@+id/visible"

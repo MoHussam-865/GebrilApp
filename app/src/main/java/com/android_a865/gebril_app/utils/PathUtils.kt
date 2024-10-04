@@ -16,7 +16,6 @@ data class Path(
         parents.toMutableList().add(child)
         return Path(parents.toList())
     }
-    //fun pathOf(name: String) = path + Separation + name
 
     fun back() = Path(parents.dropLast(1))
 
@@ -43,13 +42,9 @@ data class Path(
     val folderDiscount get(): Double = parents.last().discount
 
 
-    //private val _folders get() = path.split(Separation)
 
     companion object {
-        // private const val Separation = "/"
         const val ROOT = 0
-//        const val NO_PATH = ""
-//        const val REDUNDANT = "*"
     }
 }
 

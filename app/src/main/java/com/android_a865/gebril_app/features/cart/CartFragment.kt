@@ -16,6 +16,7 @@ import com.android_a865.gebril_app.common.adapters.InvoiceItemsAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentCartBinding
 import com.android_a865.gebril_app.features.ActivityOrder
+import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
 import com.android_a865.gebril_app.utils.toFormattedString
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,10 +33,9 @@ class CartFragment : Fragment(R.layout.fragment_cart),
         super.onViewCreated(view, savedInstanceState)
         //setUpActionBarWithNavController()
 
+
         val binding = FragmentCartBinding.bind(view)
         binding.apply {
-
-            (requireActivity() as AppCompatActivity).setSupportActionBar(mainToolBar)
 
             listItem.apply {
                 adapter = itemsAdapter

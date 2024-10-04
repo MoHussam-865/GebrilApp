@@ -25,6 +25,22 @@ class CartRepoIml(
         }
     }
 
+    override suspend fun addOne(invoiceItem: InvoiceItem) {
+        addToCart(invoiceItem.copy(qty = invoiceItem.qty + 1))
+    }
+
+    override suspend fun removeOne(invoiceItem: InvoiceItem) {
+        addToCart(invoiceItem.copy(qty = invoiceItem.qty - 1))
+    }
+
+    override suspend fun setQty(invoiceItem: InvoiceItem, qty: Double) {
+        if (qty > 0) {
+            addToCart(invoiceItem.copy(qty = qty))
+        } else {
+            removeFromCart(invoiceItem)
+        }
+    }
+
     override suspend fun addToCart(invoiceItem: InvoiceItem) {
 
         val cartItem: CartItem? = dao.getItemWithId(invoiceItem.id)

@@ -1,6 +1,7 @@
 package com.android_a865.gebril_app.features.shopping
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
@@ -29,7 +30,7 @@ class ItemsChooseViewModel @Inject constructor(
     val currentPath = MutableStateFlow(Path())
 
     private val itemsFlow = currentPath.flatMapLatest { path ->
-        Log.d("open folder", "path changed")
+
         itemsRepo.getItems(path.folderId).map { items ->
             items.map { item ->
                 if (item.isFolder) {
@@ -81,62 +82,32 @@ class ItemsChooseViewModel @Inject constructor(
 
     fun onAddItemClicked(item: InvoiceItem) = viewModelScope.launch {
         Log.d("folder", item.discount.toString())
-        cartRepo.addToCart(item.copy(qty = item.qty + 1))
+        cartRepo.addOne(item)
     }
 
     fun onMinusItemClicked(item: InvoiceItem) = viewModelScope.launch {
-        cartRepo.addToCart(item.copy(qty = item.qty - 1))
+        cartRepo.removeOne(item)
     }
 
     fun onItemRemoveClicked(item: InvoiceItem) = viewModelScope.launch {
         cartRepo.removeFromCart(item)
     }
 
-
     fun onQtySet(item: InvoiceItem, myQty: Double) = viewModelScope.launch {
-        if (myQty > 0) {
-            cartRepo.addToCart(item.copy(qty = myQty))
-        } else {
-            onItemRemoveClicked(item)
-            showInvalidInputMessage("Quantity can't be less than 0")
+        cartRepo.setQty(item, myQty)
+    }
+
+    fun onSearchChanged(txt: String) {
+        // TODO Search items
+    }
+
+    fun onPathChangeRequested(item: InvoiceItem) {
+        var path = currentPath.value.copy()
+        while (!path.isRoot && path.folderId != item.id) {
+            path = path.back()
         }
+        currentPath.value = path
     }
-
-    //fun onInvoiceItemAdded(item: InvoiceItem) = selectedItems.update0 { it?.addOf(item) }
-
-    private suspend fun showInvalidInputMessage(str: String) {
-        itemsWindowEventsChannel.send(
-            ItemsWindowEvents.InvalidInput(str)
-        )
-    }
-
-    /*private fun onNextClicked() = viewModelScope.launch {
-
-        val myItems = selectedItems.value?.toTypedArray()
-
-        if (!myItems.isNullOrEmpty()) {
-            itemsWindowEventsChannel.send(
-                ItemsWindowEvents.NavigateTo(
-                    ShoppingFragmentDirections.actionItemsChooseFragmentToNewEstimateFragment(
-                        items = myItems,
-                        invoiceId = invoiceId ?: 0
-                    )
-                )
-            )
-        } else {
-            showInvalidInputMessage("لم يتم اختيار اي صنف")
-        }
-    }
-
-    fun onItemsSelected(chosenItems: List<InvoiceItem>?) = viewModelScope.launch {
-        chosenItems?.let { items ->
-            // this delay is to solve an unexpected bug
-            delay(100)
-            selectedItems.value = items
-        }
-    }
-*/
-
 
     sealed class ItemsWindowEvents {
         data class NavigateTo(val direction: NavDirections) : ItemsWindowEvents()

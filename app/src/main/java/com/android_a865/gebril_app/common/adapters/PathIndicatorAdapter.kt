@@ -5,10 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.AdapterPathIndicatorBinding
 import com.android_a865.gebril_app.utils.Path
 
-class PathIndicatorAdapter : ListAdapter<String, PathIndicatorAdapter.ViewHolder>(DiffCallback()) {
+class PathIndicatorAdapter(
+    private val listener: OnItemEventListener,
+) : ListAdapter<InvoiceItem, PathIndicatorAdapter.ViewHolder>(DiffCallback()) {
+
+    private var currentPath: Path? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -21,21 +26,44 @@ class PathIndicatorAdapter : ListAdapter<String, PathIndicatorAdapter.ViewHolder
         holder.bind(getItem(position))
 
 
-    fun submitPath(path: Path) = submitList(path.names)
+    fun submitPath(path: Path) {
+        currentPath = path
+        submitList(path.parents)
+    }
 
 
-    class DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean =
+    class DiffCallback : DiffUtil.ItemCallback<InvoiceItem>() {
+        override fun areItemsTheSame(oldItem: InvoiceItem, newItem: InvoiceItem): Boolean =
             oldItem == newItem
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
+        override fun areContentsTheSame(oldItem: InvoiceItem, newItem: InvoiceItem): Boolean =
             oldItem == newItem
     }
 
-    class ViewHolder(private val binding: AdapterPathIndicatorBinding) :
+    inner class ViewHolder(private val binding: AdapterPathIndicatorBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(name: String) {
-            binding.folderName.text = name
+
+        init {
+            binding.root.setOnClickListener {
+
+
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        listener.pathChangeRequest(item)
+                    }
+
+
+            }
         }
+
+
+        fun bind(item: InvoiceItem) {
+            binding.folderName.text = item.name
+        }
+    }
+
+    interface OnItemEventListener {
+        fun pathChangeRequest(item: InvoiceItem)
     }
 }

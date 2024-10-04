@@ -12,14 +12,26 @@
         android:layout_above="@id/chosenItemsView"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/mainToolBar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
             android:background="@color/design_default_color_primary"
-            app:menu="@menu/main_menu"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_height="?attr/actionBarSize">
+
+            <EditText
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:hint="@string/search"
+                android:background="@drawable/rounded_white_background" />
+
+        </FrameLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -1,7 +1,5 @@
 package com.android_a865.gebril_app.common.adapters
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -16,10 +14,6 @@ import com.android_a865.gebril_app.databinding.AdapterShoppingListBinding
 import com.android_a865.gebril_app.utils.setQty
 import com.android_a865.gebril_app.utils.toFormattedString
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import java.io.File
 
 class ChooseInvoiceItemsAdapter(

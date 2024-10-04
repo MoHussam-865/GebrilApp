@@ -28,23 +28,18 @@ class CartFragmentViewModel @Inject constructor(
     }
 
     fun onOneItemAdded(item: InvoiceItem) = viewModelScope.launch {
-        cartRepo.addToCart(item.copy(qty = item.qty + 1))
+        cartRepo.addOne(item)
     }
 
     fun onOneItemRemoved(item: InvoiceItem) = viewModelScope.launch {
-        cartRepo.addToCart(item.copy(qty = item.qty - 1))
+        cartRepo.removeOne(item)
     }
 
     fun onItemQtyChanged(item: InvoiceItem, qty: String) = viewModelScope.launch {
         try {
 
             val myQty = qty.toDouble()
-            if (myQty < 0) {
-                cartRepo.addToCart(item.copy(qty = 0.0))
-                showInvalidMessage("Quantity can't be less than 0")
-            } else {
-                cartRepo.addToCart(item.copy(qty = myQty))
-            }
+            cartRepo.setQty(item, myQty)
         } catch (e: Exception) {
             showInvalidMessage("Invalid Quantity")
         }
