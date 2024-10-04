@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.PostViewAdapter
 import com.android_a865.gebril_app.databinding.FragmentMainBinding
+import com.android_a865.gebril_app.utils.date
 import com.android_a865.gebril_app.utils.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,8 +42,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 postViewAdapter.submitList(it)
             }
 
-            viewModule.errorMsg.observe(viewLifecycleOwner) {
-                error.text = it
+            viewModule.appSettings.asLiveData().observe(viewLifecycleOwner) {
+                val msg = "last update at ${it.lastUpdateDate.date()}"
+                error.text = msg
             }
         }
 
@@ -62,6 +64,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                         }
                         true
                     }
+
                     MainFragmentViewModel.WindowEvents.StartWithContext -> {
                         viewModule.startWithContext(requireContext())
                         true

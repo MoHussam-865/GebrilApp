@@ -42,6 +42,9 @@ class ItemsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getItemById(id: Int): Item {
+        return dao.getItemById(id)
+    }
 
 
     override suspend fun getDiscount(parentId: Int): Double {

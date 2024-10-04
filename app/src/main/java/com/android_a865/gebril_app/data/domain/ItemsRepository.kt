@@ -18,6 +18,8 @@ interface ItemsRepository {
 
     suspend fun getItemsById(items: List<InvoiceItemEntity>): List<InvoiceItem>
 
+    suspend fun getItemById(id: Int): Item
+
     suspend fun getDiscount(parentId: Int): Double
 
     suspend fun getItemImageUrl(item: Item): String?

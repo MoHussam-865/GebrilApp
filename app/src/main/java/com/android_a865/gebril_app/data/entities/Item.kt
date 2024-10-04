@@ -15,8 +15,11 @@ data class Item(
     val isFolder: Boolean,
     val lastUpdate: Int,
 
+    // the name sent by the server
     val imageName: String? = null,
+    // the image location on the device
     var imagePath: String? = null,
 ) {
-    val itemsPath get(): String = "items/$imageName"
+    // item images folder path
+    val itemsPath get() = "items"
 }

@@ -1,5 +1,7 @@
 package com.android_a865.gebril_app.common.adapters
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,10 +10,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.AdapterShoppingListBinding
-import com.android_a865.gebril_app.utils.getTheImage
 import com.android_a865.gebril_app.utils.setQty
+import com.android_a865.gebril_app.utils.toFormattedString
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import java.io.File
 
 class ChooseInvoiceItemsAdapter(
     private val listener: OnItemEventListener,
@@ -100,9 +109,9 @@ class ChooseInvoiceItemsAdapter(
 
                     // for items
                     itemName.text = name
-                    itemUP.text = finalPrice.toString()
+                    itemUP.text = finalPrice.toFormattedString()
 
-                    userInput.setQty(qty.toString())
+                    userInput.setQty(qty.toFormattedString())
                     userInput.setSelection(userInput.length())
 
                     addFirst.isVisible = item.qty == 0.0
@@ -110,8 +119,14 @@ class ChooseInvoiceItemsAdapter(
                     console.isVisible = item.qty != 0.0
                     delete.isVisible = item.qty != 0.0
 
+                    Log.d("set image", "item image ${item.imagePath}")
                     item.imagePath?.let {
-                        itemImage.setImageBitmap(getTheImage(it))
+
+                        Glide.with(binding.root.context)
+                            .load(File(it))
+                            .error(R.drawable.place_holder)
+                            .into(itemImage)
+
                     }
                     // for folders
                     folderName.text = name

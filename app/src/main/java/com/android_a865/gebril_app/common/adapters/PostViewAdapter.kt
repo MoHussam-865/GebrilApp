@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android_a865.gebril_app.data.entities.Post
 import com.android_a865.gebril_app.databinding.AdapterPostViewBinding
-import com.android_a865.gebril_app.utils.getTheImage
+import com.bumptech.glide.Glide
+import java.io.File
 
 class PostViewAdapter  : ListAdapter<Post, PostViewAdapter.ViewHolder>(PostDiffCallback()) {
 
@@ -32,7 +33,10 @@ class PostViewAdapter  : ListAdapter<Post, PostViewAdapter.ViewHolder>(PostDiffC
                 content.text = post.content
 
                 post.imagePath?.let {
-                    postImage.setImageBitmap(getTheImage(it))
+
+                    Glide.with(binding.root.context)
+                        .load(File(it))
+                        .into(postImage)
                 }
             }
         }

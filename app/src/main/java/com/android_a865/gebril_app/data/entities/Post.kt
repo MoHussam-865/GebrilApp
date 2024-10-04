@@ -13,5 +13,5 @@ data class Post(
     val imageName: String? = null,
     var imagePath: String? = null
 ) {
-    val postsPath get(): String = "posts/$imageName"
+    val postsPath get() = "posts"
 }

@@ -1,8 +1,8 @@
 package com.android_a865.gebril_app.features.main_page
 
 import android.content.Context
+import android.os.NetworkOnMainThreadException
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
@@ -12,9 +12,10 @@ import com.android_a865.gebril_app.data.domain.PostsRepository
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
 import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
-import com.android_a865.gebril_app.utils.date
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -26,14 +27,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
     private val itemsApi: ItemsApi,
-    private val settings: SettingsRepository,
+    private val settingsRepo: SettingsRepository,
     private val itemsRepository: ItemsRepository,
     private val postsRepository: PostsRepository,
 ) : ViewModel() {
 
     val posts = postsRepository.getPosts()
 
-    val errorMsg = MutableLiveData("")
+    val appSettings = settingsRepo.getAppSettings()
+
 
     private val eventsChannel = Channel<WindowEvents>()
     val windowEvents = eventsChannel.receiveAsFlow()
@@ -44,21 +46,19 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
-    fun startWithContext(context: Context) = viewModelScope.launch {
-        val mySettings = settings.getAppSetting()
-
-        errorMsg.value = "last update at ${mySettings.lastUpdateDate.date()}"
+    fun startWithContext(context: Context) = viewModelScope.launch(Dispatchers.IO) {
+        val mySettings = appSettings.first()
 
         /** get the response from the server to update the database with the latest prices */
         val response = try {
             itemsApi.getItems(mySettings.lastUpdate)
         } catch (e: IOException) {
             Log.d("my error", e.message.toString())
-            loadingEnd("couldn't Update Data")
+            loadingEnd("Server Response Error Estimates might be inaccurate")
             return@launch
         } catch (e: HttpException) {
             Log.d("my error", e.message.toString())
-            loadingEnd("couldn't Update Data")
+            loadingEnd("Server Response Error Estimates might be inaccurate")
             return@launch
         }
 
@@ -70,8 +70,6 @@ class MainFragmentViewModel @Inject constructor(
             loadingEnd("Server Response Error Estimates might be inaccurate")
             // use existing database
         }
-        val lastUpdated = settings.getAppSetting().lastUpdateDate
-        errorMsg.value = "last update at ${lastUpdated.date()}"
     }
 
 
@@ -79,10 +77,8 @@ class MainFragmentViewModel @Inject constructor(
     private suspend fun handleResponse(
         context: Context,
         message: Message,
-        mySettings: AppSettings
+        settings: AppSettings
     ) {
-        // add items to database
-        Log.d("my error", message.items?.size.toString())
 
         /** save the posts */
         message.posts?.let { posts ->
@@ -105,27 +101,23 @@ class MainFragmentViewModel @Inject constructor(
          * only items that have price changes are received
          * */
         message.items?.let { items ->
-
             if (items.isNotEmpty()) {
                 items.forEach { item ->
 
                     /** get the item image if needed */
                     // check if the item already have an image
                     // if the imageUrl is not null
+
                     if (item.imageName != null) {
                         // if the imageUrl is different from the one in the local database
-                        val imageUrl = itemsRepository.getItemImageUrl(item)
+                        //val myItem = itemsRepository.getItemById(item.id)
+                        // TODO add condition do not download every time
+                        /** download & save the image */
+                        val absolutePath =
+                            downloadImage(context, item.imageName, item.itemsPath)
 
-                        if (item.imageName != imageUrl || !doesImageExist(
-                                context,
-                                item.itemsPath
-                            )
-                        ) {
-                            /** download & save the image */
-                            val absolutePath =
-                                downloadImage(context, item.imageName, item.itemsPath)
-                            item.imagePath = absolutePath
-                        }
+                        item.imagePath = absolutePath
+
                     }
 
                     /** insert the item */
@@ -134,22 +126,18 @@ class MainFragmentViewModel @Inject constructor(
 
                 /** update last_update & last_update_date */
                 val lastUpdate = items.maxOf { it.lastUpdate }
-                settings.updateSettings(
-                    mySettings.copy(
+                settingsRepo.updateSettings(
+                    settings.copy(
                         lastUpdate = lastUpdate,
                         lastUpdateDate = System.currentTimeMillis()
                     )
                 )
             }
         }
-
-        loadingEnd("Successfully Updated")
+        val updates = (message.posts?.size ?: 0) + (message.items?.size ?: 0)
+        loadingEnd("Successfully Updated $updates")
     }
 
-    private fun doesImageExist(context: Context, path: String): Boolean {
-        val file = File(context.filesDir, path)
-        return file.exists()
-    }
 
     /** downloads and save the image */
     private suspend fun downloadImage(
@@ -158,45 +146,59 @@ class MainFragmentViewModel @Inject constructor(
         imagePath: String
     ): String? {
 
-        try {
-            /** here we download the image */
-            val response = itemsApi.downloadImage(imageName).execute()
+        /** here we download the image */
+        val response = try {
+            itemsApi.downloadImage(imageName)
+        } catch (e: IOException) {
+            Log.d("items update", e.message.toString())
+            return null
+        } catch (e: HttpException) {
+            Log.d("items update", e.message.toString())
+            return null
+        }
 
-            // image downloaded
-            if (response.isSuccessful) {
-                response.body()?.let { body ->
+        // image downloaded
+        if (response.isSuccessful) {
+            response.body()?.let { body ->
 
-                    val directory = context.filesDir
-                    val imageFile = File(directory, imagePath)
 
-                    try {
-                        /** saving the image */
-                        val inputStream = body.byteStream()
-                        val fileOutputStream = FileOutputStream(imageFile)
-                        val buffer = ByteArray(4096)
+                val imageFolder = getFile(context, imagePath)
+                val imageFile = File(imageFolder.absolutePath, imageName)
 
-                        var byteRead: Int
-                        while (inputStream.read().also { byteRead = it } != -1) {
-                            fileOutputStream.write(buffer, 0, byteRead)
-                        }
 
-                        fileOutputStream.flush()
-                        fileOutputStream.close()
-                        inputStream.close()
+                try {
+                    /** saving the image */
+                    val inputStream = body.byteStream()
+                    val fileOutputStream = FileOutputStream(imageFile)
+                    val buffer = ByteArray(4096)
 
-                        return imageFile.absolutePath
-                    } catch (_: Exception) {
-                        loadingEnd("Image Saving error")
+                    var byteRead: Int
+                    while (inputStream.read(buffer).also { byteRead = it } != -1) {
+                        fileOutputStream.write(buffer, 0, byteRead)
                     }
-                }
-            } else {
-                loadingEnd("Image download response error")
-            }
 
-        } catch (_: Exception) {
-            loadingEnd("Image download error")
+                    fileOutputStream.flush()
+                    fileOutputStream.close()
+                    inputStream.close()
+
+                    return imageFile.absolutePath
+                } catch (e: NetworkOnMainThreadException) {
+                    Log.d("items update", "do not download on main thread")
+                }
+
+            }
+        } else {
+            Log.d("items update", "Image download response unsuccessful")
         }
         return null
+    }
+
+    private fun getFile(context: Context, fileName: String): File {
+        val imageFile = File(context.filesDir, fileName)
+        if (!imageFile.exists()) {
+            imageFile.mkdirs()
+        }
+        return imageFile
     }
 
 

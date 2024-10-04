@@ -25,14 +25,6 @@ fun Item.toInvoiceItem(): InvoiceItem {
 fun List<Item>.toInvoiceItems() = map { it.toInvoiceItem() }
 
 
-fun InvoiceItem.toEntity(invoiceId: Int) = InvoiceItemEntity(
-    invoiceId = invoiceId,
-    itemId = id,
-    fullName = fullName,
-    qty = qty,
-)
-
-
 fun Invoice.toEntity() = FullInvoice(
     invoice = Invoice(
         id = id,
