@@ -28,7 +28,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         //setUpActionBarWithNavController()
 
-
         val binding = FragmentMainBinding.bind(view)
         binding.apply {
 
@@ -53,21 +52,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModule.windowEvents.collect { event ->
                 when (event) {
-                    is MainFragmentViewModel.WindowEvents.Navigate -> {
-                        findNavController().navigate(event.direction)
-                        true
-                    }
 
                     is MainFragmentViewModel.WindowEvents.LoadingDone -> {
                         if (event.message != null) {
                             Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG)
                                 .show()
                         }
-                        true
-                    }
-
-                    MainFragmentViewModel.WindowEvents.StartWithContext -> {
-                        viewModule.startWithContext(requireContext())
                         true
                     }
                 }.exhaustive

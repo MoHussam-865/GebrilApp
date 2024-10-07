@@ -1,5 +1,6 @@
-package com.android_a865.gebril_app.data.domain
+package com.android_a865.gebril_app.data.domain.repo
 
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import kotlinx.coroutines.flow.Flow
 
 interface CartRepo {

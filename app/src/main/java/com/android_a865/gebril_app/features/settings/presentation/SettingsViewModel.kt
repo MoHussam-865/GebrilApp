@@ -3,17 +3,16 @@ package com.android_a865.gebril_app.feature_settings.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
+import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val repository: SettingsRepository,
+    private val repository: SettingsRepo,
 ): ViewModel() {
 
     private val appSettingsFlow = repository.getAppSettings()

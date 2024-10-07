@@ -2,8 +2,7 @@ package com.android_a865.gebril_app.data.repository
 
 import com.android_a865.gebril_app.data.dao.InvoicesDao
 import com.android_a865.gebril_app.data.dao.ItemsDao
-import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.repo.InvoiceRepo
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toInvoiceItem
 import com.android_a865.gebril_app.data.relation.FullInvoice
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.map
 class InvoiceRepositoryImpl(
     private val dao: InvoicesDao,
     private val itemsDao: ItemsDao
-) : InvoiceRepository {
+) : InvoiceRepo {
 
 
     override fun getInvoices(): Flow<List<Invoice>> {

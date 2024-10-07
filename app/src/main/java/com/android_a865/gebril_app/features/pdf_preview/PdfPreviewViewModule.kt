@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.android_a865.gebril_app.common.PdfMaker
-import com.android_a865.gebril_app.data.domain.CartRepo
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.InvoiceRepo
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toEntity
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
-import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
+import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.first
@@ -21,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PdfPreviewViewModule @Inject constructor(
-    private val invoiceRepository: InvoiceRepository,
-    private val settingsRepository: SettingsRepository,
+    private val invoiceRepository: InvoiceRepo,
+    private val settingsRepo: SettingsRepo,
     private val cartRepo: CartRepo
 ) : ViewModel() {
 
@@ -36,7 +36,7 @@ class PdfPreviewViewModule @Inject constructor(
 
     init {
         viewModelScope.launch {
-            appSettings = settingsRepository.getAppSettings().first()
+            appSettings = settingsRepo.getAppSettings().first()
             val items  = cartRepo.getCart().first()
             invoice = Invoice(date = Calendar.getInstance().timeInMillis, items = items)
             eventsChannel.send(WindowEvents.SendContext)

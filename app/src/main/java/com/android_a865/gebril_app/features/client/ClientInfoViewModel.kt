@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android_a865.gebril_app.data.domain.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import com.android_a865.gebril_app.data.domain.Client
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.repo.InvoiceRepo
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toEntity
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.domain.models.AppSettings
-import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
+import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepo
 import com.android_a865.gebril_app.utils.toClient
 import com.android_a865.gebril_app.utils.toJson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,10 +26,10 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientInfoViewModel @Inject constructor(
     private val serverApi: ItemsApi,
-    private val invoiceRepo: InvoiceRepository,
+    private val invoiceRepo: InvoiceRepo,
     private val cartRepo: CartRepo,
     savedStateHandle: SavedStateHandle,
-    private val settingsRepo: SettingsRepository
+    private val settingsRepo: SettingsRepo
 ) : ViewModel() {
 
     private val invoice = savedStateHandle.get<Invoice>("invoice")

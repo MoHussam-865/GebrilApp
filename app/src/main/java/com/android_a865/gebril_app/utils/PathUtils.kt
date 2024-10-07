@@ -7,14 +7,15 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Path(
     val parents: List<InvoiceItem> = listOf(
-        InvoiceItem(name = "items")
+        InvoiceItem(name = "items", path = ROOT_PATH)
     )
 ) : Parcelable {
     /** a new abstraction layer to deal with paths (navigation) */
 
     fun open(child: InvoiceItem): Path {
-        parents.toMutableList().add(child)
-        return Path(parents.toList())
+        val x = parents.toMutableList()
+        x.add(child)
+        return Path(x.toList())
     }
 
     fun back() = Path(parents.dropLast(1))
@@ -24,13 +25,12 @@ data class Path(
     //val folders get() = path.replaceFirst(ROOT, "Items").split(Separation)
 
     fun fullName(name: String): String {
-
         val list = names.drop(1).toMutableList()
         list.add(name)
         return list.reversed().joinToString(" ")
     }
 
-    val names get() = parents.map { it.name }
+    private val names get() = parents.map { it.name }
 
 
     val parent get() = parents.last()
@@ -45,6 +45,8 @@ data class Path(
 
     companion object {
         const val ROOT = 0
+        const val ROOT_PATH = "*"
+        const val SEPARATION = "&;"
     }
 }
 

@@ -1,21 +1,22 @@
 package com.android_a865.gebril_app.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.android_a865.gebril_app.data.MyRoomDatabase
 import com.android_a865.gebril_app.data.MyRoomDatabase.Companion.DATABASE_NAME
-import com.android_a865.gebril_app.data.domain.CartRepo
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
-import com.android_a865.gebril_app.data.domain.ItemsRepository
-import com.android_a865.gebril_app.data.domain.PostsRepository
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.InvoiceRepo
+import com.android_a865.gebril_app.data.domain.repo.ItemRepo
+import com.android_a865.gebril_app.data.domain.repo.PostRepo
 import com.android_a865.gebril_app.data.repository.CartRepoIml
 import com.android_a865.gebril_app.data.repository.InvoiceRepositoryImpl
-import com.android_a865.gebril_app.data.repository.ItemsRepositoryImpl
-import com.android_a865.gebril_app.data.repository.PostRepositoryImpl
+import com.android_a865.gebril_app.data.repository.ItemRepoImpl
+import com.android_a865.gebril_app.data.repository.PostRepoImpl
 import com.android_a865.gebril_app.external_api.ItemsApi
 import com.android_a865.gebril_app.feature_settings.data.data_source.PreferencesManager
-import com.android_a865.gebril_app.feature_settings.data.repository.SettingsRepositoryImpl
-import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepository
+import com.android_a865.gebril_app.feature_settings.data.repository.SettingsRepoImpl
+import com.android_a865.gebril_app.feature_settings.domain.repository.SettingsRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +36,9 @@ object AppModule {
             .build()
 
     @Provides
+    fun provideContext(app: Application): Context = app.applicationContext
+
+    @Provides
     @Singleton
     fun provideRetrofitInstance(): ItemsApi = Retrofit.Builder()
             .baseUrl("http://192.168.1.12:8000")
@@ -50,27 +54,27 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideItemsRepository(db: MyRoomDatabase): ItemsRepository {
-        return ItemsRepositoryImpl(db.getItemsDao())
+    fun provideItemsRepository(db: MyRoomDatabase): ItemRepo {
+        return ItemRepoImpl(db.getItemsDao())
     }
 
     @Provides
     @Singleton
-    fun providePostsRepository(db: MyRoomDatabase): PostsRepository {
-        return PostRepositoryImpl(db.getPostsDao())
+    fun providePostsRepository(db: MyRoomDatabase): PostRepo {
+        return PostRepoImpl(db.getPostsDao())
     }
 
     @Provides
     @Singleton
-    fun provideInvoicesRepository(db: MyRoomDatabase): InvoiceRepository {
+    fun provideInvoicesRepository(db: MyRoomDatabase): InvoiceRepo {
         return InvoiceRepositoryImpl(db.getInvoicesDao(), db.getItemsDao())
     }
 
 
     @Provides
     @Singleton
-    fun provideSettingsRepository(preferencesManager: PreferencesManager): SettingsRepository {
-        return SettingsRepositoryImpl(preferencesManager)
+    fun provideSettingsRepository(preferencesManager: PreferencesManager): SettingsRepo {
+        return SettingsRepoImpl(preferencesManager)
     }
 
 }

@@ -4,7 +4,7 @@ import com.android_a865.gebril_app.data.dao.ItemsDao
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.entities.Item
 import com.android_a865.gebril_app.data.mapper.toInvoiceItems
-import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.domain.repo.ItemRepo
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.data.mapper.toInvoiceItem
 import kotlinx.coroutines.flow.map
@@ -12,9 +12,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ItemsRepositoryImpl @Inject constructor(
+class ItemRepoImpl @Inject constructor(
     private val dao: ItemsDao,
-): ItemsRepository {
+): ItemRepo {
 
     override fun getItems(parentId: Int) = dao.getItemsEntity(parentId).map {
         it.toInvoiceItems()
@@ -36,7 +36,6 @@ class ItemsRepositoryImpl @Inject constructor(
 
             myItem.toInvoiceItem().copy(
                 discount = discount,
-                fullName = item.fullName,
                 qty = item.qty
             )
         }

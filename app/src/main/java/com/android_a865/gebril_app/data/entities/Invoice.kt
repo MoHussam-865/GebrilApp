@@ -30,7 +30,14 @@ data class Invoice(
         date: Long,
         notes: String,
         isSent: Int,
-    ): this(id=id, date=date, notes=notes, isSent=isSent, client = null, items = emptyList())
+    ) : this(
+        id = id,
+        date = date,
+        notes = notes,
+        isSent = isSent,
+        client = null,
+        items = emptyList()
+    )
 
     val total get() = items.sumOf { it.total }
 }

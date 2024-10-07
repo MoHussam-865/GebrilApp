@@ -1,9 +1,9 @@
-package com.android_a865.gebril_app.data.domain
+package com.android_a865.gebril_app.data.domain.repo
 
 import com.android_a865.gebril_app.data.entities.Post
 import kotlinx.coroutines.flow.Flow
 
-interface PostsRepository {
+interface PostRepo {
 
     fun getPosts(): Flow<List<Post>>
 

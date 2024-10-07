@@ -1,13 +1,12 @@
 package com.android_a865.gebril_app.features.shopping
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
-import com.android_a865.gebril_app.data.domain.ItemsRepository
+import com.android_a865.gebril_app.data.domain.repo.ItemRepo
 import com.android_a865.gebril_app.utils.Path
 import com.android_a865.gebril_app.utils.include
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ItemsChooseViewModel @Inject constructor(
-    private val itemsRepo: ItemsRepository,
+    private val itemsRepo: ItemRepo,
     private val cartRepo: CartRepo
 ) : ViewModel() {
 
@@ -36,10 +35,7 @@ class ItemsChooseViewModel @Inject constructor(
                 if (item.isFolder) {
                     item
                 } else {
-                    item.copy(
-                        discount = path.folderDiscount,
-                        fullName = path.fullName(item.name)
-                    )
+                    item.copy(discount = path.folderDiscount)
                 }
             }
         }
@@ -62,7 +58,7 @@ class ItemsChooseViewModel @Inject constructor(
         if (currentPath.value.isRoot) {
             goBack()
         } else {
-            currentPath.value = currentPath.value.copy().back()
+            currentPath.value = currentPath.value.back()
         }
     }
 
@@ -73,10 +69,7 @@ class ItemsChooseViewModel @Inject constructor(
     fun onItemClicked(item: InvoiceItem) {
         if (item.isFolder) {
             Log.d("open folder", "folder opened ${item.discount}")
-            val temp = currentPath.value.copy()
-            val parents = temp.parents.toMutableList()
-            parents.add(item)
-            currentPath.value = Path(parents.toList())
+            currentPath.value = currentPath.value.open(item)
         }
     }
 

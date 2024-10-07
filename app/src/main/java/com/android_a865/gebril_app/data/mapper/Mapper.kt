@@ -17,7 +17,8 @@ fun Item.toInvoiceItem(): InvoiceItem {
         discount = discount,
         isFolder = isFolder,
         parentId = parentId,
-        imagePath = imagePath
+        imagePath = imagePath,
+        path = path
     )
 }
 
@@ -36,7 +37,6 @@ fun Invoice.toEntity() = FullInvoice(
         InvoiceItemEntity(
             itemId = it.id,
             invoiceId = id,
-            fullName = it.fullName,
             qty = it.qty
         )
     }

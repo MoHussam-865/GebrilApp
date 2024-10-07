@@ -1,10 +1,11 @@
-package com.android_a865.gebril_app.data.domain
+package com.android_a865.gebril_app.data.domain.repo
 
+import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.entities.InvoiceItemEntity
 import com.android_a865.gebril_app.data.entities.Item
 import kotlinx.coroutines.flow.Flow
 
-interface ItemsRepository {
+interface ItemRepo {
 
     fun getItems(parentId: Int): Flow<List<InvoiceItem>>
 

@@ -2,8 +2,8 @@ package com.android_a865.gebril_app.features.history
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android_a865.gebril_app.data.domain.CartRepo
-import com.android_a865.gebril_app.data.domain.InvoiceRepository
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.InvoiceRepo
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.mapper.toEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryFragmentViewModel @Inject constructor(
-    private val invoicesRepository: InvoiceRepository,
+    private val invoicesRepository: InvoiceRepo,
     private val cartRepo: CartRepo
 ) : ViewModel() {
 
@@ -25,6 +25,7 @@ class HistoryFragmentViewModel @Inject constructor(
     val windowEvents = eventsChannel.receiveAsFlow()
 
     fun onEditInvoiceClicked(invoice: Invoice) = viewModelScope.launch {
+        cartRepo.clearCart()
         invoice.items.forEach {
             cartRepo.addToCart(it)
         }

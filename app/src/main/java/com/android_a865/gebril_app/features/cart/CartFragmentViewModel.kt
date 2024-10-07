@@ -3,11 +3,10 @@ package com.android_a865.gebril_app.features.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

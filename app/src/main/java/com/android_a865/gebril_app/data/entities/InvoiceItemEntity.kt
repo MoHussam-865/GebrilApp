@@ -13,6 +13,5 @@ import kotlinx.parcelize.Parcelize
 data class InvoiceItemEntity(
     val invoiceId: Int,
     val itemId: Int,
-    val fullName: String,
     val qty: Double,
 ): Parcelable

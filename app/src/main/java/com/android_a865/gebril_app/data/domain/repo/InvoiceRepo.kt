@@ -1,10 +1,10 @@
-package com.android_a865.gebril_app.data.domain
+package com.android_a865.gebril_app.data.domain.repo
 
 import com.android_a865.gebril_app.data.entities.Invoice
 import com.android_a865.gebril_app.data.relation.FullInvoice
 import kotlinx.coroutines.flow.Flow
 
-interface InvoiceRepository {
+interface InvoiceRepo {
 
     fun getInvoices(): Flow<List<Invoice>>
 

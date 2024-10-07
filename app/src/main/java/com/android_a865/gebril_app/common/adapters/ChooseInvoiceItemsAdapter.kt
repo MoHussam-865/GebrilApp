@@ -113,15 +113,14 @@ class ChooseInvoiceItemsAdapter(
                     console.isVisible = item.qty != 0.0
                     delete.isVisible = item.qty != 0.0
 
-                    Log.d("set image", "item image ${item.imagePath}")
-                    item.imagePath?.let {
+                    Log.d("set image", "item image $imagePath")
 
-                        Glide.with(binding.root.context)
-                            .load(File(it))
-                            .error(R.drawable.place_holder)
-                            .into(itemImage)
+                    Glide.with(binding.root.context)
+                        .load(imagePath?.let { File(it) })
+                        .error(R.drawable.place_holder)
+                        .into(itemImage)
 
-                    }
+
                     // for folders
                     folderName.text = name
                 }

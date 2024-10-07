@@ -2,7 +2,7 @@ package com.android_a865.gebril_app.data.repository
 
 import com.android_a865.gebril_app.data.dao.CartDao
 import com.android_a865.gebril_app.data.dao.ItemsDao
-import com.android_a865.gebril_app.data.domain.CartRepo
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.data.entities.CartItem
 import com.android_a865.gebril_app.data.entities.Item
@@ -40,6 +40,7 @@ class CartRepoIml(
             removeFromCart(invoiceItem)
         }
     }
+
 
     override suspend fun addToCart(invoiceItem: InvoiceItem) {
 
