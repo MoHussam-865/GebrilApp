@@ -40,6 +40,14 @@ class ChooseInvoiceItemsAdapter(
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
+                        listener.onFolderClicked(item)
+                    }
+                }
+
+                itemView.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
                         listener.onItemClicked(item)
                     }
                 }
@@ -137,12 +145,13 @@ class ChooseInvoiceItemsAdapter(
     }
 
     interface OnItemEventListener {
-        fun onItemClicked(item: InvoiceItem)
+        fun onFolderClicked(item: InvoiceItem)
 
         fun onRemoveItemClicked(item: InvoiceItem)
         fun onAddItemClicked(item: InvoiceItem)
         fun onMinusItemClicked(item: InvoiceItem)
         fun onQtySet(item: InvoiceItem, qty: Double)
+        fun onItemClicked(item: InvoiceItem)
     }
 
 }

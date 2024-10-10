@@ -1,5 +1,6 @@
 package com.android_a865.gebril_app.features.shopping
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,7 @@ import com.android_a865.gebril_app.common.adapters.PathIndicatorAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentShoppingBinding
 import com.android_a865.gebril_app.features.history.SharedViewModel
+import com.android_a865.gebril_app.features.item_details.DetailsActivity
 import com.android_a865.gebril_app.utils.Path
 import com.android_a865.gebril_app.utils.exhaustive
 import com.android_a865.gebril_app.utils.scrollToEnd
@@ -107,6 +109,13 @@ class ShoppingFragment : Fragment(R.layout.fragment_shopping),
                         showMessage(event.msg)
                         true
                     }
+
+                    is ItemsChooseViewModel.ItemsWindowEvents.ItemDetails -> {
+                        val intent = Intent(requireActivity(), DetailsActivity::class.java)
+                        intent.putExtra("item",event.item)
+                        startActivity(intent)
+                        true
+                    }
                 }.exhaustive
             }
         }
@@ -114,7 +123,7 @@ class ShoppingFragment : Fragment(R.layout.fragment_shopping),
     }
 
 
-    override fun onItemClicked(item: InvoiceItem) = viewModel.onItemClicked(item)
+    override fun onFolderClicked(item: InvoiceItem) = viewModel.onItemClicked(item)
 
     override fun onAddItemClicked(item: InvoiceItem) {
         viewModel.onAddItemClicked(item)
@@ -130,6 +139,10 @@ class ShoppingFragment : Fragment(R.layout.fragment_shopping),
 
     override fun onQtySet(item: InvoiceItem, qty: Double) {
         viewModel.onQtySet(item, qty)
+    }
+
+    override fun onItemClicked(item: InvoiceItem) {
+        viewModel.onItemDetailsRequested(item)
     }
 
     override fun pathChangeRequest(item: InvoiceItem) {

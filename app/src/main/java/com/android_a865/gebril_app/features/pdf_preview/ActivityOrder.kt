@@ -1,4 +1,4 @@
-package com.android_a865.gebril_app.features
+package com.android_a865.gebril_app.features.pdf_preview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

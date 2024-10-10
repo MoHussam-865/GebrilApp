@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,17 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EstimatesCalculator"
         android:usesCleartextTraffic="true" >
-
-
         <activity
-            android:name=".features.ActivityOrder"
+            android:name=".features.item_details.DetailsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_details"
+            android:theme="@style/Theme.EstimatesCalculator.NoActionBar" />
+        <activity
+            android:name=".features.pdf_preview.ActivityOrder"
             android:exported="true" />
-
         <activity
             android:name=".features.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.EstimatesCalculator.NoActionBar">
-
+            android:theme="@style/Theme.EstimatesCalculator.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

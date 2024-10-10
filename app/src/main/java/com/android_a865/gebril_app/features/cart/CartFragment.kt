@@ -3,7 +3,6 @@ package com.android_a865.gebril_app.features.cart
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,8 +14,7 @@ import com.android_a865.gebril_app.R
 import com.android_a865.gebril_app.common.adapters.InvoiceItemsAdapter
 import com.android_a865.gebril_app.data.domain.InvoiceItem
 import com.android_a865.gebril_app.databinding.FragmentCartBinding
-import com.android_a865.gebril_app.features.ActivityOrder
-import com.android_a865.gebril_app.utils.setUpActionBarWithNavController
+import com.android_a865.gebril_app.features.pdf_preview.ActivityOrder
 import com.android_a865.gebril_app.utils.toFormattedString
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,8 +42,7 @@ class CartFragment : Fragment(R.layout.fragment_cart),
             }
 
             order.setOnClickListener {
-                val intent  = Intent(requireActivity(), ActivityOrder::class.java)
-                startActivity(intent)
+                viewModel.onOrderClicked()
             }
 
             clearCart.setOnClickListener {
@@ -72,8 +69,9 @@ class CartFragment : Fragment(R.layout.fragment_cart),
                         is CartFragmentViewModel.WindowEvents.ShowMessage -> {
                             Snackbar.make(requireView(), event.message, Snackbar.LENGTH_LONG).show()
                         }
-                        is CartFragmentViewModel.WindowEvents.Navigate -> {
-                            findNavController().navigate(event.direction)
+                        CartFragmentViewModel.WindowEvents.ShowPdf -> {
+                            val intent  = Intent(requireActivity(), ActivityOrder::class.java)
+                            startActivity(intent)
                         }
                     }
             }

@@ -102,9 +102,16 @@ class ItemsChooseViewModel @Inject constructor(
         currentPath.value = path
     }
 
+    fun onItemDetailsRequested(item: InvoiceItem) = viewModelScope.launch {
+        itemsWindowEventsChannel.send(
+            ItemsWindowEvents.ItemDetails(item)
+        )
+    }
+
     sealed class ItemsWindowEvents {
         data class NavigateTo(val direction: NavDirections) : ItemsWindowEvents()
         data object GoBack : ItemsWindowEvents()
         data class InvalidInput(val msg: String) : ItemsWindowEvents()
+        data class ItemDetails(val item: InvoiceItem): ItemsWindowEvents()
     }
 }

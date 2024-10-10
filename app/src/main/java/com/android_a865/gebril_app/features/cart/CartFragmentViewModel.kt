@@ -3,8 +3,8 @@ package com.android_a865.gebril_app.features.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
-import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import com.android_a865.gebril_app.data.domain.InvoiceItem
+import com.android_a865.gebril_app.data.domain.repo.CartRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -53,9 +53,13 @@ class CartFragmentViewModel @Inject constructor(
         cartRepo.clearCart()
     }
 
+    fun onOrderClicked() = viewModelScope.launch {
+        eventsChannel.send(WindowEvents.ShowPdf)
+    }
+
 
     sealed class WindowEvents {
         data class ShowMessage(val message: String) : WindowEvents()
-        data class Navigate(val direction: NavDirections) : WindowEvents()
+        data object  ShowPdf: WindowEvents()
     }
 }
